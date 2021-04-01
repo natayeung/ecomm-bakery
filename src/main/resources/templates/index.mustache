@@ -77,36 +77,21 @@
         </button>
     </div>
 
-    <!-- Products -->
+    <!-- Catalog -->
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        {{#catalog}}
         <div class="col">
             <div class="card mb-4">
                 <img src="https://via.placeholder.com/480" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Red Velvet Cake</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">&pound 22.99</h6>
+                    <h5 class="card-title" id="title">{{title}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted" id="price">&pound {{price.value}}</h6>
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card mb-4">
-                <img src="https://via.placeholder.com/480" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Carrot Cake</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">&pound 22.99</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card mb-4">
-                <img src="https://via.placeholder.com/480" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Rainbow Sprinkles Cake</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">&pound 27.99</h6>
-                </div>
-            </div>
-        </div>
+        {{/catalog}}
     </div>
+
 </main>
 
 <footer class="footer mt-auto py-3 bg-light">

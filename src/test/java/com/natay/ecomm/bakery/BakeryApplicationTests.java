@@ -9,5 +9,4 @@ class BakeryApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
