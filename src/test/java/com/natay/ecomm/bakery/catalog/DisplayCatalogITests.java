@@ -1,17 +1,9 @@
 package com.natay.ecomm.bakery.catalog;
 
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.natay.ecomm.bakery.ControllerITests;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,30 +11,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@EnableAutoConfiguration
-public class CatalogControllerTests {
-
-    private final String url = "http://localhost/";
-
-    @Autowired
-    private MockMvc mockMvc;
-    private WebClient webClient;
-
-    @BeforeEach
-    public void setUp() {
-        webClient = MockMvcWebClientBuilder.mockMvcSetup(mockMvc).build();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        webClient.close();
-    }
+public class DisplayCatalogITests extends ControllerITests {
 
     @Test
     public void shouldDisplayTitleOfProduct() throws Exception {
-        HtmlPage htmlPage = webClient.getPage(url);
+        HtmlPage htmlPage = webClient().getPage(LOCALHOST);
 
         List<DomElement> titles = htmlPage.getElementsById("title");
         assertThat(titles)
@@ -54,7 +27,7 @@ public class CatalogControllerTests {
 
     @Test
     public void shouldDisplayPriceOfProduct() throws IOException {
-        HtmlPage htmlPage = webClient.getPage(url);
+        HtmlPage htmlPage = webClient().getPage(LOCALHOST);
 
         List<DomElement> prices = htmlPage.getElementsById("price");
         assertThat(prices)
