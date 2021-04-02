@@ -10,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
 
+/**
+ * @author natayeung
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @EnableAutoConfiguration

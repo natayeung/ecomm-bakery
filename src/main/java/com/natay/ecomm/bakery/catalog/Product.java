@@ -5,6 +5,9 @@ import java.util.Objects;
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
 
+/**
+ * @author natayeung
+ */
 public class Product {
 
     private final String id;

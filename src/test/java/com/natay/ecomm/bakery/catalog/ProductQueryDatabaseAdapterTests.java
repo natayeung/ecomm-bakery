@@ -12,6 +12,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.atIndex;
 
+/**
+ * @author natayeung
+ */
 @SpringBootTest
 @ExtendWith(SoftAssertionsExtension.class)
 public class ProductQueryDatabaseAdapterTests {

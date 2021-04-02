@@ -9,34 +9,37 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
+/**
+ * @author natayeung
+ */
 @Controller
 @RequestMapping("/")
-@SessionAttributes({"basket", "catalog"})
+@SessionAttributes("catalog")
 public class CatalogController {
 
-    private final Catalog catalog;
+    private final Catalog<Product> productCatalog;
 
     @Autowired
-    public CatalogController(Catalog catalog) {
-        this.catalog = catalog;
+    public CatalogController(Catalog<Product> productCatalog) {
+        this.productCatalog = productCatalog;
     }
 
     @GetMapping
-    public String displayCatalog(ModelMap model) {
+    public String displayCatalog(HttpSession session, ModelMap model) {
         if (isCatalogNotPopulated(model)) {
-            List<Product> products = catalog.findAllProducts();
+            List<Product> products = productCatalog.findAll();
             model.addAttribute("catalog", products);
         }
 
-        return "index";
-    }
+        model.addAttribute("basketItemCount", itemCountFromSession(session));
 
-    @ModelAttribute("basket")
-    public Basket basket() {
-        return new Basket();
+        return "index";
     }
 
     @ModelAttribute("catalog")
@@ -45,7 +48,12 @@ public class CatalogController {
     }
 
     private boolean isCatalogNotPopulated(ModelMap model) {
-        return !model.containsAttribute("catalog")
-                || ((List<?>) model.getAttribute("catalog")).isEmpty();
+        Object catalog = model.getAttribute("catalog");
+        return isNull(catalog) || ((List<?>) catalog).isEmpty();
+    }
+
+    private int itemCountFromSession(HttpSession session) {
+        Object basket = session.getAttribute("scopedTarget.shoppingBasket");
+        return isNull(basket) ? 0 : ((Basket) basket).itemCount();
     }
 }

@@ -5,6 +5,9 @@ import java.util.Objects;
 
 import static com.natay.ecomm.bakery.utils.Arguments.requireArgument;
 
+/**
+ * @author natayeung
+ */
 public class Price {
 
     private final double value;

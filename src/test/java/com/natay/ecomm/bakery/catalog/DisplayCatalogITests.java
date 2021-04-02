@@ -11,6 +11,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
 
+/**
+ * @author natayeung
+ */
 public class DisplayCatalogITests extends ControllerITests {
 
     @Test

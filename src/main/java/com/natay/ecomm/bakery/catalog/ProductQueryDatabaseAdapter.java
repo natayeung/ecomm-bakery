@@ -2,12 +2,15 @@ package com.natay.ecomm.bakery.catalog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
 
-@Component()
+/**
+ * @author natayeung
+ */
+@Repository()
 public class ProductQueryDatabaseAdapter implements ProductQueryPort {
 
     private static final String queryForAllProducts = "SELECT product_id, title, description, price FROM products";

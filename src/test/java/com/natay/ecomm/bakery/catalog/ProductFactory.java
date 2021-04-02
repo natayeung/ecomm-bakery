@@ -3,6 +3,9 @@ package com.natay.ecomm.bakery.catalog;
 import org.springframework.util.IdGenerator;
 import org.springframework.util.SimpleIdGenerator;
 
+/**
+ * @author natayeung
+ */
 public class ProductFactory {
 
     private static final IdGenerator idGenerator = new SimpleIdGenerator();

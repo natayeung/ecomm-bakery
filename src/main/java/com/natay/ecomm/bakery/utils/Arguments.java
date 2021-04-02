@@ -1,5 +1,8 @@
 package com.natay.ecomm.bakery.utils;
 
+/**
+ * @author natayeung
+ */
 public class Arguments {
 
     public static void requireArgument(boolean expression, String reason) {

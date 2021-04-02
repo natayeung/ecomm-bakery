@@ -7,22 +7,25 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CatalogTests {
+/**
+ * @author natayeung
+ */
+public class ProductCatalogTests {
 
     private final Product redVelvet = ProductFactory.createProductWithTitle("Red Velvet");
     private final Product rainbowSprinkles = ProductFactory.createProductWithTitle("Rainbow Sprinkles");
-    private Catalog catalog;
+    private ProductCatalog productCatalog;
 
     @BeforeEach
     public void setUp() {
         ProductQueryFakeAdapter productQueryAdapter = new ProductQueryFakeAdapter();
         productQueryAdapter.load(redVelvet, rainbowSprinkles);
-        catalog = new Catalog(productQueryAdapter);
+        productCatalog = new ProductCatalog(productQueryAdapter);
     }
 
     @Test
     public void canRetrieveAllProducts() {
-        List<Product> retrieved = catalog.findAllProducts();
+        List<Product> retrieved = productCatalog.findAll();
 
         assertThat(retrieved).as("Retrieved products").containsExactlyInAnyOrder(redVelvet, rainbowSprinkles);
     }
