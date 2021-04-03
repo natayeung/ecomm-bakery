@@ -11,12 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.SessionScope;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpSession;
-import java.util.Collections;
-
-import static java.util.Objects.isNull;
 
 /**
  * @author natayeung
@@ -33,31 +27,46 @@ public class BasketController {
         this.basket = basket;
     }
 
-    @PostMapping
-    public String updateBasket(@RequestParam("added-product-id") String productId) {
+    @PostMapping("/add")
+    public String addItemToBasket(@RequestParam("item-to-add") String productId) {
+        logger.info("Received request to add item {} to basket.", productId);
+
         basket.addItem(productId);
-        logger.info("Product {} added to basket. Item count updated to {}", productId, basket.itemCount());
+
+        logger.info("Item count: {}", basket.itemCount());
 
         return "redirect:/";
     }
 
+    @PostMapping("/delete")
+    public String removeItemFromBasket(@RequestParam("item-to-remove") String productId, ModelMap model) {
+        logger.info("Received request to remove item {} from basket.", productId);
+
+        basket.removeItem(productId);
+        populateModelWithMostRecentBasketDetails(model);
+
+        logger.info("Item count: {}", basket.itemCount());
+
+        return "basket";
+    }
+
     @GetMapping
-    public ModelAndView viewBasket(HttpSession session, ModelMap model) {
-        Object basket = session.getAttribute("scopedTarget.shoppingBasket");
+    public String viewBasket(ModelMap model) {
 
-        model.addAttribute("basketItems",
-                isNull(basket) ? Collections.emptyList() : ((Basket) basket).items());
-        model.addAttribute("basketTotalPrice",
-                isNull(basket) ? 0 : ((Basket) basket).totalPrice());
-        model.addAttribute("basketItemCount",
-                isNull(basket) ? 0 : ((Basket) basket).itemCount());
+        populateModelWithMostRecentBasketDetails(model);
 
-        return new ModelAndView("basket");
+        return "basket";
     }
 
     @Bean
     @SessionScope
     public Basket shoppingBasket(ProductQueryPort productQueryPort) {
         return new ShoppingBasket(productQueryPort);
+    }
+
+    private void populateModelWithMostRecentBasketDetails(ModelMap model) {
+        model.addAttribute("basketItems", basket.items());
+        model.addAttribute("basketTotalPrice", basket.totalPrice());
+        model.addAttribute("basketItemCount", basket.itemCount());
     }
 }

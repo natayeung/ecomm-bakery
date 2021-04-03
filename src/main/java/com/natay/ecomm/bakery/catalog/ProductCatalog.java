@@ -25,7 +25,7 @@ public class ProductCatalog implements Catalog<Product> {
     @Override
     public List<Product> findAll() {
         List<Product> retrievedProducts = productQueryPort.findAll();
-        logger.info("Retrieved {} products", retrievedProducts.size());
+        logger.info("Retrieved {} products.", retrievedProducts.size());
 
         return retrievedProducts;
     }

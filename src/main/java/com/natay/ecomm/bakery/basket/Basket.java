@@ -11,6 +11,8 @@ public interface Basket {
 
     void addItem(String productId);
 
+    void removeItem(String productId);
+
     List<BasketItem> items();
 
     int itemCount();

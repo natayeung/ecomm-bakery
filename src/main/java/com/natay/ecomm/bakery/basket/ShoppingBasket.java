@@ -3,6 +3,8 @@ package com.natay.ecomm.bakery.basket;
 import com.natay.ecomm.bakery.catalog.Price;
 import com.natay.ecomm.bakery.catalog.Product;
 import com.natay.ecomm.bakery.catalog.ProductQueryPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,11 +12,14 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
+import static java.util.Objects.isNull;
 
 /**
  * @author natayeung
  */
 public class ShoppingBasket implements Basket {
+
+    private static final Logger logger = LoggerFactory.getLogger(ShoppingBasket.class);
 
     private final Map<String, BasketItem> basketItems = new HashMap<>();
     private final ProductQueryPort productQueryPort;
@@ -32,6 +37,19 @@ public class ShoppingBasket implements Basket {
         basketItem.addOne();
 
         basketItems.put(productId, basketItem);
+        logger.info("Item {} added to basket.", productId);
+    }
+
+    @Override
+    public void removeItem(String productId) {
+        requireNonBlank(productId, "Product ID must be specified");
+
+        BasketItem removed = basketItems.remove(productId);
+        if (isNull(removed)) {
+            logger.warn("Unable to remove item {} from basket: unrecognised product ID", productId);
+        } else {
+            logger.info("Item {} removed from basket.", productId);
+        }
     }
 
     @Override
