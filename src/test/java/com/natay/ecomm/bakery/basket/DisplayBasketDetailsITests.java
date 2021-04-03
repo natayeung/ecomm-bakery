@@ -40,7 +40,7 @@ public class DisplayBasketDetailsITests extends ControllerITests {
 
     @Test
     public void shouldDisplayTotalPriceOfItemInBasket() throws IOException {
-        final int quantity = 3;
+        final int quantity = 2;
         final int productIndex = 2;
         HtmlPage catalogPage = webClient().getPage(LOCALHOST);
         addItems(catalogPage, productIndex, quantity);
@@ -48,7 +48,7 @@ public class DisplayBasketDetailsITests extends ControllerITests {
         HtmlAnchor basketAnchor = catalogPage.getAnchorByHref("/basket");
         HtmlPage basketPage = basketAnchor.click();
 
-        assertThatItemTotalIsDisplayed(basketPage, "total-rsc", "74.85");
+        assertThatItemTotalIsDisplayed(basketPage, "total-rsc", "49.90");
     }
 
     private void addItems(HtmlPage page, int productIndex, int quantity) throws IOException {

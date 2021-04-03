@@ -28,6 +28,10 @@ public class Price {
         return value;
     }
 
+    public String formattedValue() {
+        return String.format("%.2f", value);
+    }
+
     public Price add(Price theOther) {
         requireNonNull(theOther, "The other price must be specified");
 

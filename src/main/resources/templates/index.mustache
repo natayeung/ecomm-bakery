@@ -20,7 +20,7 @@
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="images/bakery_logo.png" alt="N-2 Bakery">
             </a>
             <div class="collapse navbar-collapse flex-md-column" id="navbarCollapse">
@@ -88,7 +88,7 @@
                     <div class="card-body">
                         <form method="post" action="/basket">
                             <h5 class="card-title" id="title-{{id}}">{{title}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted" id="price-{{id}}">&pound {{price.value}}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted" id="price-{{id}}">&pound {{price.formattedValue}}</h6>
                             <p class="card-text" id="description-{{id}}">{{description}}</p>
                             <button name="added-product-id" type="submit" class="btn btn-light btn-sm" value="{{id}}">
                                 Add to Basket
