@@ -1,6 +1,7 @@
 package com.natay.ecomm.bakery.catalog;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author natayeung
@@ -8,4 +9,6 @@ import java.util.List;
 public interface ProductQueryPort {
 
     List<Product> findAll();
+
+    Optional<Product> findById(String id);
 }

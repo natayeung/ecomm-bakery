@@ -22,6 +22,10 @@ public class Product {
         price = requireNonNull(builder.price, "Price must be specified");
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public String productId() {
         return id;
     }
@@ -59,10 +63,6 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, description, price);
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
     }
 
     public static final class Builder {

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import static com.natay.ecomm.bakery.utils.Arguments.requireArgument;
+import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
 
 /**
  * @author natayeung
@@ -17,7 +18,7 @@ public class Price {
     }
 
     public static Price of(double value) {
-        requireArgument(value > 0.0, "Price value must be positive");
+        requireArgument(value >= 0.0, "Price value cannot be negative");
         requireArgument(new BigDecimal(String.valueOf(value)).scale() <= 2, "Price value cannot have more than 2 decimal places");
 
         return new Price(value);
@@ -25,6 +26,12 @@ public class Price {
 
     public double value() {
         return value;
+    }
+
+    public Price add(Price theOther) {
+        requireNonNull(theOther, "The other price must be specified");
+
+        return Price.of(value + theOther.value);
     }
 
     @Override

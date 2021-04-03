@@ -52,52 +52,28 @@
     </nav>
 </header>
 
-<main class="container">
-    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true"
-                    aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="3000">
-                <img src="images/carousel/fresh_cupcakes.png" class="d-block w-100"
-                     alt="N-2 Bakery - flower cupcakes available">
-            </div>
-            <div class="carousel-item">
-                <img src="images/carousel/local_delivery_available.png" class="d-block w-100"
-                     alt="N-2 Bakery - local delivery available">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
 
-    <!-- Catalog -->
-    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-        {{#catalog}}
-            <div class="col">
-                <div class="card mb-4">
-                    <img src="https://via.placeholder.com/480" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <form method="post" action="/basket">
-                            <h5 class="card-title" id="title-{{id}}">{{title}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted" id="price-{{id}}">&pound {{price.value}}</h6>
-                            <p class="card-text" id="description-{{id}}">{{description}}</p>
-                            <button name="added-product-id" type="submit" class="btn btn-light btn-sm" value="{{id}}">
-                                Add to Basket
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        {{/catalog}}
+<main class="container">
+    <div class="row g-3">
+        <div class="col-md-5 col-lg-4 order-md-last">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your basket</span>
+                <span class="badge bg-secondary rounded-pill">3</span>
+            </h4>
+            <ul class="list-group mb-3">
+                {{#basketItems}}
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <span class="my-0" id="title-{{productId}}">{{itemTitle}}</span>
+                        <span class="text-muted" id="quantity-{{productId}}">{{quantity}}</span>
+                        <span class="text-muted" id="total-{{productId}}">{{itemTotal.value}}</span>
+                    </li>
+                {{/basketItems}}
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (&pound)</span>
+                    <strong>{{basketTotalPrice.value}}</strong>
+                </li>
+            </ul>
+        </div>
     </div>
 </main>
 

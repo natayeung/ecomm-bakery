@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
+import static java.util.Objects.isNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author natayeung
  */
-public class UpdateBasketITests extends ControllerITests {
+public class UpdateBasketItemCountITests extends ControllerITests {
 
     @Test
     public void shouldShowBasketItemCountWhenOneItemIsAddedToBasket() throws IOException {
@@ -56,13 +56,13 @@ public class UpdateBasketITests extends ControllerITests {
 
     private HtmlButton buttonFromFormAt(int index, HtmlPage page) {
         List<HtmlForm> forms = page.getForms();
-        HtmlForm firstForm = forms.get(index);
+        HtmlForm form = forms.get(index);
 
-        return firstForm.getButtonByName("added-product-id");
+        return form.getButtonByName("added-product-id");
     }
 
     private String extractBasketItemCount(HtmlPage resultPage) {
-        Optional<DomElement> basketItemCount = Optional.ofNullable(resultPage.getElementById("basket-item-count"));
-        return basketItemCount.isPresent() ? basketItemCount.get().getTextContent() : "";
+        DomElement basketItemCount = resultPage.getElementById("basket-item-count");
+        return isNull(basketItemCount) ? "" : basketItemCount.getTextContent();
     }
 }

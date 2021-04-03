@@ -6,10 +6,8 @@ import com.natay.ecomm.bakery.ControllerITests;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.atIndex;
 
 /**
  * @author natayeung
@@ -17,26 +15,32 @@ import static org.assertj.core.api.Assertions.atIndex;
 public class DisplayCatalogITests extends ControllerITests {
 
     @Test
-    public void shouldDisplayTitleOfProduct() throws Exception {
-        HtmlPage htmlPage = webClient().getPage(LOCALHOST);
+    public void shouldDisplayTitleOfProduct() throws IOException {
+        HtmlPage page = webClient().getPage(LOCALHOST);
 
-        List<DomElement> titles = htmlPage.getElementsById("title");
-        assertThat(titles)
-                .extracting(DomElement::getTextContent)
-                .contains("Black Forest Cake", atIndex(0))
-                .contains("Carrot Cake", atIndex(1))
-                .contains("Rainbow Sprinkles Cake", atIndex(2));
+        assertThatTitleOfProductTitleIsDisplayed(page, "title-bfc", "Black Forest Cake");
+        assertThatTitleOfProductTitleIsDisplayed(page, "title-cc", "Carrot Cake");
+        assertThatTitleOfProductTitleIsDisplayed(page, "title-rsc", "Rainbow Sprinkles Cake");
     }
 
     @Test
     public void shouldDisplayPriceOfProduct() throws IOException {
-        HtmlPage htmlPage = webClient().getPage(LOCALHOST);
+        HtmlPage page = webClient().getPage(LOCALHOST);
 
-        List<DomElement> prices = htmlPage.getElementsById("price");
-        assertThat(prices)
-                .extracting(DomElement::getTextContent)
-                .contains("£ 27.95", atIndex(0))
-                .contains("£ 21.95", atIndex(1))
-                .contains("£ 24.95", atIndex(2));
+        assertThatPriceOfProductIsDisplayed(page, "price-bfc", "£ 27.95");
+        assertThatPriceOfProductIsDisplayed(page, "price-cc", "£ 21.95");
+        assertThatPriceOfProductIsDisplayed(page, "price-rsc", "£ 24.95");
+    }
+
+    private void assertThatTitleOfProductTitleIsDisplayed(HtmlPage page, String titleElementId, String expectedTitle) {
+        DomElement productTitle = page.getElementById(titleElementId);
+        assertThat(productTitle).isNotNull();
+        assertThat(productTitle.getTextContent()).isEqualTo(expectedTitle);
+    }
+
+    private void assertThatPriceOfProductIsDisplayed(HtmlPage page, String priceElementId, String expectedPrice) {
+        DomElement productPrice = page.getElementById(priceElementId);
+        assertThat(productPrice).isNotNull();
+        assertThat(productPrice.getTextContent()).isEqualTo(expectedPrice);
     }
 }

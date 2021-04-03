@@ -12,11 +12,10 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  */
 public class PriceTests {
 
-    @ParameterizedTest
-    @ValueSource(doubles = {0.0, -1.50})
-    public void mustBePositive(double value) {
+    @Test
+    public void cannotBeNegative() {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> Price.of(value));
+                .isThrownBy(() -> Price.of(-1.50));
     }
 
     @Test

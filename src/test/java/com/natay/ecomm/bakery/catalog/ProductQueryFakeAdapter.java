@@ -1,6 +1,7 @@
 package com.natay.ecomm.bakery.catalog;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author natayeung
@@ -16,5 +17,10 @@ public class ProductQueryFakeAdapter implements ProductQueryPort {
     @Override
     public List<Product> findAll() {
         return products;
+    }
+
+    @Override
+    public Optional<Product> findById(String id) {
+        return Optional.empty();
     }
 }
