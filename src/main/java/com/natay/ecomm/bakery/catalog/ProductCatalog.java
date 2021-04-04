@@ -3,6 +3,7 @@ package com.natay.ecomm.bakery.catalog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +24,14 @@ public class ProductCatalog implements Catalog<Product> {
     }
 
     @Override
-    public List<Product> findAll() {
-        List<Product> retrievedProducts = productQueryPort.findAll();
-        logger.info("Retrieved {} products.", retrievedProducts.size());
+    public List<Product> findAll() throws ProductAccessException {
+        final List<Product> retrievedProducts;
+        try {
+             retrievedProducts = productQueryPort.findAll();
+            logger.info("Retrieved {} products.", retrievedProducts.size());
+        } catch (DataAccessException ex) {
+            throw new ProductAccessException("Failed to retrieve products", ex);
+        }
 
         return retrievedProducts;
     }

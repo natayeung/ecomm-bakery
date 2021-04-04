@@ -1,5 +1,7 @@
 package com.natay.ecomm.bakery.basket;
 
+import com.natay.ecomm.bakery.catalog.ProductAccessException;
+import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
 import com.natay.ecomm.bakery.catalog.ProductQueryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +30,9 @@ public class BasketController {
     }
 
     @PostMapping("/add")
-    public String addItemToBasket(@RequestParam("item-to-add") String productId) {
+    public String addItemToBasket(@RequestParam("item-to-add") String productId)
+            throws ProductAccessException, ProductNotFoundException {
+
         logger.info("Received request to add item {} to basket.", productId);
 
         basket.addItem(productId);

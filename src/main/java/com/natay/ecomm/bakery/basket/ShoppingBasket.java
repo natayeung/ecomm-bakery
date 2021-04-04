@@ -1,10 +1,9 @@
 package com.natay.ecomm.bakery.basket;
 
-import com.natay.ecomm.bakery.catalog.Price;
-import com.natay.ecomm.bakery.catalog.Product;
-import com.natay.ecomm.bakery.catalog.ProductQueryPort;
+import com.natay.ecomm.bakery.catalog.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 
 import java.util.*;
 
@@ -28,7 +27,9 @@ public class ShoppingBasket implements Basket {
     }
 
     @Override
-    public void addItem(String productId) {
+    public void addItem(String productId)
+            throws ProductAccessException, ProductNotFoundException {
+
         requireNonBlank(productId, "Product ID must be specified");
         Product product = findProductById(productId);
 
@@ -79,11 +80,20 @@ public class ShoppingBasket implements Basket {
                 '}';
     }
 
-    private Product findProductById(String productId) {
-        Optional<Product> product = productQueryPort.findById(productId);
-        if (product.isEmpty()) {
-            throw new IllegalArgumentException("Product ID " + productId + " is not recognised");
+    private Product findProductById(String productId)
+            throws ProductNotFoundException, ProductAccessException {
+
+        Optional<Product> product;
+        try {
+            product = productQueryPort.findById(productId);
+        } catch (DataAccessException ex) {
+            throw new ProductAccessException("Unable to retrieve product with id " + productId, ex);
         }
+
+        if (product.isEmpty()) {
+            throw new ProductNotFoundException("Product not found for id " + productId);
+        }
+
         return product.get();
     }
 

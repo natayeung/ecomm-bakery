@@ -7,5 +7,5 @@ import java.util.List;
  */
 public interface Catalog<T> {
 
-    List<T> findAll();
+    List<T> findAll() throws ProductAccessException;
 }
