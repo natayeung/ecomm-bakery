@@ -18,4 +18,6 @@ public interface Basket {
     int itemCount();
 
     Price totalPrice();
+
+    String basketRef();
 }

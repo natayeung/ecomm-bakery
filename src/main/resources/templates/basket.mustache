@@ -10,50 +10,13 @@
 </head>
 
 <body>
-<header>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <div class="container-fluid">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="/">
-                <img src="/images/bakery_logo.png" alt="N-2 Bakery">
-            </a>
-            <div class="collapse navbar-collapse flex-md-column" id="navbarCollapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/basket" methods="get">Basket <strong
-                                id="basket-item-count">{{basketItemCount}}</strong> Item(s)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Sign In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Whole Cakes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sliced Cakes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cupcakes</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
+
+{{> header}}
 
 <main class="container">
-    <div class="row">
+    <div class="row mt-3">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">Your basket</span>
+            <span>Your Basket</span>
             <span class="badge bg-secondary rounded-pill">{{basketItemCount}}</span>
         </h4>
         <div class="table-responsive">
@@ -92,16 +55,47 @@
             </table>
         </div>
     </div>
+    <div class="row my-3">
+        <h4 class="mb-3">Delivery Address</h4>
+        <form name="form-delivery-address" class="needs-validation" novalidate method="post" action="/order">
+            <div class="row g-3">
+                <div class="col-8">
+                    <label for="address1" class="form-label">Address Line 1*</label>
+                    <input type="text" class="form-control" id="address1" name="address1" required>
+                    <div class="invalid-feedback">
+                        Address line 1 required.
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-8">
+                    <label for="address2" class="form-label">Address Line 2</label>
+                    <input type="text" class="form-control" id="address2" name="address2">
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-3">
+                    <label for="postcode" class="form-label">Post Code*</label>
+                    <input type="text" class="form-control" id="postcode" name="postcode" required>
+                    <div class="invalid-feedback">
+                        Post code required.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button name="complete-order" class="btn btn-secondary btn-md my-3" type="submit">Complete Order</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </main>
 
-<footer class="footer mt-auto py-3 bg-light">
-    <div class="container-fluid text-center">
-        <span class="text-muted">&copy; 2021, N-2 Bakery</span>
-    </div>
-</footer>
+{{> footer}}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
+<script src="/js/form-validation.js"></script>
 </body>
 </html>

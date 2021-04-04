@@ -1,0 +1,39 @@
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="/images/bakery_logo.png" alt="N-2 Bakery">
+            </a>
+            <div class="collapse navbar-collapse flex-md-column" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/basket" methods="get">Basket <strong
+                                id="basket-item-count">{{basketItemCount}}</strong> Item(s)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Register</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Whole Cakes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sliced Cakes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cupcakes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

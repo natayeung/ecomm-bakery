@@ -31,7 +31,8 @@ public class CatalogController {
     }
 
     @GetMapping
-    public String displayCatalog(HttpSession session, ModelMap model) {
+    public String displayCatalog(HttpSession session,
+                                 ModelMap model) {
         if (isCatalogNotPopulated(model)) {
             List<Product> products = productCatalog.findAll();
             model.addAttribute("catalog", products);

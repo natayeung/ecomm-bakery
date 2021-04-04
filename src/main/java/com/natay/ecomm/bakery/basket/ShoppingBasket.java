@@ -6,10 +6,7 @@ import com.natay.ecomm.bakery.catalog.ProductQueryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
 import static java.util.Objects.isNull;
@@ -21,11 +18,13 @@ public class ShoppingBasket implements Basket {
 
     private static final Logger logger = LoggerFactory.getLogger(ShoppingBasket.class);
 
+    private final String basketRef = UUID.randomUUID().toString();
     private final Map<String, BasketItem> basketItems = new HashMap<>();
     private final ProductQueryPort productQueryPort;
 
     public ShoppingBasket(ProductQueryPort productQueryPort) {
         this.productQueryPort = productQueryPort;
+        logger.info("Shopping basket instantiated, ref={}", basketRef);
     }
 
     @Override
@@ -37,7 +36,7 @@ public class ShoppingBasket implements Basket {
         basketItem.addOne();
 
         basketItems.put(productId, basketItem);
-        logger.info("Item {} added to basket.", productId);
+        logger.info("Item {} added to basket, ref={}", productId, basketRef);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class ShoppingBasket implements Basket {
         if (isNull(removed)) {
             logger.warn("Unable to remove item {} from basket: unrecognised product ID", productId);
         } else {
-            logger.info("Item {} removed from basket.", productId);
+            logger.info("Item {} removed from basket, ref={}", productId, basketRef);
         }
     }
 
@@ -65,6 +64,19 @@ public class ShoppingBasket implements Basket {
     @Override
     public Price totalPrice() {
         return basketItems.values().stream().map(BasketItem::itemPrice).reduce(Price.of(0), Price::add);
+    }
+
+    @Override
+    public String basketRef() {
+        return basketRef;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingBasket{" +
+                "basketRef='" + basketRef + '\'' +
+                ", basketItems=" + basketItems +
+                '}';
     }
 
     private Product findProductById(String productId) {

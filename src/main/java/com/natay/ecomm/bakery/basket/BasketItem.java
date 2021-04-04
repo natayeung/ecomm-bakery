@@ -59,4 +59,15 @@ public class BasketItem {
     public Price itemTotal() {
         return itemTotal;
     }
+
+    @Override
+    public String toString() {
+        return "BasketItem{" +
+                "productId='" + productId + '\'' +
+                ", itemTitle='" + itemTitle + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", quantity=" + quantity +
+                ", itemTotal=" + itemTotal +
+                '}';
+    }
 }
