@@ -1,10 +1,14 @@
 package com.natay.ecomm.bakery.basket;
 
-import com.natay.ecomm.bakery.catalog.*;
+import com.natay.ecomm.bakery.catalog.Product;
+import com.natay.ecomm.bakery.catalog.ProductAccessException;
+import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
+import com.natay.ecomm.bakery.catalog.ProductQueryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
@@ -63,8 +67,8 @@ public class ShoppingBasket implements Basket {
     }
 
     @Override
-    public Price totalPrice() {
-        return basketItems.values().stream().map(BasketItem::itemPrice).reduce(Price.of(0), Price::add);
+    public BigDecimal totalPrice() {
+        return basketItems.values().stream().map(BasketItem::itemPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override
@@ -98,8 +102,7 @@ public class ShoppingBasket implements Basket {
     }
 
     private BasketItem getBasketItem(Product product) {
-        return basketItems.containsKey(product.productId())
-                ? basketItems.get(product.productId())
-                : BasketItem.from(product);
+        return Optional.ofNullable(basketItems.get(product.productId()))
+                .orElse(BasketItem.from(product));
     }
 }

@@ -42,7 +42,7 @@ public class ProductQueryDatabaseAdapter implements ProductQueryPort {
                 .withProductId(rs.getString("product_id"))
                 .withTitle(rs.getString("title"))
                 .withDescription(rs.getString("description"))
-                .withPrice(Price.of(rs.getDouble("price")))
+                .withPrice(rs.getBigDecimal("price"))
                 .build();
     }
 }

@@ -34,7 +34,7 @@
                     <tr>
                         <td id="title-{{productId}}">{{itemTitle}}</td>
                         <td class="text-center" id="quantity-{{productId}}">{{quantity}}</td>
-                        <td class="text-end" id="total-{{productId}}">{{itemTotal.formattedValue}}</td>
+                        <td class="text-end" id="total-{{productId}}">{{itemTotal}}</td>
                         <td class="text-center">
                             <form name="form-remove-item-{{productId}}" method="post" action="/basket/delete">
                                 <button name="item-to-remove" type="submit" class="btn btn-light btn-sm"
@@ -48,7 +48,7 @@
                 <tfoot>
                 <tr>
                     <th colspan="2">Total (&pound)</th>
-                    <th class="text-end">{{basketTotalPrice.formattedValue}}</th>
+                    <th class="text-end">{{basketTotalPrice}}</th>
                     <th></th>
                 </tr>
                 </tfoot>

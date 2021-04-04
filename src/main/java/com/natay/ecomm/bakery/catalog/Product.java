@@ -1,9 +1,10 @@
 package com.natay.ecomm.bakery.catalog;
 
+import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Optional;
 
-import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
-import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
+import static com.natay.ecomm.bakery.utils.Arguments.*;
 
 /**
  * @author natayeung
@@ -13,13 +14,13 @@ public class Product {
     private final String id;
     private final String title;
     private final String description;
-    private final Price price;
+    private final BigDecimal price;
 
     private Product(Builder builder) {
         id = requireNonBlank(builder.productId, "Product ID cannot be blank");
         title = requireNonBlank(builder.title, "Title cannot be blank");
-        description = builder.description == null ? "" : builder.description;
-        price = requireNonNull(builder.price, "Price must be specified");
+        description = Optional.ofNullable(builder.description).orElse("");
+        price = validatePrice(builder.price);
     }
 
     public static Builder newBuilder() {
@@ -38,7 +39,7 @@ public class Product {
         return description;
     }
 
-    public Price price() {
+    public BigDecimal price() {
         return price;
     }
 
@@ -65,11 +66,17 @@ public class Product {
         return Objects.hash(id, title, description, price);
     }
 
+    private BigDecimal validatePrice(BigDecimal price) {
+        requireNonNull(price, "Price must be specified");
+        requireArgument(price.compareTo(BigDecimal.ZERO) >= 0, "Price cannot be negative");
+        return price;
+    }
+
     public static final class Builder {
         private String productId;
         private String title;
         private String description;
-        private Price price;
+        private BigDecimal price;
 
         private Builder() {
         }
@@ -89,7 +96,7 @@ public class Product {
             return this;
         }
 
-        public Builder withPrice(Price price) {
+        public Builder withPrice(BigDecimal price) {
             this.price = price;
             return this;
         }

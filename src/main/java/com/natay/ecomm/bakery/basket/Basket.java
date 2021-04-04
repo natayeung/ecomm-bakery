@@ -1,9 +1,9 @@
 package com.natay.ecomm.bakery.basket;
 
-import com.natay.ecomm.bakery.catalog.Price;
 import com.natay.ecomm.bakery.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ public interface Basket {
 
     int itemCount();
 
-    Price totalPrice();
+    BigDecimal totalPrice();
 
     String basketRef();
 }

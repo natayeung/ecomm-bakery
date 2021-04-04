@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.atIndex;
@@ -37,8 +38,8 @@ public class ProductQueryDatabaseAdapterTests {
 
         softly.assertThat(retrieved)
                 .extracting(Product::price)
-                .contains(Price.of(27.95), atIndex(0))
-                .contains(Price.of(21.95), atIndex(1))
-                .contains(Price.of(24.95), atIndex(2));
+                .contains(BigDecimal.valueOf(27.95), atIndex(0))
+                .contains(BigDecimal.valueOf(21.95), atIndex(1))
+                .contains(BigDecimal.valueOf(24.95), atIndex(2));
     }
 }

@@ -6,8 +6,9 @@ import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * @author natayeung
@@ -18,7 +19,7 @@ public class ProductTests {
     private final String productId = "C-RV";
     private final String title = "Red Velvet";
     private final String description = "Classic red velvet sponge with layers of cream cheese frosting.";
-    private final double priceValue = 22.59;
+    private final BigDecimal price = BigDecimal.valueOf(22.59);
 
     @InjectSoftAssertions
     private SoftAssertions softly;
@@ -29,13 +30,13 @@ public class ProductTests {
                 .withProductId(productId)
                 .withTitle(title)
                 .withDescription(description)
-                .withPrice(Price.of(priceValue))
+                .withPrice(price)
                 .build();
 
         softly.assertThat(constructed.productId()).as("product ID").isEqualTo(productId);
         softly.assertThat(constructed.title()).as("title").isEqualTo(title);
         softly.assertThat(constructed.description()).as("description").isEqualTo(description);
-        softly.assertThat(constructed.price().value()).as("price").isEqualTo(priceValue);
+        softly.assertThat(constructed.price()).as("price").isEqualTo(price);
     }
 
     @Test
@@ -44,7 +45,7 @@ public class ProductTests {
             Product.newBuilder()
                     .withTitle(title)
                     .withDescription(description)
-                    .withPrice(Price.of(priceValue))
+                    .withPrice(price)
                     .build();
         }).isInstanceOf(IllegalArgumentException.class);
     }
@@ -55,7 +56,7 @@ public class ProductTests {
             Product.newBuilder()
                     .withProductId(productId)
                     .withDescription(description)
-                    .withPrice(Price.of(priceValue))
+                    .withPrice(price)
                     .build();
         }).isInstanceOf(IllegalArgumentException.class);
     }
@@ -72,11 +73,23 @@ public class ProductTests {
     }
 
     @Test
+    public void priceCannotBeNegative() {
+        assertThatIllegalArgumentException()
+                .isThrownBy(() ->
+                        Product.newBuilder()
+                                .withProductId(productId)
+                                .withTitle(title)
+                                .withDescription(description)
+                                .withPrice(BigDecimal.valueOf(-1.5))
+                                .build());
+    }
+
+    @Test
     public void descriptionIsOptional() {
         Product constructed = Product.newBuilder()
                 .withProductId(productId)
                 .withTitle(title)
-                .withPrice(Price.of(priceValue))
+                .withPrice(price)
                 .build();
 
         assertThat(constructed).isInstanceOf(Product.class);
