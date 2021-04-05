@@ -21,9 +21,4 @@ public class SessionAttributeLookup {
         Object user = session.getAttribute("user");
         return isNull(user) ? null : (User) user;
     }
-
-    public static boolean isYetToLogin(HttpSession session) {
-        Object isYetToLogin = session.getAttribute("isYetToLogin");
-        return isNull(isYetToLogin) || (boolean) isYetToLogin;
-    }
 }

@@ -57,7 +57,6 @@ public class CatalogController {
 
     private void populateModel(ModelMap model, HttpSession session) {
         model.addAttribute("basketItemCount", getItemCount(session));
-        model.addAttribute("isYetToLogin", isYetToLogin(session));
         model.addAttribute("user", getUser(session));
     }
 }

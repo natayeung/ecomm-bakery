@@ -17,7 +17,6 @@ import org.springframework.web.context.annotation.SessionScope;
 import javax.servlet.http.HttpSession;
 
 import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getUser;
-import static com.natay.ecomm.bakery.session.SessionAttributeLookup.isYetToLogin;
 
 /**
  * @author natayeung
@@ -80,7 +79,6 @@ public class BasketController {
         model.addAttribute("basketTotalPrice", basket.totalPrice());
         model.addAttribute("basketItemCount", basket.itemCount());
 
-        model.addAttribute("isYetToLogin", isYetToLogin(session));
         model.addAttribute("user", getUser(session));
     }
 }
