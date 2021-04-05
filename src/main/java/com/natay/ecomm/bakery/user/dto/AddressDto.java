@@ -1,24 +1,13 @@
-package com.natay.ecomm.bakery.user;
+package com.natay.ecomm.bakery.user.dto;
 
-public class RegistrationDto {
-
-    private String email;
-
-    private String password;
+/**
+ * @author natayeung
+ */
+public class AddressDto {
 
     private String addressLine1;
-
     private String addressLine2;
-
     private String postcode;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 
     public String getAddressLine1() {
         return addressLine1;
@@ -30,14 +19,6 @@ public class RegistrationDto {
 
     public String getPostcode() {
         return postcode;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void setAddressLine1(String addressLine1) {
@@ -54,10 +35,8 @@ public class RegistrationDto {
 
     @Override
     public String toString() {
-        return "RegistrationDto{" +
-                "email='" + email + '\'' +
-                ", password='" + password.replaceAll(".", "*") + '\'' +
-                ", addressLine1='" + addressLine1 + '\'' +
+        return "AddressDto{" +
+                "addressLine1='" + addressLine1 + '\'' +
                 ", addressLine2='" + addressLine2 + '\'' +
                 ", postcode='" + postcode + '\'' +
                 '}';

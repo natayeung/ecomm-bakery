@@ -1,7 +1,11 @@
 package com.natay.ecomm.bakery.user;
 
+import com.natay.ecomm.bakery.user.dto.RegistrationDto;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author natayeung
+ */
 @Service
 public class UserRegistrationService implements RegistrationService {
 

@@ -1,5 +1,6 @@
 package com.natay.ecomm.bakery.user;
 
+import com.natay.ecomm.bakery.user.dto.RegistrationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getBasket;
 
+/**
+ * @author natayeung
+ */
 @Controller
 @RequestMapping("/user/register")
 public class UserRegistrationController {
@@ -28,7 +32,7 @@ public class UserRegistrationController {
     @GetMapping
     public String showRegistrationForm(HttpSession session,
                                        ModelMap model) {
-        
+
         getBasket(session).ifPresent((b) -> model.addAttribute("userBasket", b));
 
         return "register";

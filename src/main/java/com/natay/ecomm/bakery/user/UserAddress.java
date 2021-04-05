@@ -1,15 +1,37 @@
 package com.natay.ecomm.bakery.user;
 
+import com.natay.ecomm.bakery.utils.Arguments;
+
+/**
+ * @author natayeung
+ */
 public class UserAddress {
 
-    private String addressLine1;
-    private String addressLine2;
-    private String postcode;
+    private final String email;
+    private final String addressLine1;
+    private final String addressLine2;
+    private final String postcode;
 
-    public UserAddress(String addressLine1, String addressLine2, String postcode) {
+    private UserAddress(String email, String addressLine1, String addressLine2, String postcode) {
+        this.email = email;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.postcode = postcode;
+    }
+
+    private UserAddress(Builder builder) {
+        email = builder.email;
+        addressLine1 = builder.addressLine1;
+        addressLine2 = builder.addressLine2;
+        postcode = builder.postcode;
+    }
+
+    public static Builder create() {
+        return new Builder();
+    }
+
+    public String email() {
+        return email;
     }
 
     public String addressLine1() {
@@ -27,9 +49,55 @@ public class UserAddress {
     @Override
     public String toString() {
         return "UserAddress{" +
-                "addressLine1='" + addressLine1 + '\'' +
+                "email='" + email + '\'' +
+                ", addressLine1='" + addressLine1 + '\'' +
                 ", addressLine2='" + addressLine2 + '\'' +
                 ", postcode='" + postcode + '\'' +
                 '}';
+    }
+
+    public static final class Builder {
+        private String email;
+        private String addressLine1;
+        private String addressLine2;
+        private String postcode;
+
+        private Builder() {
+        }
+
+        public Builder from(UserAddress userAddress) {
+            Arguments.requireNonNull(userAddress, "An address expected");
+
+            this.email = userAddress.email;
+            this.addressLine1 = userAddress.addressLine1;
+            this.addressLine2 = userAddress.addressLine2;
+            this.postcode = userAddress.postcode;
+
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder withAddressLine1(String addressLine1) {
+            this.addressLine1 = addressLine1;
+            return this;
+        }
+
+        public Builder withAddressLine2(String addressLine2) {
+            this.addressLine2 = addressLine2;
+            return this;
+        }
+
+        public Builder withPostcode(String postcode) {
+            this.postcode = postcode;
+            return this;
+        }
+
+        public UserAddress build() {
+            return new UserAddress(this);
+        }
     }
 }

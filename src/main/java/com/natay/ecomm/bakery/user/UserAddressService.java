@@ -1,15 +1,21 @@
 package com.natay.ecomm.bakery.user;
 
+import com.natay.ecomm.bakery.user.dto.RegistrationDto;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
+/**
+ * @author natayeung
+ */
 @Service
 public class UserAddressService implements AddressService {
 
-    private final Map<String, UserAddress> userAddresses = new HashMap<>();
+    private final AddressPersistencePort persistencePort;
+
+    public UserAddressService(AddressPersistencePort persistencePort) {
+        this.persistencePort = persistencePort;
+    }
 
     @Override
     public UserAddress registerAddress(RegistrationDto dto) {
@@ -18,13 +24,20 @@ public class UserAddressService implements AddressService {
         final String addressLine2 = dto.getAddressLine2();
         final String postcode = dto.getPostcode();
 
-        UserAddress userAddress = new UserAddress(addressLine1, addressLine2, postcode);
-        userAddresses.put(email, userAddress);
+        UserAddress userAddress = UserAddress.create()
+                .withEmail(email)
+                .withAddressLine1(addressLine1)
+                .withAddressLine2(addressLine2)
+                .withPostcode(postcode)
+                .build();
+
+        persistencePort.add(userAddress);
+
         return userAddress;
     }
 
     @Override
     public Optional<UserAddress> findAddressByEmail(String email) {
-        return Optional.ofNullable(userAddresses.get(email));
+        return persistencePort.findByEmail(email);
     }
 }

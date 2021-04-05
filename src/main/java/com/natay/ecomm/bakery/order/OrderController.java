@@ -1,6 +1,6 @@
 package com.natay.ecomm.bakery.order;
 
-import com.natay.ecomm.bakery.user.UserAddress;
+import com.natay.ecomm.bakery.user.dto.AddressDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,11 +24,11 @@ public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @PostMapping
-    public String processOrder(@ModelAttribute("address") UserAddress address,
+    public String processOrder(@ModelAttribute("address") AddressDto addressDto,
                                HttpSession session,
                                ModelMap model) {
 
-        logger.info("Received request to create order, delivery address: {}", address);
+        logger.info("Received request to create order, delivery address: {}", addressDto);
 
         processOrder(session);
 
