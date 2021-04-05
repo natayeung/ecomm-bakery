@@ -18,45 +18,43 @@
         <h4 class="mb-3">Register</h4>
         <form name="form-register" class="needs-validation" novalidate method="post" action="/user/register">
             <div class="row g-3">
-                {{#registration}}
+                <div class="col-8">
+                    <label for="email" class="form-label">Email*</label>
+                    <input type="text" class="form-control" id="email" name="email" required>
+                    <div class="invalid-feedback">
+                        Email required.
+                    </div>
+                </div>
+                <div class="col-8">
+                    <label for="password" class="form-label">Password*</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="invalid-feedback">
+                        Password required.
+                    </div>
+                </div>
+                <div class="col-8">
+                    <label for="address-line1" class="form-label">Address Line 1<small
+                            class="form-text text-muted">*</small></label>
+                    <input type="text" class="form-control" id="address-line1" name="addressLine1" required>
+                    <div class="invalid-feedback">
+                        Address line 1 required.
+                    </div>
+                </div>
+                <div class="row g-3">
                     <div class="col-8">
-                        <label for="email" class="form-label">Email*</label>
-                        <input type="text" class="form-control" id="email" name="email" required>
+                        <label for="address-line2" class="form-label">Address Line 2</label>
+                        <input type="text" class="form-control" id="address-line2" name="addressLine2">
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-3">
+                        <label for="post-code" class="form-label">Post Code*</label>
+                        <input type="text" class="form-control" id="post-code" name="postcode" required>
                         <div class="invalid-feedback">
-                            Email required.
+                            Post code required.
                         </div>
                     </div>
-                    <div class="col-8">
-                        <label for="password" class="form-label">Password*</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                        <div class="invalid-feedback">
-                            Password required.
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <label for="address-line1" class="form-label">Address Line 1<small
-                                class="form-text text-muted">*</small></label>
-                        <input type="text" class="form-control" id="address-line1" name="addressLine1" required>
-                        <div class="invalid-feedback">
-                            Address line 1 required.
-                        </div>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-8">
-                            <label for="address-line2" class="form-label">Address Line 2</label>
-                            <input type="text" class="form-control" id="address-line2" name="addressLine2">
-                        </div>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-3">
-                            <label for="post-code" class="form-label">Post Code*</label>
-                            <input type="text" class="form-control" id="post-code" name="postCode" required>
-                            <div class="invalid-feedback">
-                                Post code required.
-                            </div>
-                        </div>
-                    </div>
-                {{/registration}}
+                </div>
                 <div class="row">
                     <div class="col">
                         <button name="register" class="btn btn-secondary btn-md my-3" type="submit">Submit Details

@@ -20,7 +20,7 @@ public class UserRegistrationTests {
     private final String password = "harrypass";
     private final String addressLine1 = "2A Silver Count";
     private final String addressLine2 = "1 High Street";
-    private final String postCode = "PO1 2ST";
+    private final String postcode = "PO1 2ST";
 
     @InjectSoftAssertions
     private SoftAssertions softly;
@@ -53,7 +53,7 @@ public class UserRegistrationTests {
 
     @Test
     public void shouldRegisterAddressForNewUser() {
-        RegistrationDto dto = createUserRegistrationDtoWithAddressDetails(addressLine1, addressLine2, postCode);
+        RegistrationDto dto = createUserRegistrationDtoWithAddressDetails(addressLine1, addressLine2, postcode);
 
         userRegistrationService.register(dto);
 
@@ -63,7 +63,7 @@ public class UserRegistrationTests {
                 .hasValueSatisfying((addr) -> {
                     softly.assertThat(addr.addressLine1()).isEqualTo(addressLine1);
                     softly.assertThat(addr.addressLine2()).isEqualTo(addressLine2);
-                    softly.assertThat(addr.postCode()).isEqualTo(postCode);
+                    softly.assertThat(addr.postcode()).isEqualTo(postcode);
                 });
     }
 }

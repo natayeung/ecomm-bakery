@@ -41,7 +41,7 @@ public class ShoppingBasket implements Basket {
         basketItem.addOne();
 
         basketItems.put(productId, basketItem);
-        logger.info("Item {} added to basket, ref={}", productId, basketRef);
+        logger.info("Item {} added to basket {}", productId, basketRef);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ShoppingBasket implements Basket {
         if (isNull(removed)) {
             logger.warn("Unable to remove item {} from basket: unrecognised product ID", productId);
         } else {
-            logger.info("Item {} removed from basket, ref={}", productId, basketRef);
+            logger.info("Item {} removed from basket {}", productId, basketRef);
         }
     }
 
@@ -91,11 +91,11 @@ public class ShoppingBasket implements Basket {
         try {
             product = productQueryPort.findById(productId);
         } catch (DataAccessException ex) {
-            throw new ProductAccessException("Unable to retrieve product with id " + productId, ex);
+            throw new ProductAccessException("Unable to retrieve product with ID " + productId, ex);
         }
 
         if (product.isEmpty()) {
-            throw new ProductNotFoundException("Product not found for id " + productId);
+            throw new ProductNotFoundException("Product not found for ID " + productId);
         }
 
         return product.get();

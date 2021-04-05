@@ -16,6 +16,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import javax.servlet.http.HttpSession;
 
+import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getBasket;
 import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getUser;
 
 /**
@@ -37,7 +38,7 @@ public class BasketController {
     public String addItemToBasket(@RequestParam("item-to-add") String productId)
             throws ProductAccessException, ProductNotFoundException {
 
-        logger.info("Received request to add item {} to basket.", productId);
+        logger.info("Received request to add item {} to basket {}", productId, basket.basketRef());
 
         basket.addItem(productId);
 
@@ -50,7 +51,8 @@ public class BasketController {
     public String removeItemFromBasket(@RequestParam("item-to-remove") String productId,
                                        HttpSession session,
                                        ModelMap model) {
-        logger.info("Received request to remove item {} from basket.", productId);
+
+        logger.info("Received request to remove item {} from basket {}", productId, basket.basketRef());
 
         basket.removeItem(productId);
         populateModel(session, model);
@@ -63,6 +65,9 @@ public class BasketController {
     @GetMapping
     public String viewBasket(HttpSession session,
                              ModelMap model) {
+
+        logger.info("Received request to view basket {}", basket.basketRef());
+
         populateModel(session, model);
 
         return "basket";
@@ -75,10 +80,7 @@ public class BasketController {
     }
 
     private void populateModel(HttpSession session, ModelMap model) {
-        model.addAttribute("basketItems", basket.items());
-        model.addAttribute("basketTotalPrice", basket.totalPrice());
-        model.addAttribute("basketItemCount", basket.itemCount());
-
-        model.addAttribute("user", getUser(session));
+        getBasket(session).ifPresent((b) -> model.addAttribute("userBasket", b));
+        getUser(session).ifPresent((u) -> model.addAttribute("user", u));
     }
 }

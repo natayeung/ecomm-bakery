@@ -16,9 +16,9 @@ public class UserAddressService implements AddressService {
         final String email = dto.getEmail();
         final String addressLine1 = dto.getAddressLine1();
         final String addressLine2 = dto.getAddressLine2();
-        final String postCode = dto.getPostCode();
+        final String postcode = dto.getPostcode();
 
-        UserAddress userAddress = new UserAddress(addressLine1, addressLine2, postCode);
+        UserAddress userAddress = new UserAddress(addressLine1, addressLine2, postcode);
         userAddresses.put(email, userAddress);
         return userAddress;
     }

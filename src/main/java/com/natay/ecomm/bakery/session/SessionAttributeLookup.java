@@ -5,6 +5,8 @@ import com.natay.ecomm.bakery.user.User;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.Optional;
+
 import static java.util.Objects.isNull;
 
 /**
@@ -12,13 +14,13 @@ import static java.util.Objects.isNull;
  */
 public class SessionAttributeLookup {
 
-    public static int getItemCount(HttpSession session) {
+    public static Optional<Basket> getBasket(HttpSession session) {
         Object basket = session.getAttribute("scopedTarget.shoppingBasket");
-        return isNull(basket) ? 0 : ((Basket) basket).itemCount();
+        return isNull(basket) ? Optional.empty() : Optional.of((Basket) basket);
     }
 
-    public static User getUser(HttpSession session) {
+    public static Optional<User> getUser(HttpSession session) {
         Object user = session.getAttribute("user");
-        return isNull(user) ? null : (User) user;
+        return isNull(user) ? Optional.empty() : Optional.of((User) user);
     }
 }

@@ -15,9 +15,11 @@
 
 <main class="container">
     <div class="row mt-3">
+
         <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span>Your Basket</span>
-            <span class="badge bg-secondary rounded-pill">{{basketItemCount}}</span>
+            <span class="badge bg-secondary rounded-pill">{{^userBasket}}
+                0{{/userBasket}}{{#userBasket}}{{itemCount}}{{/userBasket}}</span>
         </h4>
         <div class="table-responsive">
             <table class="table">
@@ -30,7 +32,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#basketItems}}
+                {{#userBasket.items}}
                     <tr>
                         <td id="title-{{productId}}">{{itemTitle}}</td>
                         <td class="text-center" id="quantity-{{productId}}">{{quantity}}</td>
@@ -43,12 +45,13 @@
                             </form>
                         </td>
                     </tr>
-                {{/basketItems}}
+                {{/userBasket.items}}
                 </tbody>
                 <tfoot>
                 <tr>
                     <th colspan="2">Total (&pound)</th>
-                    <th class="text-end">{{basketTotalPrice}}</th>
+                    <th class="text-end">{{^userBasket}}0{{/userBasket}}
+                        {{#userBasket}}{{totalPrice}}{{/userBasket}}</th>
                     <th></th>
                 </tr>
                 </tfoot>
@@ -60,8 +63,8 @@
         <form name="form-delivery-address" class="needs-validation" novalidate method="post" action="/order">
             <div class="row g-3">
                 <div class="col-8">
-                    <label for="address1" class="form-label">Address Line 1*</label>
-                    <input type="text" class="form-control" id="address1" name="address1"
+                    <label for="address-line1" class="form-label">Address Line 1*</label>
+                    <input type="text" class="form-control" id="address-line1" name="addressLine1"
                            {{#user}}value="{{address.addressLine1}}"{{/user}} required>
                     <div class="invalid-feedback">
                         Address line 1 required.
@@ -70,8 +73,8 @@
             </div>
             <div class="row g-3">
                 <div class="col-8">
-                    <label for="address2" class="form-label">Address Line 2</label>
-                    <input type="text" class="form-control" id="address2" name="address2"
+                    <label for="address-line2" class="form-label">Address Line 2</label>
+                    <input type="text" class="form-control" id="address-line2" name="addressLine2"
                            {{#user}}value="{{address.addressLine2}}"{{/user}}>
                 </div>
             </div>
@@ -79,7 +82,7 @@
                 <div class="col-3">
                     <label for="postcode" class="form-label">Post Code*</label>
                     <input type="text" class="form-control" id="postcode" name="postcode"
-                           {{#user}}value="{{address.postCode}}"{{/user}} required>
+                           {{#user}}value="{{address.postcode}}"{{/user}} required>
                     <div class="invalid-feedback">
                         Post code required.
                     </div>

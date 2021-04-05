@@ -30,7 +30,7 @@ public class CompleteOrderITests extends ControllerITests {
     }
 
     private void fillInDeliveryAddress(HtmlForm addressForm) {
-        HtmlTextInput address1 = addressForm.getInputByName("address1");
+        HtmlTextInput address1 = addressForm.getInputByName("addressLine1");
         HtmlTextInput postcode = addressForm.getInputByName("postcode");
         address1.setValueAttribute("12 High Street");
         postcode.setValueAttribute("PO3 0ST");

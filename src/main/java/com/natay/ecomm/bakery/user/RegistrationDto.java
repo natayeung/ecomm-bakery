@@ -10,7 +10,7 @@ public class RegistrationDto {
 
     private String addressLine2;
 
-    private String postCode;
+    private String postcode;
 
     public String getEmail() {
         return email;
@@ -28,8 +28,8 @@ public class RegistrationDto {
         return addressLine2;
     }
 
-    public String getPostCode() {
-        return postCode;
+    public String getPostcode() {
+        return postcode;
     }
 
     public void setEmail(String email) {
@@ -48,8 +48,8 @@ public class RegistrationDto {
         this.addressLine2 = addressLine2;
     }
 
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class RegistrationDto {
                 ", password='" + password.replaceAll(".", "*") + '\'' +
                 ", addressLine1='" + addressLine1 + '\'' +
                 ", addressLine2='" + addressLine2 + '\'' +
-                ", postCode='" + postCode + '\'' +
+                ", postcode='" + postcode + '\'' +
                 '}';
     }
 }

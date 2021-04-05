@@ -4,12 +4,12 @@ public class UserAddress {
 
     private String addressLine1;
     private String addressLine2;
-    private String postCode;
+    private String postcode;
 
-    public UserAddress(String addressLine1, String addressLine2, String postCode) {
+    public UserAddress(String addressLine1, String addressLine2, String postcode) {
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
-        this.postCode = postCode;
+        this.postcode = postcode;
     }
 
     public String addressLine1() {
@@ -20,7 +20,16 @@ public class UserAddress {
         return addressLine2;
     }
 
-    public String postCode() {
-        return postCode;
+    public String postcode() {
+        return postcode;
+    }
+
+    @Override
+    public String toString() {
+        return "UserAddress{" +
+                "addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", postcode='" + postcode + '\'' +
+                '}';
     }
 }

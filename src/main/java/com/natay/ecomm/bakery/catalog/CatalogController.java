@@ -40,7 +40,8 @@ public class CatalogController {
             model.addAttribute("catalog", products);
         }
 
-        populateModel(model, session);
+        getBasket(session).ifPresent((b) -> model.addAttribute("userBasket", b));
+        getUser(session).ifPresent((u) -> model.addAttribute("user", u));
 
         return "index";
     }
@@ -53,10 +54,5 @@ public class CatalogController {
     private boolean isCatalogNotPopulated(ModelMap model) {
         Object catalog = model.getAttribute("catalog");
         return isNull(catalog) || ((List<?>) catalog).isEmpty();
-    }
-
-    private void populateModel(ModelMap model, HttpSession session) {
-        model.addAttribute("basketItemCount", getItemCount(session));
-        model.addAttribute("user", getUser(session));
     }
 }

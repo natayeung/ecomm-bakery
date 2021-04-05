@@ -1,18 +1,18 @@
 package com.natay.ecomm.bakery.order;
 
-import com.natay.ecomm.bakery.basket.Basket;
+import com.natay.ecomm.bakery.user.UserAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
-import static java.util.Objects.isNull;
+import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getBasket;
+import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getUser;
 
 /**
  * @author natayeung
@@ -24,32 +24,25 @@ public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @PostMapping
-    public String processOrder(@RequestParam("address1") String addressLine1,
-                               @RequestParam("address2") String addressLine2,
-                               @RequestParam("postcode") String postcode,
+    public String processOrder(@ModelAttribute("address") UserAddress address,
                                HttpSession session,
                                ModelMap model) {
 
-        logger.info("Received request to create order, delivery address: addressLine1={}, addressLine2={}, postcode={}",
-                addressLine1, addressLine2, postcode);
+        logger.info("Received request to create order, delivery address: {}", address);
 
         processOrder(session);
+
+        getUser(session).ifPresent((u) -> model.addAttribute("user", u));
         session.invalidate();
 
         return "order-confirm";
     }
 
     private void processOrder(HttpSession session) {
-        Optional<Basket> basket = getBasket(session);
-        basket.ifPresentOrElse(
+        getBasket(session).ifPresentOrElse(
                 (b) -> logger.info("Processing order from {}", b),
                 () -> {
                     throw new IllegalStateException("Unable to retrieve shopping basket");
                 });
-    }
-
-    private Optional<Basket> getBasket(HttpSession session) {
-        Object basket = session.getAttribute("scopedTarget.shoppingBasket");
-        return isNull(basket) ? Optional.empty() : Optional.of((Basket) basket);
     }
 }

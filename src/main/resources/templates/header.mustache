@@ -11,12 +11,11 @@
             </a>
             <div class="collapse navbar-collapse flex-md-column" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto">
-                    {{#basketItemCount}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/basket" methods="get">Basket <strong
-                                    id="basket-item-count">{{basketItemCount}}</strong> Item(s)</a>
-                        </li>
-                    {{/basketItemCount}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/basket" methods="get">Basket <strong
+                                id="basket-item-count">{{^userBasket}}
+                            0{{/userBasket}}{{#userBasket}}{{itemCount}}{{/userBasket}}</strong> Item(s)</a>
+                    </li>
                     {{^user}}
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Sign In</a>
