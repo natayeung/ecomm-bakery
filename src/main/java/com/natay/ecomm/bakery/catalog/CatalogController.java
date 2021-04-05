@@ -1,6 +1,5 @@
 package com.natay.ecomm.bakery.catalog;
 
-import com.natay.ecomm.bakery.basket.Basket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.natay.ecomm.bakery.session.SessionAttributeLookup.*;
 import static java.util.Objects.isNull;
 
 /**
@@ -40,7 +40,7 @@ public class CatalogController {
             model.addAttribute("catalog", products);
         }
 
-        model.addAttribute("basketItemCount", itemCountFromSession(session));
+        populateModel(model, session);
 
         return "index";
     }
@@ -55,8 +55,9 @@ public class CatalogController {
         return isNull(catalog) || ((List<?>) catalog).isEmpty();
     }
 
-    private int itemCountFromSession(HttpSession session) {
-        Object basket = session.getAttribute("scopedTarget.shoppingBasket");
-        return isNull(basket) ? 0 : ((Basket) basket).itemCount();
+    private void populateModel(ModelMap model, HttpSession session) {
+        model.addAttribute("basketItemCount", getItemCount(session));
+        model.addAttribute("isYetToLogin", isYetToLogin(session));
+        model.addAttribute("user", getUser(session));
     }
 }

@@ -35,7 +35,6 @@ public class OrderController {
 
         processOrder(session);
         session.invalidate();
-        model.addAttribute("basketItemCount", 0);
 
         return "order-confirm";
     }

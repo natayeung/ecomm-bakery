@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.SessionScope;
 
+import javax.servlet.http.HttpSession;
+
+import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getUser;
+import static com.natay.ecomm.bakery.session.SessionAttributeLookup.isYetToLogin;
+
 /**
  * @author natayeung
  */
@@ -43,11 +48,13 @@ public class BasketController {
     }
 
     @PostMapping("/delete")
-    public String removeItemFromBasket(@RequestParam("item-to-remove") String productId, ModelMap model) {
+    public String removeItemFromBasket(@RequestParam("item-to-remove") String productId,
+                                       HttpSession session,
+                                       ModelMap model) {
         logger.info("Received request to remove item {} from basket.", productId);
 
         basket.removeItem(productId);
-        populateModelWithMostRecentBasketDetails(model);
+        populateModel(session, model);
 
         logger.info("Item count: {}", basket.itemCount());
 
@@ -55,9 +62,9 @@ public class BasketController {
     }
 
     @GetMapping
-    public String viewBasket(ModelMap model) {
-
-        populateModelWithMostRecentBasketDetails(model);
+    public String viewBasket(HttpSession session,
+                             ModelMap model) {
+        populateModel(session, model);
 
         return "basket";
     }
@@ -68,9 +75,12 @@ public class BasketController {
         return new ShoppingBasket(productQueryPort);
     }
 
-    private void populateModelWithMostRecentBasketDetails(ModelMap model) {
+    private void populateModel(HttpSession session, ModelMap model) {
         model.addAttribute("basketItems", basket.items());
         model.addAttribute("basketTotalPrice", basket.totalPrice());
         model.addAttribute("basketItemCount", basket.itemCount());
+
+        model.addAttribute("isYetToLogin", isYetToLogin(session));
+        model.addAttribute("user", getUser(session));
     }
 }

@@ -11,16 +11,25 @@
             </a>
             <div class="collapse navbar-collapse flex-md-column" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/basket" methods="get">Basket <strong
-                                id="basket-item-count">{{basketItemCount}}</strong> Item(s)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Sign In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
-                    </li>
+                    {{#basketItemCount}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/basket" methods="get">Basket <strong
+                                    id="basket-item-count">{{basketItemCount}}</strong> Item(s)</a>
+                        </li>
+                    {{/basketItemCount}}
+                    {{#isYetToLogin}}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Sign In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/register" methods="get">Register</a>
+                        </li>
+                    {{/isYetToLogin}}
+                    {{#user}}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" methods="get">My Account</a>
+                        </li>
+                    {{/user}}
                 </ul>
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">

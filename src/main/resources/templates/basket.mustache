@@ -61,7 +61,8 @@
             <div class="row g-3">
                 <div class="col-8">
                     <label for="address1" class="form-label">Address Line 1*</label>
-                    <input type="text" class="form-control" id="address1" name="address1" required>
+                    <input type="text" class="form-control" id="address1" name="address1"
+                           {{#user}}value="{{address.addressLine1}}"{{/user}} required>
                     <div class="invalid-feedback">
                         Address line 1 required.
                     </div>
@@ -70,13 +71,15 @@
             <div class="row g-3">
                 <div class="col-8">
                     <label for="address2" class="form-label">Address Line 2</label>
-                    <input type="text" class="form-control" id="address2" name="address2">
+                    <input type="text" class="form-control" id="address2" name="address2"
+                           {{#user}}value="{{address.addressLine2}}"{{/user}}>
                 </div>
             </div>
             <div class="row g-3">
                 <div class="col-3">
                     <label for="postcode" class="form-label">Post Code*</label>
-                    <input type="text" class="form-control" id="postcode" name="postcode" required>
+                    <input type="text" class="form-control" id="postcode" name="postcode"
+                           {{#user}}value="{{address.postCode}}"{{/user}} required>
                     <div class="invalid-feedback">
                         Post code required.
                     </div>
@@ -84,7 +87,8 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button name="complete-order" class="btn btn-secondary btn-md my-3" type="submit">Complete Order</button>
+                    <button name="complete-order" class="btn btn-secondary btn-md my-3" type="submit">Complete Order
+                    </button>
                 </div>
             </div>
         </form>
