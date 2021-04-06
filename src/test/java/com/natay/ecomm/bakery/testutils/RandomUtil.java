@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.utils;
+package com.natay.ecomm.bakery.testutils;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

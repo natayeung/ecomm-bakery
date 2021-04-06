@@ -19,11 +19,13 @@
         <form name="form-register" class="needs-validation" novalidate method="post" action="/user/register">
             <div class="row g-3">
                 <div class="col-8">
-                    <label for="email" class="form-label">Email*</label>
+                    <label for="email"
+                           class="form-label {{#registrationFeedback}}{{#emailErrorMessage}} is-invalid{{/emailErrorMessage}}{{/registrationFeedback}}">Email*</label>
                     <input type="text" class="form-control" id="email" name="email" required>
-                    <div class="invalid-feedback">
-                        Email required.
+                    <div class="invalid-feedback" id="email-feedback-message">{{^registrationFeedback}}Email
+                        required.{{/registrationFeedback}}{{#registrationFeedback}}{{#emailErrorMessage}}{{emailErrorMessage}}{{/emailErrorMessage}}{{/registrationFeedback}}
                     </div>
+
                 </div>
                 <div class="col-8">
                     <label for="password" class="form-label">Password*</label>
@@ -35,7 +37,7 @@
                 <div class="col-8">
                     <label for="address-line1" class="form-label">Address Line 1<small
                             class="form-text text-muted">*</small></label>
-                    <input type="text" class="form-control" id="address-line1" name="addressLine1" required>
+                    <input type="text" class="form-control" id="address-line1" name="addressLine1" required {{#registrationFeedback}}value="{{lastInputAddressLine1}}"{{/registrationFeedback}}>
                     <div class="invalid-feedback">
                         Address line 1 required.
                     </div>
@@ -43,13 +45,13 @@
                 <div class="row g-3">
                     <div class="col-8">
                         <label for="address-line2" class="form-label">Address Line 2</label>
-                        <input type="text" class="form-control" id="address-line2" name="addressLine2">
+                        <input type="text" class="form-control" id="address-line2" name="addressLine2" {{#registrationFeedback}}value="{{lastInputAddressLine2}}"{{/registrationFeedback}}>
                     </div>
                 </div>
                 <div class="row g-3">
                     <div class="col-3">
                         <label for="post-code" class="form-label">Post Code*</label>
-                        <input type="text" class="form-control" id="post-code" name="postcode" required>
+                        <input type="text" class="form-control" id="post-code" name="postcode" required {{#registrationFeedback}}value="{{lastInputPostcode}}"{{/registrationFeedback}}>
                         <div class="invalid-feedback">
                             Post code required.
                         </div>

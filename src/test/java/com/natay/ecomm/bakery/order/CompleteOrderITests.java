@@ -1,13 +1,15 @@
 package com.natay.ecomm.bakery.order;
 
 import com.gargoylesoftware.htmlunit.html.*;
-import com.natay.ecomm.bakery.ControllerITests;
+import com.natay.ecomm.bakery.testutils.ControllerITests;
+import com.natay.ecomm.bakery.testutils.HtmlFormHelper;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.basket.TestHelper.addItemToBasket;
-import static com.natay.ecomm.bakery.basket.TestHelper.goToBasketPageFrom;
+import static com.natay.ecomm.bakery.testutils.BasketTestHelper.addItemToBasket;
+import static com.natay.ecomm.bakery.testutils.BasketTestHelper.goToBasketPageFrom;
+import static com.natay.ecomm.bakery.testutils.HtmlFormHelper.fillInText;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -30,10 +32,8 @@ public class CompleteOrderITests extends ControllerITests {
     }
 
     private void fillInDeliveryAddress(HtmlForm addressForm) {
-        HtmlTextInput address1 = addressForm.getInputByName("addressLine1");
-        HtmlTextInput postcode = addressForm.getInputByName("postcode");
-        address1.setValueAttribute("12 High Street");
-        postcode.setValueAttribute("PO3 0ST");
+        fillInText(addressForm, "addressLine1", "12 High Street");
+        fillInText(addressForm, "postcode", "PO3 0ST");
     }
 
     private HtmlPage completeOrder(HtmlForm addressForm) throws IOException {

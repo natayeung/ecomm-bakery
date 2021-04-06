@@ -2,7 +2,7 @@ package com.natay.ecomm.bakery.catalog;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.natay.ecomm.bakery.ControllerITests;
+import com.natay.ecomm.bakery.testutils.ControllerITests;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

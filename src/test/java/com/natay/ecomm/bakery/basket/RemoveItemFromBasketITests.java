@@ -1,12 +1,12 @@
 package com.natay.ecomm.bakery.basket;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.natay.ecomm.bakery.ControllerITests;
+import com.natay.ecomm.bakery.testutils.ControllerITests;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.basket.TestHelper.*;
+import static com.natay.ecomm.bakery.testutils.BasketTestHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Import;
 import java.util.Optional;
 
 import static com.natay.ecomm.bakery.user.UserRegistrationDtoFactory.*;
-import static com.natay.ecomm.bakery.utils.RandomUtil.randomEmail;
+import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 import static org.assertj.core.api.Assertions.*;
 
 /**

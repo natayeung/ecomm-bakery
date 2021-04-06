@@ -2,7 +2,7 @@ package com.natay.ecomm.bakery.user;
 
 import com.natay.ecomm.bakery.user.dto.RegistrationDto;
 
-import static com.natay.ecomm.bakery.utils.RandomUtil.randomEmail;
+import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 
 /**
  * @author natayeung

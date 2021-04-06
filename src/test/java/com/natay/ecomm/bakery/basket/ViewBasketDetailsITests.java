@@ -2,13 +2,13 @@ package com.natay.ecomm.bakery.basket;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.natay.ecomm.bakery.ControllerITests;
+import com.natay.ecomm.bakery.testutils.ControllerITests;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.basket.TestHelper.addItemToBasket;
-import static com.natay.ecomm.bakery.basket.TestHelper.goToBasketPageFrom;
+import static com.natay.ecomm.bakery.testutils.BasketTestHelper.addItemToBasket;
+import static com.natay.ecomm.bakery.testutils.BasketTestHelper.goToBasketPageFrom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

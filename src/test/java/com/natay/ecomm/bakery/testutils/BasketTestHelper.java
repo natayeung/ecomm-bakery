@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.basket;
+package com.natay.ecomm.bakery.testutils;
 
 import com.gargoylesoftware.htmlunit.html.*;
 
@@ -9,7 +9,7 @@ import static java.util.Objects.isNull;
 /**
  * @author natayeung
  */
-public class TestHelper {
+public class BasketTestHelper {
 
     public static void addItemToBasket(HtmlPage page, String productId, int quantity) throws IOException {
         HtmlButton addButton = findAddButtonForProduct(productId, page);
@@ -44,6 +44,6 @@ public class TestHelper {
         return isNull(basketItemCount) ? "" : basketItemCount.getTextContent();
     }
 
-    private TestHelper() {
+    private BasketTestHelper() {
     }
 }
