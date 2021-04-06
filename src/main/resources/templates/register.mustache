@@ -11,12 +11,13 @@
 
 <body>
 
-{{> header}}
+{{> no-nav-header}}
 
 <main class="container">
     <div class="row my-3">
         <h4 class="mb-3">Register</h4>
-        <form name="form-register" class="needs-validation" novalidate method="post" action="/user/register">
+        <form name="form-register" class="needs-validation" novalidate method="post" action="/register">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
             <div class="row g-3">
                 <div class="col-8">
                     <label for="email"
@@ -25,7 +26,6 @@
                     <div class="invalid-feedback" id="email-feedback-message">{{^registrationFeedback}}Email
                         required.{{/registrationFeedback}}{{#registrationFeedback}}{{#emailErrorMessage}}{{emailErrorMessage}}{{/emailErrorMessage}}{{/registrationFeedback}}
                     </div>
-
                 </div>
                 <div class="col-8">
                     <label for="password" class="form-label">Password*</label>
@@ -37,31 +37,30 @@
                 <div class="col-8">
                     <label for="address-line1" class="form-label">Address Line 1<small
                             class="form-text text-muted">*</small></label>
-                    <input type="text" class="form-control" id="address-line1" name="addressLine1" required {{#registrationFeedback}}value="{{lastInputAddressLine1}}"{{/registrationFeedback}}>
+                    <input type="text" class="form-control" id="address-line1" name="addressLine1" required
+                           {{#registrationFeedback}}value="{{lastInputAddressLine1}}"{{/registrationFeedback}}>
                     <div class="invalid-feedback">
                         Address line 1 required.
                     </div>
                 </div>
-                <div class="row g-3">
-                    <div class="col-8">
-                        <label for="address-line2" class="form-label">Address Line 2</label>
-                        <input type="text" class="form-control" id="address-line2" name="addressLine2" {{#registrationFeedback}}value="{{lastInputAddressLine2}}"{{/registrationFeedback}}>
+                <div class="col-8">
+                    <label for="address-line2" class="form-label">Address Line 2</label>
+                    <input type="text" class="form-control" id="address-line2" name="addressLine2"
+                           {{#registrationFeedback}}value="{{lastInputAddressLine2}}"{{/registrationFeedback}}>
+                </div>
+                <div class="col-6">
+                    <label for="post-code" class="form-label">Post Code*</label>
+                    <input type="text" class="form-control" id="post-code" name="postcode" required
+                           {{#registrationFeedback}}value="{{lastInputPostcode}}"{{/registrationFeedback}}>
+                    <div class="invalid-feedback">
+                        Post code required.
                     </div>
                 </div>
-                <div class="row g-3">
-                    <div class="col-3">
-                        <label for="post-code" class="form-label">Post Code*</label>
-                        <input type="text" class="form-control" id="post-code" name="postcode" required {{#registrationFeedback}}value="{{lastInputPostcode}}"{{/registrationFeedback}}>
-                        <div class="invalid-feedback">
-                            Post code required.
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <button name="register" class="btn btn-secondary btn-md my-3" type="submit">Submit Details
-                        </button>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button name="register" class="btn btn-secondary btn-md my-3" type="submit">Submit Details
+                    </button>
                 </div>
             </div>
         </form>

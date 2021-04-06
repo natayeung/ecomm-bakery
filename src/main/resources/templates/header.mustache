@@ -12,21 +12,21 @@
             <div class="collapse navbar-collapse flex-md-column" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/basket" methods="get">Basket <strong
+                        <a class="nav-link" href="/basket">Basket <strong
                                 id="basket-item-count">{{^userBasket}}
                             0{{/userBasket}}{{#userBasket}}{{itemCount}}{{/userBasket}}</strong> Item(s)</a>
                     </li>
                     {{^user}}
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Sign In</a>
+                            <a class="nav-link active" aria-current="page" href="/login">Sign In</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/register" methods="get">Register</a>
+                            <a class="nav-link" href="/register">Register</a>
                         </li>
                     {{/user}}
                     {{#user}}
                         <li class="nav-item">
-                            <a class="nav-link active" href="#" methods="get">My Account</a>
+                            <a class="nav-link active" href="#">My Account</a>
                         </li>
                     {{/user}}
                 </ul>

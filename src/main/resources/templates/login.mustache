@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign In | N-2 Bakery</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+
+<body>
+
+{{> no-nav-header}}
+
+<main class="container">
+    <div class="row my-3">
+        <h4 class="mb-3">Sign In</h4>
+        <form name="form-login" class="needs-validation" novalidate method="post" action="/authenticate">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <div class="row g-3">
+                {{#feedback}}
+                    <div class="col-8">
+                        <div class="alert alert-secondary" role="alert">
+                            {{feedback}}
+                        </div>
+                    </div>
+                {{/feedback}}
+                <div class="col-8">
+                    <label for="email"
+                           class="form-label">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" required>
+                    <div class="invalid-feedback">
+                        Email required.
+                    </div>
+                </div>
+                <div class="col-8">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="invalid-feedback">
+                        Password required.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <button name="login" class="btn btn-secondary btn-md my-3" type="submit">Sign In</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <p>Don't have an account? <a href="/register">Register</a> now.</p>
+    </div>
+</main>
+
+{{> footer}}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+<script src="/js/form-validation.js"></script>
+</body>
+</html>

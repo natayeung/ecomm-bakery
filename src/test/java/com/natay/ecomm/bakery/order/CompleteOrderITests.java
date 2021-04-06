@@ -1,15 +1,20 @@
 package com.natay.ecomm.bakery.order;
 
-import com.gargoylesoftware.htmlunit.html.*;
+import com.gargoylesoftware.htmlunit.html.HtmlButton;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.natay.ecomm.bakery.testutils.ControllerITests;
-import com.natay.ecomm.bakery.testutils.HtmlFormHelper;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static com.natay.ecomm.bakery.testutils.BasketTestHelper.addItemToBasket;
 import static com.natay.ecomm.bakery.testutils.BasketTestHelper.goToBasketPageFrom;
-import static com.natay.ecomm.bakery.testutils.HtmlFormHelper.fillInText;
+import static com.natay.ecomm.bakery.testutils.LoginTestHelper.loginWithEmailAndPassword;
+import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
+import static com.natay.ecomm.bakery.testutils.RandomUtil.randomPass;
+import static com.natay.ecomm.bakery.testutils.RegisterTestHelper.registerWithEmailAndPassword;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -19,24 +24,24 @@ public class CompleteOrderITests extends ControllerITests {
 
     @Test
     public void confirmationIsDisplayedWhenOrderIsComplete() throws IOException {
-        HtmlPage catalogPage = webClient().getPage(LOCALHOST);
+        final String email = randomEmail();
+        final String password = randomPass();
+        registerWithEmailAndPassword(mockMvc(), email, password);
+        HtmlPage catalogPage = loginWithEmailAndPassword(webClient(), email, password);
         addItemToBasket(catalogPage, "bfc", 2);
-        HtmlPage basketPage = goToBasketPageFrom(catalogPage);
-        HtmlForm addressForm = basketPage.getFormByName("form-delivery-address");
+        goToBasketPageFrom(catalogPage);
+        webClient().waitForBackgroundJavaScript(10000);
 
-        fillInDeliveryAddress(addressForm);
-        HtmlPage resultPage = completeOrder(addressForm);
+        HtmlPage resultPage = submitOrder();
 
         HtmlElement pageBody = resultPage.getBody();
         assertThat(pageBody.getTextContent()).containsIgnoringCase("Your order is now complete");
     }
 
-    private void fillInDeliveryAddress(HtmlForm addressForm) {
-        fillInText(addressForm, "addressLine1", "12 High Street");
-        fillInText(addressForm, "postcode", "PO3 0ST");
-    }
+    private HtmlPage submitOrder() throws IOException {
+        HtmlPage basketPage = (HtmlPage) webClient().getCurrentWindow().getEnclosedPage();
+        HtmlForm addressForm = basketPage.getFormByName("form-delivery-address");
 
-    private HtmlPage completeOrder(HtmlForm addressForm) throws IOException {
         HtmlButton submitButton = addressForm.getButtonByName("complete-order");
         return submitButton.click();
     }

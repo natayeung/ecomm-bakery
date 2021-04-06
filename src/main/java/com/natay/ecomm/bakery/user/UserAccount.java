@@ -2,8 +2,8 @@ package com.natay.ecomm.bakery.user;
 
 public class UserAccount {
 
-    private String email;
-    private String password;
+    private final String email;
+    private final String password;
 
     public UserAccount(String email, String password) {
         this.email = email;

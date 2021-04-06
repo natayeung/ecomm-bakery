@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
@@ -39,6 +40,8 @@ public class UserRegistrationTests {
     private AccountService accountService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @BeforeEach
     public void setUp() {
@@ -57,7 +60,7 @@ public class UserRegistrationTests {
                 .isNotEmpty()
                 .hasValueSatisfying((acct) -> {
                     softly.assertThat(acct.email()).isEqualTo(email);
-                    softly.assertThat(acct.password()).isEqualTo(password);
+                    softly.assertThat(passwordEncoder.matches(password, acct.password())).isTrue();
                 });
     }
 

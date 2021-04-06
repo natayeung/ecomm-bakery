@@ -20,7 +20,7 @@ import static com.natay.ecomm.bakery.user.dto.RegistrationFeedbackDtoFactory.cre
  * @author natayeung
  */
 @Controller
-@RequestMapping("/user/register")
+@RequestMapping("/register")
 public class UserRegistrationController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserRegistrationController.class);
