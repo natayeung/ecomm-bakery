@@ -5,7 +5,7 @@ import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 /**
  * @author natayeung
  */
-public class UserRegistrationDtoFactory {
+public class RegistrationDtoFactory {
 
     private static final String password = "harrypass";
     private static final String addressLine1 = "1 High Street";
@@ -42,6 +42,6 @@ public class UserRegistrationDtoFactory {
         return dto;
     }
 
-    private UserRegistrationDtoFactory() {
+    private RegistrationDtoFactory() {
     }
 }

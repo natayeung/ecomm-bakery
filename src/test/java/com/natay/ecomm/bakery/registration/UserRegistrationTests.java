@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
-import static com.natay.ecomm.bakery.registration.UserRegistrationDtoFactory.*;
+import static com.natay.ecomm.bakery.registration.RegistrationDtoFactory.*;
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author natayeung
  */
 @SpringBootTest
-@Import(TestConfig.class)
+@Import(RegistrationTestConfig.class)
 @ExtendWith(SoftAssertionsExtension.class)
 public class UserRegistrationTests {
 

@@ -10,4 +10,6 @@ public interface AddressPersistencePort {
     int add(UserAddress userAddress);
 
     Optional<UserAddress> findByEmail(String email);
+
+    void update(UserAddress userAddress);
 }

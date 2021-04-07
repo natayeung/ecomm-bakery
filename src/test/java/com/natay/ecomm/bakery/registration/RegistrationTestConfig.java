@@ -9,5 +9,5 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan({"com.natay.ecomm.bakery.registration"})
-public class TestConfig {
+public class RegistrationTestConfig {
 }
