@@ -11,7 +11,7 @@ public class RandomUtil {
         return RandomStringUtils.random(8, true, true) + "@gmail.com";
     }
 
-    public static String randomPass() {
+    public static String randomPassword() {
         return RandomStringUtils.random(4, true, true) + "pass";
     }
 

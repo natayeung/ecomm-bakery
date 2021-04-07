@@ -13,7 +13,7 @@ import static com.natay.ecomm.bakery.testutils.BasketTestHelper.addItemToBasket;
 import static com.natay.ecomm.bakery.testutils.BasketTestHelper.goToBasketPageFrom;
 import static com.natay.ecomm.bakery.testutils.LoginTestHelper.loginWithEmailAndPassword;
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
-import static com.natay.ecomm.bakery.testutils.RandomUtil.randomPass;
+import static com.natay.ecomm.bakery.testutils.RandomUtil.randomPassword;
 import static com.natay.ecomm.bakery.testutils.RegisterTestHelper.registerWithEmailAndPassword;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,12 +25,12 @@ public class CompleteOrderITests extends ControllerITests {
     @Test
     public void confirmationIsDisplayedWhenOrderIsComplete() throws IOException {
         final String email = randomEmail();
-        final String password = randomPass();
+        final String password = randomPassword();
         registerWithEmailAndPassword(mockMvc(), email, password);
         HtmlPage catalogPage = loginWithEmailAndPassword(webClient(), email, password);
         addItemToBasket(catalogPage, "bfc", 2);
         goToBasketPageFrom(catalogPage);
-        webClient().waitForBackgroundJavaScript(10000);
+        webClient().waitForBackgroundJavaScript(5000);
 
         HtmlPage resultPage = submitOrder();
 

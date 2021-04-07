@@ -19,18 +19,32 @@ import static org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuil
  */
 public class RegisterTestHelper {
 
+    public static HtmlPage registerWithEmailPasswordAndPostcode(MockMvc mockMvc, String email, String password, String postcode) throws IOException {
+        try (WebClient webClient = mockMvcSetup(mockMvc).build()) {
+
+            HtmlForm registerForm = getRegisterForm(webClient);
+            fillInRegistrationDetails(registerForm, email, password, postcode);
+
+            HtmlButton registerButton = registerForm.getButtonByName("register");
+            return registerButton.click();
+        }
+    }
+
     public static HtmlPage registerWithEmailAndPassword(MockMvc mockMvc, String email, String password) throws IOException {
         try (WebClient webClient = mockMvcSetup(mockMvc).build()) {
 
-            HtmlPage homePage = webClient.getPage(LOCALHOST);
-            HtmlPage registerPage = goToRegisterPageFrom(homePage);
-            HtmlForm registerForm = registerPage.getFormByName("form-register");
-
+            HtmlForm registerForm = getRegisterForm(webClient);
             fillInRegistrationDetails(registerForm, email, password);
 
             HtmlButton registerButton = registerForm.getButtonByName("register");
             return registerButton.click();
         }
+    }
+
+    private static HtmlForm getRegisterForm(WebClient webClient) throws IOException {
+        HtmlPage homePage = webClient.getPage(LOCALHOST);
+        HtmlPage registerPage = goToRegisterPageFrom(homePage);
+        return registerPage.getFormByName("form-register");
     }
 
     public static HtmlPage registerWithEmail(MockMvc mockMvc, String email) throws IOException {
@@ -42,11 +56,15 @@ public class RegisterTestHelper {
         return basketAnchor.click();
     }
 
-    private static void fillInRegistrationDetails(HtmlForm registerForm, String email, String password) {
+    private static void fillInRegistrationDetails(HtmlForm registerForm, String email, String password, String postcode) {
         fillInText(registerForm, "email", email);
         fillInPassword(registerForm, "password", password);
         fillInText(registerForm, "addressLine1", "12 High Street");
-        fillInText(registerForm, "postcode", "PO3 0ST");
+        fillInText(registerForm, "postcode", postcode);
+    }
+
+    private static void fillInRegistrationDetails(HtmlForm registerForm, String email, String password) {
+        fillInRegistrationDetails(registerForm, email, password, "PO3 0ST");
     }
 
     private RegisterTestHelper() {}
