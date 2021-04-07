@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.user;
+package com.natay.ecomm.bakery.registration;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

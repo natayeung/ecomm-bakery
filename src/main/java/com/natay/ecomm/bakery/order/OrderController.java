@@ -1,8 +1,10 @@
 package com.natay.ecomm.bakery.order;
 
-import com.natay.ecomm.bakery.user.dto.AddressDto;
+import com.natay.ecomm.bakery.security.UserCredentials;
+import com.natay.ecomm.bakery.registration.AddressDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.Optional;
+
 import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getBasket;
-import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getUser;
 
 /**
  * @author natayeung
@@ -25,6 +28,7 @@ public class OrderController {
 
     @PostMapping
     public String processOrder(@ModelAttribute("address") AddressDto addressDto,
+                               @AuthenticationPrincipal UserCredentials userCredentials,
                                HttpSession session,
                                ModelMap model) {
 
@@ -32,7 +36,8 @@ public class OrderController {
 
         processOrder(session);
 
-        getUser(session).ifPresent((u) -> model.addAttribute("user", u));
+        Optional.ofNullable(userCredentials).ifPresent(u -> model.addAttribute("user", u.getUsername()));
+
         session.invalidate();
 
         return "order-confirm";

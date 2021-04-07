@@ -1,6 +1,6 @@
-package com.natay.ecomm.bakery.user;
+package com.natay.ecomm.bakery.account;
 
-import com.natay.ecomm.bakery.user.dto.RegistrationDto;
+import com.natay.ecomm.bakery.registration.RegistrationDto;
 
 import java.util.Optional;
 

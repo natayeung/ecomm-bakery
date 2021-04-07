@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.user;
+package com.natay.ecomm.bakery.account;
 
 public class UserAccount {
 

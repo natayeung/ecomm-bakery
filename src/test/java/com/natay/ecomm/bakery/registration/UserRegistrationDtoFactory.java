@@ -1,6 +1,4 @@
-package com.natay.ecomm.bakery.user;
-
-import com.natay.ecomm.bakery.user.dto.RegistrationDto;
+package com.natay.ecomm.bakery.registration;
 
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 

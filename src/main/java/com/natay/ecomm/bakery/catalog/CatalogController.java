@@ -1,6 +1,8 @@
 package com.natay.ecomm.bakery.catalog;
 
+import com.natay.ecomm.bakery.security.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +13,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static com.natay.ecomm.bakery.session.SessionAttributeLookup.*;
+import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getBasket;
 import static java.util.Objects.isNull;
 
 /**
@@ -31,7 +34,8 @@ public class CatalogController {
     }
 
     @GetMapping
-    public String displayCatalog(HttpSession session,
+    public String displayCatalog(@AuthenticationPrincipal UserCredentials userCredentials,
+                                 HttpSession session,
                                  ModelMap model)
             throws ProductAccessException {
 
@@ -41,7 +45,7 @@ public class CatalogController {
         }
 
         getBasket(session).ifPresent((b) -> model.addAttribute("userBasket", b));
-        getUser(session).ifPresent((u) -> model.addAttribute("user", u));
+        Optional.ofNullable(userCredentials).ifPresent(u -> model.addAttribute("user", u.getUsername()));
 
         return "index";
     }

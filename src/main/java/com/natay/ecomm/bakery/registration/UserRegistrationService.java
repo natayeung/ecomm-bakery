@@ -1,6 +1,7 @@
-package com.natay.ecomm.bakery.user;
+package com.natay.ecomm.bakery.registration;
 
-import com.natay.ecomm.bakery.user.dto.RegistrationDto;
+import com.natay.ecomm.bakery.account.AccountService;
+import com.natay.ecomm.bakery.account.AddressService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,10 +20,8 @@ public class UserRegistrationService implements RegistrationService {
     }
 
     @Override
-    public User register(RegistrationDto dto) {
-        UserAccount registeredAccount = accountService.registerAccount(dto);
-        UserAddress registeredAddress = addressService.registerAddress(dto);
-
-        return User.with(registeredAccount, registeredAddress);
+    public void register(RegistrationDto dto) {
+        accountService.registerAccount(dto);
+        addressService.registerAddress(dto);
     }
 }

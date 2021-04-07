@@ -1,6 +1,7 @@
-package com.natay.ecomm.bakery.user;
+package com.natay.ecomm.bakery.registration;
 
-import com.natay.ecomm.bakery.user.dto.RegistrationDto;
+
+import com.natay.ecomm.bakery.account.*;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -14,9 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
-import static com.natay.ecomm.bakery.user.UserRegistrationDtoFactory.*;
+import static com.natay.ecomm.bakery.registration.UserRegistrationDtoFactory.*;
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author natayeung

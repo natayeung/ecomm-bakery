@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.user.dto;
+package com.natay.ecomm.bakery.registration;
 
 /**
  * @author natayeung

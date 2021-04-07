@@ -67,7 +67,7 @@
                 <div class="col-8">
                     <label for="address-line1" class="form-label">Address Line 1*</label>
                     <input type="text" class="form-control" id="address-line1" name="addressLine1"
-                           {{#user}}value="{{address.addressLine1}}"{{/user}} required>
+                           {{#address}}value="{{addressLine1}}"{{/address}} required>
                     <div class="invalid-feedback">
                         Address line 1 required.
                     </div>
@@ -75,12 +75,12 @@
                 <div class="col-8">
                     <label for="address-line2" class="form-label">Address Line 2</label>
                     <input type="text" class="form-control" id="address-line2" name="addressLine2"
-                           {{#user}}value="{{address.addressLine2}}"{{/user}}>
+                           {{#address}}value="{{addressLine2}}"{{/address}}>
                 </div>
                 <div class="col-6">
                     <label for="postcode" class="form-label">Post Code*</label>
                     <input type="text" class="form-control" id="postcode" name="postcode"
-                           {{#user}}value="{{address.postcode}}"{{/user}} required>
+                           {{#address}}value="{{postcode}}"{{/address}} required>
                     <div class="invalid-feedback">
                         Post code required.
                     </div>

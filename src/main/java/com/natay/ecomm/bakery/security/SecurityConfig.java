@@ -1,9 +1,11 @@
 package com.natay.ecomm.bakery.security;
 
-import com.natay.ecomm.bakery.user.AccountService;
-import com.natay.ecomm.bakery.user.UserAccount;
+import com.natay.ecomm.bakery.account.AccountService;
+import com.natay.ecomm.bakery.account.UserAccount;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,6 +34,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean (name = BeanIds.USER_DETAILS_SERVICE)
+    protected UserDetailsService userDetailsService() {
+        return username -> {
+            Optional<UserAccount> account = accountService.findAccountByEmail(username);
+            return account
+                    .map(acct -> UserCredentials.of(acct.email(), acct.password()))
+                    .orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
+
+        };
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
@@ -55,16 +74,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .failureHandler(authenticationFailureHandler);
-    }
-
-    @Bean
-    protected UserDetailsService userDetailsService() {
-        return username -> {
-            Optional<UserAccount> account = accountService.findAccountByEmail(username);
-            return account
-                    .map(acct -> UserCredentials.of(acct.email(), acct.password()))
-                    .orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
-
-        };
     }
 }

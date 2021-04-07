@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.user;
+package com.natay.ecomm.bakery.account;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
