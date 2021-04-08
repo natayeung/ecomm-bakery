@@ -12,12 +12,14 @@ import static com.natay.ecomm.bakery.utils.Arguments.*;
 public class Product {
 
     private final String id;
+    private final Type productType;
     private final String title;
     private final String description;
     private final BigDecimal price;
 
     private Product(Builder builder) {
         id = requireNonBlank(builder.productId, "Product ID cannot be blank");
+        productType = requireNonNull(builder.productType, "Product type must be specified");
         title = requireNonBlank(builder.title, "Title cannot be blank");
         description = Optional.ofNullable(builder.description).orElse("");
         price = validatePrice(builder.price);
@@ -29,6 +31,10 @@ public class Product {
 
     public String productId() {
         return id;
+    }
+
+    public Type productType() {
+        return productType;
     }
 
     public String title() {
@@ -46,7 +52,8 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "productId='" + id + '\'' +
+                "id='" + id + '\'' +
+                ", productType=" + productType +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
@@ -58,12 +65,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id.equals(product.id) && title.equals(product.title) && description.equals(product.description) && price.equals(product.price);
+        return id.equals(product.id) && productType == product.productType && title.equals(product.title) && Objects.equals(description, product.description) && price.equals(product.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, price);
+        return Objects.hash(id, productType, title, description, price);
     }
 
     private BigDecimal validatePrice(BigDecimal price) {
@@ -74,6 +81,7 @@ public class Product {
 
     public static final class Builder {
         private String productId;
+        private Type productType;
         private String title;
         private String description;
         private BigDecimal price;
@@ -83,6 +91,11 @@ public class Product {
 
         public Builder withProductId(String productId) {
             this.productId = productId;
+            return this;
+        }
+
+        public Builder withProductType(Type productType) {
+            this.productType = productType;
             return this;
         }
 
@@ -104,5 +117,10 @@ public class Product {
         public Product build() {
             return new Product(this);
         }
+    }
+
+    public enum Type {
+        WHOLE_CAKE,
+        CUPCAKE
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.util.SimpleIdGenerator;
 
 import java.math.BigDecimal;
 
+import static com.natay.ecomm.bakery.catalog.Product.Type.WHOLE_CAKE;
+
 /**
  * @author natayeung
  */
@@ -19,6 +21,7 @@ public class ProductFactory {
     public static Product createProductWithTitleAndPrice(String title, BigDecimal price) {
         return Product.newBuilder()
                 .withProductId(nextProductId())
+                .withProductType(WHOLE_CAKE)
                 .withTitle(title)
                 .withPrice(price)
                 .build();

@@ -10,5 +10,7 @@ public interface ProductQueryPort {
 
     List<Product> findAll();
 
+    List<Product> findByType(Product.Type type);
+
     Optional<Product> findById(String id);
 }

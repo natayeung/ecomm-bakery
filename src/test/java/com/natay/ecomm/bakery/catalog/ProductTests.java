@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.math.BigDecimal;
 
+import static com.natay.ecomm.bakery.catalog.Product.Type.WHOLE_CAKE;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -28,6 +29,7 @@ public class ProductTests {
     public void productCanBeConstructed() {
         Product constructed = Product.newBuilder()
                 .withProductId(productId)
+                .withProductType(WHOLE_CAKE)
                 .withTitle(title)
                 .withDescription(description)
                 .withPrice(price)
@@ -43,6 +45,19 @@ public class ProductTests {
     public void productIdIsMandatory() {
         assertThatThrownBy(() -> {
             Product.newBuilder()
+                    .withProductType(WHOLE_CAKE)
+                    .withTitle(title)
+                    .withDescription(description)
+                    .withPrice(price)
+                    .build();
+        }).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void productTypeIsMandatory() {
+        assertThatThrownBy(() -> {
+            Product.newBuilder()
+                    .withProductId(productId)
                     .withTitle(title)
                     .withDescription(description)
                     .withPrice(price)
@@ -55,6 +70,7 @@ public class ProductTests {
         assertThatThrownBy(() -> {
             Product.newBuilder()
                     .withProductId(productId)
+                    .withProductType(WHOLE_CAKE)
                     .withDescription(description)
                     .withPrice(price)
                     .build();
@@ -66,6 +82,7 @@ public class ProductTests {
         assertThatThrownBy(() -> {
             Product.newBuilder()
                     .withProductId(productId)
+                    .withProductType(WHOLE_CAKE)
                     .withTitle(title)
                     .withDescription(description)
                     .build();
@@ -78,6 +95,7 @@ public class ProductTests {
                 .isThrownBy(() ->
                         Product.newBuilder()
                                 .withProductId(productId)
+                                .withProductType(WHOLE_CAKE)
                                 .withTitle(title)
                                 .withDescription(description)
                                 .withPrice(BigDecimal.valueOf(-1.5))
@@ -88,6 +106,7 @@ public class ProductTests {
     public void descriptionIsOptional() {
         Product constructed = Product.newBuilder()
                 .withProductId(productId)
+                .withProductType(WHOLE_CAKE)
                 .withTitle(title)
                 .withPrice(price)
                 .build();

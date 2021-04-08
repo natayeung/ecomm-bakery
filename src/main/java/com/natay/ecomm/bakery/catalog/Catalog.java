@@ -5,7 +5,9 @@ import java.util.List;
 /**
  * @author natayeung
  */
-public interface Catalog<T> {
+public interface Catalog {
 
-    List<T> findAll() throws ProductAccessException;
+    List<Product> findAllProducts() throws ProductAccessException;
+
+    List<Product> findProductByType(Product.Type productType) throws ProductAccessException;
 }

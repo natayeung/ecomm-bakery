@@ -2,6 +2,7 @@ package com.natay.ecomm.bakery.catalog;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author natayeung
@@ -20,7 +21,12 @@ public class ProductQueryFakeAdapter implements ProductQueryPort {
     }
 
     @Override
+    public List<Product> findByType(Product.Type type) {
+        return products.stream().filter(p -> p.productType() == type).collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<Product> findById(String id) {
-        return Optional.empty();
+        return products.stream().filter(p -> p.productId().equals(id)).findFirst();
     }
 }

@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link href="css/navbar.css" rel="stylesheet"/>
-    <link href="css/carousel.css" rel="stylesheet"/>
     <link href="css/card.css" rel="stylesheet"/>
 </head>
 
@@ -17,37 +16,11 @@
 {{> header}}
 
 <main class="container">
-    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true"
-                    aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="3000">
-                <img src="/images/carousel/fresh_cupcakes.png" class="d-block w-100"
-                     alt="N-2 Bakery - flower cupcakes available">
-            </div>
-            <div class="carousel-item">
-                <img src="/images/carousel/local_delivery_available.png" class="d-block w-100"
-                     alt="N-2 Bakery - local delivery available">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         {{#catalog}}
             <div class="col">
                 <div class="card mb-4">
-                    <img src="/images/products/{{id}}.jpg" class="card-img-top" alt="{{title}}">
+                    <img src="/images/products/{{id}}.jpg" class="card-img-top" height="360" alt="{{title}}">
                     <div class="card-body">
                         <form name="form-add-item-{{id}}" method="post" action="/basket/add">
                             <input type="hidden" name="_csrf" value="{{_csrf.token}}">

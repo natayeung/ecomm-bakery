@@ -1,48 +1,46 @@
 package com.natay.ecomm.bakery.catalog;
 
 import com.natay.ecomm.bakery.security.UserCredentials;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getBasket;
-import static java.util.Objects.isNull;
 
 /**
  * @author natayeung
  */
 @Controller
 @RequestMapping("/")
-@SessionAttributes("catalog")
 public class CatalogController {
 
-    private final Catalog<Product> productCatalog;
+    private static final Logger logger = LoggerFactory.getLogger(CatalogController.class);
+
+    private final Catalog catalog;
 
     @Autowired
-    public CatalogController(Catalog<Product> productCatalog) {
-        this.productCatalog = productCatalog;
+    public CatalogController(Catalog catalog) {
+        this.catalog = catalog;
     }
 
     @GetMapping
-    public String displayCatalog(@AuthenticationPrincipal UserCredentials userCredentials,
-                                 HttpSession session,
-                                 ModelMap model)
+    public String displayCatalogForAllProducts(@AuthenticationPrincipal UserCredentials userCredentials,
+                                               HttpSession session,
+                                               ModelMap model)
             throws ProductAccessException {
 
-        if (isCatalogNotPopulated(model)) {
-            List<Product> products = productCatalog.findAll();
-            model.addAttribute("catalog", products);
-        }
+        List<Product> products = catalog.findAllProducts();
+        model.addAttribute("catalog", products);
 
         getBasket(session).ifPresent((b) -> model.addAttribute("userBasket", b));
         Optional.ofNullable(userCredentials).ifPresent(u -> model.addAttribute("user", u.getUsername()));
@@ -50,13 +48,21 @@ public class CatalogController {
         return "index";
     }
 
-    @ModelAttribute("catalog")
-    public List<Product> catalog() {
-        return new ArrayList<>();
-    }
+    @GetMapping("/catalog/{product-type}")
+    public String displayCatalogByType(@PathVariable(name = "product-type") String productType,
+                                       @AuthenticationPrincipal UserCredentials userCredentials,
+                                       HttpSession session,
+                                       ModelMap model)
+            throws ProductAccessException {
 
-    private boolean isCatalogNotPopulated(ModelMap model) {
-        Object catalog = model.getAttribute("catalog");
-        return isNull(catalog) || ((List<?>) catalog).isEmpty();
+        logger.info("Received request to display catalog for {}", productType);
+
+        List<Product> products = catalog.findProductByType(Product.Type.valueOf(productType));
+        model.addAttribute("catalog", products);
+
+        getBasket(session).ifPresent((b) -> model.addAttribute("userBasket", b));
+        Optional.ofNullable(userCredentials).ifPresent(u -> model.addAttribute("user", u.getUsername()));
+
+        return "catalog";
     }
 }

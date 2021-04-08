@@ -25,7 +25,7 @@ public class ProductCatalogTests {
 
     @Test
     public void canRetrieveAllProducts() throws ProductAccessException {
-        List<Product> retrieved = productCatalog.findAll();
+        List<Product> retrieved = productCatalog.findAllProducts();
 
         assertThat(retrieved).as("Retrieved products").containsExactlyInAnyOrder(redVelvet, rainbowSprinkles);
     }
