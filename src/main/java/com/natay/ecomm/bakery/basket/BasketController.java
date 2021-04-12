@@ -1,16 +1,15 @@
 package com.natay.ecomm.bakery.basket;
 
+import com.natay.ecomm.bakery.account.AddressService;
 import com.natay.ecomm.bakery.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
 import com.natay.ecomm.bakery.catalog.ProductQueryPort;
-import com.natay.ecomm.bakery.security.UserCredentials;
-import com.natay.ecomm.bakery.account.AddressService;
+import com.natay.ecomm.bakery.security.AuthenticatedUserLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getBasket;
 
@@ -31,10 +29,14 @@ public class BasketController {
 
     private static final Logger logger = LoggerFactory.getLogger(BasketController.class);
 
+    private final AuthenticatedUserLookup authenticatedUserLookup;
     private final AddressService addressService;
     private final Basket basket;
 
-    public BasketController(AddressService addressService, Basket basket) {
+    public BasketController(AuthenticatedUserLookup authenticatedUserLookup,
+                            AddressService addressService,
+                            Basket basket) {
+        this.authenticatedUserLookup = authenticatedUserLookup;
         this.addressService = addressService;
         this.basket = basket;
     }
@@ -65,14 +67,13 @@ public class BasketController {
     }
 
     @GetMapping
-    public String viewBasket(@AuthenticationPrincipal UserCredentials userCredentials,
-                             HttpSession session,
-                             ModelMap model) {
+    public String viewBasket(HttpSession session,
+                             Model model) {
 
         logger.info("Received request to view basket {}", basket.basketRef());
 
         getBasket(session).ifPresent((b) -> model.addAttribute("userBasket", b));
-        populateUsernameAndAddressIfFound(userCredentials, model);
+        populateModelWithUserAndAddressInfoIfPresent(model);
 
         return "basket";
     }
@@ -83,12 +84,14 @@ public class BasketController {
         return new ShoppingBasket(productQueryPort);
     }
 
-    private void populateUsernameAndAddressIfFound(UserCredentials userCredentials, ModelMap model) {
-        Optional.ofNullable(userCredentials).
-                ifPresent(u -> {
-                    model.addAttribute("user", u.getUsername());
-                    addressService.findAddressByEmail(u.getUsername())
-                            .ifPresent(a -> model.addAttribute("address", a));
-                });
+    private void populateModelWithUserAndAddressInfoIfPresent(Model model) {
+        authenticatedUserLookup.getAuthenticatedUser()
+                .ifPresent(
+                        u -> {
+                            model.addAttribute("user", u.username());
+
+                            addressService.findAddressByEmail(u.username())
+                                    .ifPresent(a -> model.addAttribute("address", a));
+                        });
     }
 }

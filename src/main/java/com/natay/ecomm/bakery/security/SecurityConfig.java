@@ -40,14 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean (name = BeanIds.USER_DETAILS_SERVICE)
+    @Bean(name = BeanIds.USER_DETAILS_SERVICE)
     protected UserDetailsService userDetailsService() {
         return username -> {
             Optional<UserAccount> account = accountService.findAccountByEmail(username);
             return account
                     .map(acct -> UserCredentials.of(acct.email(), acct.password()))
                     .orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
-
         };
     }
 
@@ -70,9 +69,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/")
                 .loginProcessingUrl("/authenticate")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .failureHandler(authenticationFailureHandler);
+                .failureHandler(authenticationFailureHandler)
+
+                .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .defaultSuccessUrl("/");
     }
 }

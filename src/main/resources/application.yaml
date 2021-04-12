@@ -11,3 +11,20 @@ spring:
 
   mustache:
     expose-request-attributes: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+#          google:
+#            client-id: ENC(Qa3xUz6E8HlI5XU2s9NccVRI6EhM6I86X2QGeG3gT1qAhemwaQM0h2R9ksW24nGzOvtmzt1I7xWyOur9ckyDraXDnsq19dP0tjSJzzMF7ETJUBOBrgMmTw==)
+#            client-secret: ENC(8A5RrSlPYcOy9D02uq1IkSIIs0T5CfS9qyuziEjqgu/HiztZ2T4IFw==)
+#            scope: email
+          facebook:
+            client-id: ENC(6PB+nFOG8Bgz+GWNlvi1BZggVTAuabEa)
+            client-secret: ENC(TV/eXgCu3h0KCTsluF8QgzvPcwMx3328asz+KrzlwB6tgReKCRJfm5x4d8/QejGu)
+            scope:
+              - email
+              - public_profile
+            user-name-attribute: email
+

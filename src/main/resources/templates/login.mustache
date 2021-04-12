@@ -16,6 +16,19 @@
 <main class="container">
     <div class="row my-3">
         <h4 class="mb-3">Sign In</h4>
+        <div class="text-center">
+            <a href="/oauth2/authorization/facebook" class="btn btn-secondary btn-block">Sign in with
+                <b>Facebook</b></a>
+        </div>
+        <div class="row">
+            <div class="col">
+                <hr>
+            </div>
+            <div class="col-auto">OR</div>
+            <div class="col">
+                <hr>
+            </div>
+        </div>
         <form name="form-login" class="needs-validation" novalidate method="post" action="/authenticate">
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
             <div class="row g-3">
@@ -47,10 +60,18 @@
                     <button name="login" class="btn btn-secondary btn-md my-3" type="submit">Sign In</button>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h6>Don't have an account?</h6></div>
+                <div class="col-4">
+                    <a href="/register" class="btn btn-secondary btn-block">Register</a>
+                </div>
+            </div>
         </form>
-    </div>
-    <div class="row">
-        <p>Don't have an account? <a href="/register">Register</a> now.</p>
     </div>
 </main>
 
@@ -60,5 +81,6 @@
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
 <script src="/js/form-validation.js"></script>
+
 </body>
 </html>
