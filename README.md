@@ -1,21 +1,22 @@
-##About
+
+## About
 This is an e-commerce web application for a mock bakery called N-2 Bakery. It is inspired by a [Manning's Live Project](https://www.manning.com/liveproject/building-an-e-commerce-web-application-with-spring-boot).
 
-##Features
+## Features
 * Product Catalog
 * Shopping Basket
 * User Registration/ Login
 * Facebook Login (WIP)
 * PayPal Checkout (WIP)
 
-##Built With
+## Built With
 * Java 11
 * Spring Boot 2.4.3
 * Bootstrap 5.0.0-beta2
 * Mustache
 * PostgreSQL
 
-##Credits
+## Credits
 * Credits to Adobe Spark for bakery logo and carousel images on landing page.
 * Credits to following for catalog images:
     * [Black forest cake](https://www.flickr.com/photos/junkii/4635697085/) / [CC BY-NC 2.0](https://creativecommons.org/licenses/by-nc/2.0/)
