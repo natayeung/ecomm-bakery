@@ -5,9 +5,9 @@ jasypt:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/dev?currentSchema=bakery
-    username: bakery_dev
-    password: ENC(YT38dgnsRs/GMo6bkOi7RJiJ0ByA9Qdm)
+    url: jdbc:postgresql://localhost:5432/prod?currentSchema=bakery
+    username: bakery_prod
+    password: ENC(1B95tKSYxomlH8SeQDgZY1BwrLpHMfj1)
 
   mustache:
     expose-request-attributes: true
@@ -23,6 +23,10 @@ spring:
               - email
               - public_profile
             user-name-attribute: email
+
+logging:
+  level:
+    root: INFO
 
 message:
   badCredentials: We didn't recognise your details. Please check your email and password.
