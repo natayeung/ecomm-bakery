@@ -6,7 +6,7 @@ This is an e-commerce web application for a mock bakery called N-2 Bakery. It is
 * Product Catalog
 * Shopping Basket
 * User Registration/ Login
-* Facebook Login (WIP)
+* Facebook Login 
 * PayPal Checkout (WIP)
 
 ## Built With
