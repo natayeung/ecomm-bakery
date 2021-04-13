@@ -11,7 +11,7 @@ public class AddressDto {
     @NotBlank
     private String addressLine1;
     private String addressLine2;
-    @Pattern(regexp = "^[A-Z]{1,2}\\d[A-Z\\d]? ?\\d[A-Z]{2}$")
+    @Pattern(regexp = "^[A-Za-z]{1,2}\\d[A-Za-z\\d]? ?\\d[A-Za-z]{2}$")
     private String postcode;
 
     public String getAddressLine1() {
