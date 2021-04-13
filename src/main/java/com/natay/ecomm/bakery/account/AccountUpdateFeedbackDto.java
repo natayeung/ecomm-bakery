@@ -1,16 +1,13 @@
-package com.natay.ecomm.bakery.registration;
+package com.natay.ecomm.bakery.account;
 
-public class RegistrationFeedbackDto {
-
-    private String emailErrorMessage;
-
-    private String passwordErrorMessage;
+/**
+ * @author natayeung
+ */
+public class AccountUpdateFeedbackDto {
 
     private String addressLine1ErrorMessage;
 
     private String postcodeErrorMessage;
-
-    private String lastInputEmail;
 
     private String lastInputAddressLine1;
 
@@ -18,24 +15,12 @@ public class RegistrationFeedbackDto {
 
     private String lastInputPostcode;
 
-    public String getEmailErrorMessage() {
-        return emailErrorMessage;
-    }
-
-    public String getPasswordErrorMessage() {
-        return passwordErrorMessage;
-    }
-
     public String getAddressLine1ErrorMessage() {
         return addressLine1ErrorMessage;
     }
 
     public String getPostcodeErrorMessage() {
         return postcodeErrorMessage;
-    }
-
-    public String getLastInputEmail() {
-        return lastInputEmail;
     }
 
     public String getLastInputAddressLine1() {
@@ -50,24 +35,12 @@ public class RegistrationFeedbackDto {
         return lastInputPostcode;
     }
 
-    public void setEmailErrorMessage(String emailErrorMessage) {
-        this.emailErrorMessage = emailErrorMessage;
-    }
-
-    public void setPasswordErrorMessage(String passwordErrorMessage) {
-        this.passwordErrorMessage = passwordErrorMessage;
-    }
-
     public void setAddressLine1ErrorMessage(String addressLine1ErrorMessage) {
         this.addressLine1ErrorMessage = addressLine1ErrorMessage;
     }
 
     public void setPostcodeErrorMessage(String postcodeErrorMessage) {
         this.postcodeErrorMessage = postcodeErrorMessage;
-    }
-
-    public void setLastInputEmail(String lastInputEmail) {
-        this.lastInputEmail = lastInputEmail;
     }
 
     public void setLastInputAddressLine1(String lastInputAddressLine1) {

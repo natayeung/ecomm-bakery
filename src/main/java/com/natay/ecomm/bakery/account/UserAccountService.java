@@ -25,7 +25,7 @@ public class UserAccountService implements AccountService {
     }
 
     @Override
-    public UserAccount registerAccount(RegistrationDto dto) throws EmailAlreadyUsedException {
+    public void registerAccount(RegistrationDto dto) throws EmailAlreadyUsedException {
         final String email = dto.getEmail();
         final String encodedPassword = passwordEncoder.encode(dto.getPassword());
 
@@ -36,8 +36,6 @@ public class UserAccountService implements AccountService {
 
         UserAccount newUserAccount = new UserAccount(email, encodedPassword);
         persistencePort.add(newUserAccount);
-
-        return newUserAccount;
     }
 
     @Override

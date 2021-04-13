@@ -18,7 +18,6 @@ public class ProductCatalog implements Catalog {
 
     private final ProductQueryPort productQueryPort;
 
-    @Autowired
     public ProductCatalog(ProductQueryPort productQueryPort) {
         this.productQueryPort = productQueryPort;
     }

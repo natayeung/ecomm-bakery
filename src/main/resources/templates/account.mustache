@@ -7,6 +7,7 @@
     <title>Account | N-2 Bakery</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
           integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/form-control.css">
 </head>
 
 <body>
@@ -19,30 +20,40 @@
         <form name="form-account" class="needs-validation" novalidate method="post" action="/account">
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
             <div class="row g-3">
+                {{#feedbackMessage}}
+                    <div class="col-8">
+                        <div class="alert alert-secondary" role="alert">
+                            {{feedbackMessage}}
+                        </div>
+                    </div>
+                {{/feedbackMessage}}
                 <div class="col-8">
                     <label for="email" class="form-label">Email</label>
                     <input type="text" readonly class="form-control" id="email" value={{user}}>
                 </div>
                 <div class="col-8">
-                    <label for="address-line1" class="form-label">Address Line 1<small
-                            class="form-text text-muted">*</small></label>
+                    <label for="address-line1"
+                           class="form-label {{#feedback}}{{#addressLine1ErrorMessage}}is-invalid{{/addressLine1ErrorMessage}}{{/feedback}}">Address
+                        Line 1<small class="form-text text-muted">*</small></label>
                     <input type="text" class="form-control" id="address-line1" name="addressLine1" required
-                           {{#address}}value="{{addressLine1}}"{{/address}}>
-                    <div class="invalid-feedback">
-                        Address line 1 required.
+                           {{#address}}value="{{addressLine1}}"{{/address}}{{#feedback}}{{#lastInputAddressLine1}}value="{{lastInputAddressLine1}}"{{/lastInputAddressLine1}}{{/feedback}}>
+                    <div class="invalid-feedback"
+                         id="address-line1-feedback-message">{{#feedback}}{{#addressLine1ErrorMessage}}{{addressLine1ErrorMessage}}{{/addressLine1ErrorMessage}}{{/feedback}}
                     </div>
                 </div>
                 <div class="col-8">
                     <label for="address-line2" class="form-label">Address Line 2</label>
                     <input type="text" class="form-control" id="address-line2" name="addressLine2"
-                           {{#address}}value="{{addressLine2}}"{{/address}}>
+                           {{#address}}value="{{addressLine2}}"{{/address}}{{#feedback}}{{#lastInputAddressLine2}}value="{{lastInputAddressLine2}}"{{/lastInputAddressLine2}}{{/feedback}}>
                 </div>
                 <div class="col-6">
-                    <label for="post-code" class="form-label">Post Code*</label>
+                    <label for="post-code"
+                           class="form-label {{#feedback}}{{#postcodeErrorMessage}}is-invalid{{/postcodeErrorMessage}}{{/feedback}}">Post
+                        Code<small class="form-text text-muted">*</small></label>
                     <input type="text" class="form-control" id="post-code" name="postcode" required
-                           {{#address}}value="{{postcode}}"{{/address}}>
-                    <div class="invalid-feedback">
-                        Post code required.
+                           {{#address}}value="{{postcode}}"{{/address}}{{#feedback}}{{#lastInputPostcode}}value="{{lastInputPostcode}}"{{/lastInputPostcode}}{{/feedback}}>
+                    <div class="invalid-feedback"
+                         id="postcode-feedback-message">{{#feedback}}{{#postcodeErrorMessage}}{{postcodeErrorMessage}}{{/postcodeErrorMessage}}{{/feedback}}
                     </div>
                 </div>
             </div>

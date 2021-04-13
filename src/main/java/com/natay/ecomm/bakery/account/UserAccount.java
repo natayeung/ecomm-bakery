@@ -1,5 +1,8 @@
 package com.natay.ecomm.bakery.account;
 
+/**
+ * @author natayeung
+ */
 public class UserAccount {
 
     private final String email;

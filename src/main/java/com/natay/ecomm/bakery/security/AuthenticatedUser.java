@@ -2,6 +2,9 @@ package com.natay.ecomm.bakery.security;
 
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
 
+/**
+ * @author natayeung
+ */
 public class AuthenticatedUser {
 
     private final String username;

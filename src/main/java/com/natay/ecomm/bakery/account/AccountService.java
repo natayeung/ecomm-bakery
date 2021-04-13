@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 public interface AccountService {
 
-    UserAccount registerAccount(RegistrationDto dto) throws EmailAlreadyUsedException;
+    void registerAccount(RegistrationDto dto) throws EmailAlreadyUsedException;
 
     Optional<UserAccount> findAccountByEmail(String email);
 }

@@ -32,8 +32,8 @@ public class CatalogController {
     }
 
     @GetMapping
-    public String displayCatalogForAllProducts(HttpSession session,
-                                     ModelMap model)
+    public String viewCatalogForAllProducts(HttpSession session,
+                                            ModelMap model)
             throws ProductAccessException {
 
         List<Product> products = catalog.findAllProducts();
@@ -45,9 +45,9 @@ public class CatalogController {
     }
 
     @GetMapping("/catalog/{product-type}")
-    public String displayCatalogByType(@PathVariable(name = "product-type") String productType,
-                                       HttpSession session,
-                                       ModelMap model)
+    public String viewCatalogByType(@PathVariable(name = "product-type") String productType,
+                                    HttpSession session,
+                                    ModelMap model)
             throws ProductAccessException {
 
         logger.info("Received request to display catalog for {}", productType);

@@ -1,6 +1,6 @@
 package com.natay.ecomm.bakery.account;
 
-import com.natay.ecomm.bakery.utils.Arguments;
+import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
 
 /**
  * @author natayeung
@@ -11,13 +11,6 @@ public class UserAddress {
     private final String addressLine1;
     private final String addressLine2;
     private final String postcode;
-
-    private UserAddress(String email, String addressLine1, String addressLine2, String postcode) {
-        this.email = email;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.postcode = postcode;
-    }
 
     private UserAddress(Builder builder) {
         email = builder.email;
@@ -66,7 +59,7 @@ public class UserAddress {
         }
 
         public Builder from(UserAddress userAddress) {
-            Arguments.requireNonNull(userAddress, "An address expected");
+            requireNonNull(userAddress, "An address expected");
 
             this.email = userAddress.email;
             this.addressLine1 = userAddress.addressLine1;

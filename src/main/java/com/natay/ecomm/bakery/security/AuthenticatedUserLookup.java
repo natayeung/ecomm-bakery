@@ -10,6 +10,9 @@ import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
+/**
+ * @author natayeung
+ */
 @Component
 public class AuthenticatedUserLookup {
 

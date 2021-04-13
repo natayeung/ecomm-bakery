@@ -32,13 +32,13 @@
         <form name="form-login" class="needs-validation" novalidate method="post" action="/authenticate">
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
             <div class="row g-3">
-                {{#feedback}}
+                {{#feedbackMessage}}
                     <div class="col-8">
                         <div class="alert alert-secondary" role="alert">
-                            {{feedback}}
+                            {{feedbackMessage}}
                         </div>
                     </div>
-                {{/feedback}}
+                {{/feedbackMessage}}
                 <div class="col-8">
                     <label for="email"
                            class="form-label">Email</label>

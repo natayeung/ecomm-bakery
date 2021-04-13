@@ -27,8 +27,8 @@ public class GlobalExceptionHandler {
         return "error";
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String handleIllegalArgumentException(IllegalArgumentException ex) {
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex) {
         logger.error("Unexpected error", ex);
         return "error";
     }

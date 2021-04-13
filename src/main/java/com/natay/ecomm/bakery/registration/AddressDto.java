@@ -1,12 +1,17 @@
 package com.natay.ecomm.bakery.registration;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 /**
  * @author natayeung
  */
 public class AddressDto {
 
+    @NotBlank
     private String addressLine1;
     private String addressLine2;
+    @Pattern(regexp = "^[A-Z]{1,2}\\d[A-Z\\d]? ?\\d[A-Z]{2}$")
     private String postcode;
 
     public String getAddressLine1() {

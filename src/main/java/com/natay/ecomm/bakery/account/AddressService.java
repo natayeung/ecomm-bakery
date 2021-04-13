@@ -10,9 +10,9 @@ import java.util.Optional;
  */
 public interface AddressService {
 
-    UserAddress registerAddress(RegistrationDto registrationDto);
-
-    Optional<UserAddress> findAddressByEmail(String email);
+    void registerAddress(RegistrationDto registrationDto);
 
     void updateAddress(String email, AddressDto addressDto);
+
+    Optional<UserAddress> findAddressByEmail(String email);
 }

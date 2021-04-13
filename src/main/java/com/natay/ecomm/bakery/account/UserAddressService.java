@@ -19,7 +19,7 @@ public class UserAddressService implements AddressService {
     }
 
     @Override
-    public UserAddress registerAddress(RegistrationDto registrationDto) {
+    public void registerAddress(RegistrationDto registrationDto) {
         final String email = registrationDto.getEmail();
         final String addressLine1 = registrationDto.getAddressLine1();
         final String addressLine2 = registrationDto.getAddressLine2();
@@ -33,13 +33,6 @@ public class UserAddressService implements AddressService {
                 .build();
 
         persistencePort.add(userAddress);
-
-        return userAddress;
-    }
-
-    @Override
-    public Optional<UserAddress> findAddressByEmail(String email) {
-        return persistencePort.findByEmail(email);
     }
 
     @Override
@@ -54,8 +47,11 @@ public class UserAddressService implements AddressService {
         persistencePort.findByEmail(email)
                 .ifPresentOrElse(
                         (a) -> persistencePort.update(address),
-                        () -> {
-                            throw new AccountNotFoundException("Address for " + email + " not found");
-                        });
+                        () -> persistencePort.add(address));
+    }
+
+    @Override
+    public Optional<UserAddress> findAddressByEmail(String email) {
+        return persistencePort.findByEmail(email);
     }
 }

@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UpdateAccountITests extends ControllerITests {
 
     @Test
-    public void canUpdateAccountAddress() throws IOException {
+    public void canUpdateAccountAddressIfValidationPasses() throws IOException {
         final String email = randomEmail();
         final String password = randomPassword();
         final String postcode = "PO7 5ET";
@@ -43,5 +43,29 @@ public class UpdateAccountITests extends ControllerITests {
 
         DomElement postcodeField = basketPage.getElementById("postcode");
         assertThat(postcodeField.getAttribute("value")).isEqualTo(newPostcode);
+    }
+
+    @Test
+    public void cannotUpdateAccountIfPostcodeValidationFails() throws IOException {
+        final String email = randomEmail();
+        final String password = randomPassword();
+        final String oldPostcode = "PO7 5ET";
+        final String newPostcode = "PO5";
+        registerWithEmailPasswordAndPostcode(mockMvc(), email, password, oldPostcode);
+        HtmlPage homePage = loginWithEmailAndPassword(webClient(), email, password);
+
+        HtmlPage accountPage = goToAccountPageFrom(homePage);
+        HtmlForm accountForm = accountPage.getFormByName("form-account");
+        fillInText(accountForm, "postcode", newPostcode);
+        clickUpdateButton(accountForm);
+        webClient().waitForBackgroundJavaScript(5000);
+
+        HtmlPage resultPage = (HtmlPage) webClient().getCurrentWindow().getEnclosedPage();
+        DomElement postcodeFeedbackMessage = resultPage.getElementById("postcode-feedback-message");
+        assertThat(postcodeFeedbackMessage.getTextContent()).containsIgnoringCase("Invalid postcode");
+
+        HtmlPage basketPage = goToBasketPageFrom(resultPage);
+        DomElement postcodeField = basketPage.getElementById("postcode");
+        assertThat(postcodeField.getAttribute("value")).isEqualTo(oldPostcode);
     }
 }
