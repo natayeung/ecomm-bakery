@@ -4,6 +4,8 @@ import com.natay.ecomm.bakery.account.AccountService;
 import com.natay.ecomm.bakery.account.AddressService;
 import org.springframework.stereotype.Service;
 
+import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
+
 /**
  * @author natayeung
  */
@@ -20,8 +22,10 @@ public class UserRegistrationService implements RegistrationService {
     }
 
     @Override
-    public void register(RegistrationDto dto) {
-        accountService.registerAccount(dto);
-        addressService.registerAddress(dto);
+    public void register(RegistrationDto registrationDto) {
+        requireNonNull(registrationDto, "Registration dto must be specified");
+
+        accountService.registerAccount(registrationDto);
+        addressService.registerAddress(registrationDto);
     }
 }

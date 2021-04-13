@@ -2,11 +2,12 @@ package com.natay.ecomm.bakery.catalog;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
 
 /**
  * @author natayeung
@@ -24,7 +25,7 @@ public class ProductCatalog implements Catalog {
 
     @Override
     public List<Product> findAllProducts() throws ProductAccessException {
-        final List<Product> retrievedProducts;
+        List<Product> retrievedProducts;
         try {
             retrievedProducts = productQueryPort.findAll();
             logger.info("Retrieved {} products.", retrievedProducts.size());
@@ -37,7 +38,9 @@ public class ProductCatalog implements Catalog {
 
     @Override
     public List<Product> findProductByType(Product.Type productType) throws ProductAccessException {
-        final List<Product> retrievedProducts;
+        requireNonNull(productType, "Product type must be specified");
+
+        List<Product> retrievedProducts;
         try {
             retrievedProducts = productQueryPort.findByType(productType);
             logger.info("Retrieved {} {} products.", retrievedProducts.size(), productType);

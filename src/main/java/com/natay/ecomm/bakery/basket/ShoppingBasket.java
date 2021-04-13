@@ -33,10 +33,9 @@ public class ShoppingBasket implements Basket {
     @Override
     public void addItem(String productId)
             throws ProductAccessException, ProductNotFoundException {
-
         requireNonBlank(productId, "Product ID must be specified");
-        Product product = findProductById(productId);
 
+        Product product = findProductById(productId);
         BasketItem basketItem = getBasketItem(product);
         basketItem.addOne();
 

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
+import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
+
 /**
  * @author natayeung
  */
@@ -20,16 +23,13 @@ public class UserAddressService implements AddressService {
 
     @Override
     public void registerAddress(RegistrationDto registrationDto) {
-        final String email = registrationDto.getEmail();
-        final String addressLine1 = registrationDto.getAddressLine1();
-        final String addressLine2 = registrationDto.getAddressLine2();
-        final String postcode = registrationDto.getPostcode();
+        requireNonNull(registrationDto, "Registration dto must be specified");
 
         UserAddress userAddress = UserAddress.create()
-                .withEmail(email)
-                .withAddressLine1(addressLine1)
-                .withAddressLine2(addressLine2)
-                .withPostcode(postcode)
+                .withEmail(registrationDto.getEmail())
+                .withAddressLine1(registrationDto.getAddressLine1())
+                .withAddressLine2(registrationDto.getAddressLine2())
+                .withPostcode(registrationDto.getPostcode().toUpperCase())
                 .build();
 
         persistencePort.add(userAddress);
@@ -37,11 +37,13 @@ public class UserAddressService implements AddressService {
 
     @Override
     public void updateAddress(String email, AddressDto addressDto) {
+        requireNonNull(addressDto, "Address dto must be specified");
+
         UserAddress address = UserAddress.create()
                 .withEmail(email)
                 .withAddressLine1(addressDto.getAddressLine1())
                 .withAddressLine2(addressDto.getAddressLine2())
-                .withPostcode(addressDto.getPostcode())
+                .withPostcode(addressDto.getPostcode().toUpperCase())
                 .build();
 
         persistencePort.findByEmail(email)
@@ -52,6 +54,8 @@ public class UserAddressService implements AddressService {
 
     @Override
     public Optional<UserAddress> findAddressByEmail(String email) {
+        requireNonBlank(email, "Email cannot be blank");
+
         return persistencePort.findByEmail(email);
     }
 }

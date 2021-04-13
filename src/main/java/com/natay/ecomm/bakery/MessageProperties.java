@@ -16,6 +16,7 @@ public class MessageProperties {
     private String invalidAddressLine1;
     private String invalidPostcode;
     private String invalidPassword;
+    private String accountUpdated;
 
     public String getBadCredentials() {
         return badCredentials;
@@ -45,6 +46,10 @@ public class MessageProperties {
         return invalidPassword;
     }
 
+    public String getAccountUpdated() {
+        return accountUpdated;
+    }
+
     public void setBadCredentials(String badCredentials) {
         this.badCredentials = badCredentials;
     }
@@ -71,5 +76,9 @@ public class MessageProperties {
 
     public void setInvalidPassword(String invalidPassword) {
         this.invalidPassword = invalidPassword;
+    }
+
+    public void setAccountUpdated(String accountUpdated) {
+        this.accountUpdated = accountUpdated;
     }
 }

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
+import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
+
 /**
  * @author natayeung
  */
@@ -25,9 +28,12 @@ public class UserAccountService implements AccountService {
     }
 
     @Override
-    public void registerAccount(RegistrationDto dto) throws EmailAlreadyUsedException {
-        final String email = dto.getEmail();
-        final String encodedPassword = passwordEncoder.encode(dto.getPassword());
+    public void registerAccount(RegistrationDto registrationDto)
+            throws EmailAlreadyUsedException {
+        requireNonNull(registrationDto, "Registration dto must be specified");
+
+        final String email = registrationDto.getEmail();
+        final String encodedPassword = passwordEncoder.encode(registrationDto.getPassword());
 
         persistencePort.findByEmail(email)
                 .ifPresent(account -> {
@@ -40,6 +46,8 @@ public class UserAccountService implements AccountService {
 
     @Override
     public Optional<UserAccount> findAccountByEmail(String email) {
+        requireNonBlank(email, "Email cannot be blank");
+
         logger.info("Finding account by email {}", email);
         return persistencePort.findByEmail(email);
     }

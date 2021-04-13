@@ -52,7 +52,7 @@ public class AccountController {
                         () -> logger.warn("Unable to retrieve account details: no authenticated user"));
 
         if (updatedSuccessfully) {
-            model.addAttribute("feedbackMessage", "Account details updated");
+            model.addAttribute("feedbackMessage", messageProperties.getAccountUpdated());
         }
 
         return "account";

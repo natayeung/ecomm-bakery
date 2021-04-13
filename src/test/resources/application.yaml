@@ -32,3 +32,4 @@ message:
   invalidPassword: Password must be between 6 and 8 characters.
   invalidAddressLine1: Invalid address line 1.
   invalidPostcode: Invalid postcode.
+  accountUpdated: Account details updated.
