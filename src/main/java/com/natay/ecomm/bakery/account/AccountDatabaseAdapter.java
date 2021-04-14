@@ -50,7 +50,7 @@ public class AccountDatabaseAdapter implements AccountPersistencePort {
     }
 
     private RowMapper<UserAccount> userAccountRowMapper() {
-        return (rs, rowNum) -> new UserAccount(
+        return (rs, row) -> new UserAccount(
                 rs.getString("email"),
                 rs.getString("password"));
     }

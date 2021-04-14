@@ -19,6 +19,7 @@ public class ProductQueryDatabaseAdapter implements ProductQueryPort {
     private static final String FIND_ALL_QUERY = "SELECT product_id, product_type, title, description, price FROM products";
     private static final String FIND_BY_TYPE_QUERY = "SELECT * FROM products WHERE product_type = :productType";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM products WHERE product_id = :productId";
+
     private final RowMapper<Product> rowMapper = productRowMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
 

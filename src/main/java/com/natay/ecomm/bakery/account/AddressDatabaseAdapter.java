@@ -56,7 +56,7 @@ public class AddressDatabaseAdapter implements AddressPersistencePort {
     }
 
     private RowMapper<UserAddress> userAddressRowMapper() {
-        return (rs, rowNum) ->
+        return (rs, row) ->
                 UserAddress.create()
                         .withEmail(rs.getString("email"))
                         .withAddressLine1(rs.getString("address_line_1"))

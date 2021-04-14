@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,12 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import static com.natay.ecomm.bakery.registration.RegistrationFeedbackDtoFactory.createRegistrationFeedbackDtoForEmailAlreadyInUse;
 import static com.natay.ecomm.bakery.registration.RegistrationFeedbackDtoFactory.createRegistrationFeedbackDtoForValidationErrors;
-import static com.natay.ecomm.bakery.session.SessionAttributeLookup.getBasket;
 
 /**
  * @author natayeung
@@ -47,11 +45,7 @@ public class UserRegistrationController {
     }
 
     @GetMapping
-    public String showRegistrationForm(HttpSession session,
-                                       ModelMap model) {
-
-        getBasket(session).ifPresent((b) -> model.addAttribute("userBasket", b));
-
+    public String showRegistrationForm() {
         return "register";
     }
 
@@ -59,30 +53,24 @@ public class UserRegistrationController {
     public String registerUser(@ModelAttribute("registration") @Valid RegistrationDto registrationDto,
                                BindingResult bindingResult,
                                HttpServletRequest request,
-                               ModelMap model) {
-
+                               Model model) {
         logger.info("Received request to register user {}", registrationDto);
 
         if (bindingResult.hasErrors()) {
             logger.warn("Unable to register user, validation failed: {}", bindingResult.getFieldErrors());
-
             RegistrationFeedbackDto feedbackDto = createRegistrationFeedbackDtoForValidationErrors(registrationDto, bindingResult, messageProperties);
-            model.put("feedback", feedbackDto);
-
+            model.addAttribute("feedback", feedbackDto);
             return "register";
         }
 
         try {
             registrationService.register(registrationDto);
             autoLogin(request, registrationDto.getEmail(), registrationDto.getPassword());
-
         } catch (EmailAlreadyUsedException ex) {
             RegistrationFeedbackDto feedbackDto = createRegistrationFeedbackDtoForEmailAlreadyInUse(registrationDto, messageProperties);
-            model.put("feedback", feedbackDto);
-
+            model.addAttribute("feedback", feedbackDto);
             return "register";
         }
-
         return "redirect:/";
     }
 
@@ -91,7 +79,6 @@ public class UserRegistrationController {
         authToken.setDetails(new WebAuthenticationDetails(request));
 
         Authentication authentication = authenticationManager.authenticate(authToken);
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

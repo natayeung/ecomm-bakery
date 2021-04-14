@@ -13,22 +13,22 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/basket">Basket <strong
-                                id="basket-item-count">{{^userBasket}}
-                            0{{/userBasket}}{{#userBasket}}{{itemCount}}{{/userBasket}}</strong> Item(s)</a>
+                                id="basket-item-count">{{^basket}}
+                            0{{/basket}}{{#basket}}{{itemCount}}{{/basket}}</strong> Item(s)</a>
                     </li>
-                    {{^user}}
+                    {{^account}}
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/login">Sign In</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/register">Register</a>
                         </li>
-                    {{/user}}
-                    {{#user}}
+                    {{/account}}
+                    {{#account}}
                         <li class="nav-item">
-                            <a class="nav-link active" href="/account">{{user}}</a>
+                            <a class="nav-link active" href="/account">{{account}}</a>
                         </li>
-                    {{/user}}
+                    {{/account}}
                 </ul>
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">

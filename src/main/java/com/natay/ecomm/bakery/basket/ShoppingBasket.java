@@ -7,7 +7,10 @@ import com.natay.ecomm.bakery.catalog.ProductQueryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -17,8 +20,11 @@ import static java.util.Objects.isNull;
 /**
  * @author natayeung
  */
-public class ShoppingBasket implements Basket {
+@SessionScope
+@Component
+public class ShoppingBasket implements Basket, Serializable {
 
+    private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(ShoppingBasket.class);
 
     private final String basketRef = UUID.randomUUID().toString();

@@ -1,6 +1,8 @@
 package com.natay.ecomm.bakery.account;
 
 import com.natay.ecomm.bakery.MessageProperties;
+import com.natay.ecomm.bakery.basket.Basket;
+import com.natay.ecomm.bakery.basket.SessionBasket;
 import com.natay.ecomm.bakery.registration.AddressDto;
 import com.natay.ecomm.bakery.security.AuthenticatedUser;
 import com.natay.ecomm.bakery.security.AuthenticatedUserLookup;
@@ -27,27 +29,39 @@ public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     private final AuthenticatedUserLookup authenticatedUserLookup;
+    private final SessionBasket sessionBasket;
     private final AddressService addressService;
     private final MessageProperties messageProperties;
 
-    public AccountController(AuthenticatedUserLookup authenticatedUserLookup, AddressService addressService, MessageProperties messageProperties) {
+    public AccountController(AuthenticatedUserLookup authenticatedUserLookup,
+                             SessionBasket sessionBasket,
+                             AddressService addressService,
+                             MessageProperties messageProperties) {
         this.authenticatedUserLookup = authenticatedUserLookup;
+        this.sessionBasket = sessionBasket;
         this.addressService = addressService;
         this.messageProperties = messageProperties;
+    }
+
+    @ModelAttribute("account")
+    public String addAccountToModel() {
+        return authenticatedUserLookup.getAuthenticatedUser()
+                .flatMap(u -> Optional.of(u.username())).orElse(null);
+    }
+
+    @ModelAttribute("basket")
+    public Basket addBasketToModel() {
+        return sessionBasket.getBasket();
     }
 
     @GetMapping
     public String viewAccountDetails(@RequestParam(value = "update-success", required = false) boolean updatedSuccessfully,
                                      ModelMap model) {
-
         authenticatedUserLookup.getAuthenticatedUser()
                 .ifPresentOrElse(
                         u -> {
-                            final String username = u.username();
-                            logger.info("Received request to view account details for {}", username);
-
-                            model.addAttribute("user", username);
-                            populateModelWithAddressInfoIfPresent(model, username);
+                            logger.info("Received request to view account details for {}", u.username());
+                            addAddressToModelIfPresent(model, u.username());
                         },
                         () -> logger.warn("Unable to retrieve account details: no authenticated user"));
 
@@ -62,25 +76,21 @@ public class AccountController {
     public String updateAccountDetails(@ModelAttribute("address") @Valid AddressDto addressDto,
                                        BindingResult bindingResult,
                                        Model model) {
-
         Optional<AuthenticatedUser> user = authenticatedUserLookup.getAuthenticatedUser();
-
         if (bindingResult.hasErrors()) {
             logger.warn("Unable to update account details {}, validation failed: {}", addressDto, bindingResult.getFieldErrors());
             user.ifPresentOrElse(
-                    u -> populateModelWithFeedback(addressDto, bindingResult, model, u),
+                    u -> addFeedbackToModel(addressDto, bindingResult, model, u),
                     () -> {
                         throw new IllegalStateException("Authenticated user expected");
                     }
             );
-
             return "account";
         }
 
         user.ifPresentOrElse(
                 u -> {
                     logger.info("Received request to update account details for {}: {}", u.username(), addressDto);
-
                     addressService.updateAddress(u.username(), addressDto);
                 },
                 () -> {
@@ -90,13 +100,12 @@ public class AccountController {
         return "redirect:/account?update-success=true";
     }
 
-    private void populateModelWithFeedback(AddressDto addressDto, BindingResult bindingResult, Model model, AuthenticatedUser user) {
+    private void addFeedbackToModel(AddressDto addressDto, BindingResult bindingResult, Model model, AuthenticatedUser user) {
         AccountUpdateFeedbackDto feedbackDto = createAccountUpdateFeedbackDtoForValidationErrors(addressDto, bindingResult, messageProperties);
         model.addAttribute("feedback", feedbackDto);
-        model.addAttribute("user", user.username());
     }
 
-    private void populateModelWithAddressInfoIfPresent(ModelMap model, String username) {
+    private void addAddressToModelIfPresent(ModelMap model, String username) {
         addressService.findAddressByEmail(username)
                 .ifPresentOrElse(
                         a -> model.addAttribute("address", a),
