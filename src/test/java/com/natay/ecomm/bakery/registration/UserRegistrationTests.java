@@ -2,6 +2,7 @@ package com.natay.ecomm.bakery.registration;
 
 
 import com.natay.ecomm.bakery.account.*;
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -9,10 +10,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Optional;
 
@@ -20,13 +22,21 @@ import static com.natay.ecomm.bakery.registration.RegistrationDtoFactory.*;
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 /**
  * @author natayeung
  */
-@SpringBootTest
+@JdbcTest()
+@AutoConfigureTestDatabase(replace = NONE)
+@ContextConfiguration(classes = {
+        AddressDatabaseAdapter.class,
+        AccountDatabaseAdapter.class,
+        BCryptPasswordEncoder.class,
+        UserAddressService.class,
+        UserAccountService.class})
 @ActiveProfiles("dev")
-@Import(RegistrationTestConfig.class)
+@EnableEncryptableProperties
 @ExtendWith(SoftAssertionsExtension.class)
 public class UserRegistrationTests {
 
@@ -74,7 +84,7 @@ public class UserRegistrationTests {
 
         userRegistrationService.register(dto);
 
-        Optional<UserAddress> foundUserAddress = addressService.findAddressByEmail(dto.getEmail());
+        Optional<Address> foundUserAddress = addressService.findAddressByEmail(dto.getEmail());
         assertThat(foundUserAddress)
                 .isNotEmpty()
                 .hasValueSatisfying((addr) -> {

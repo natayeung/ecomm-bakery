@@ -22,7 +22,7 @@ public class AddressDatabaseAdapter implements AddressPersistencePort {
     private static final String INSERT_QUERY = "INSERT INTO addresses (email, address_line_1, address_line_2, postcode) VALUES (:email, :addressLine1, :addressLine2, :postcode)";
     private static final String UPDATE_QUERY = "UPDATE addresses SET address_line_1 = :addressLine1, address_line_2 = :addressLine2, postcode = :postcode WHERE email = :email";
 
-    private final RowMapper<UserAddress> rowMapper = userAddressRowMapper();
+    private final RowMapper<Address> rowMapper = userAddressRowMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public AddressDatabaseAdapter(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -30,9 +30,9 @@ public class AddressDatabaseAdapter implements AddressPersistencePort {
     }
 
     @Override
-    public int add(UserAddress userAddress) {
+    public int add(Address address) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        SqlParameterSource parameters = parameters(userAddress);
+        SqlParameterSource parameters = parameters(address);
 
         jdbcTemplate.update(INSERT_QUERY, parameters, keyHolder, keyColumnNames());
 
@@ -40,24 +40,24 @@ public class AddressDatabaseAdapter implements AddressPersistencePort {
     }
 
     @Override
-    public Optional<UserAddress> findByEmail(String email) {
+    public Optional<Address> findByEmail(String email) {
         Map<String, String> parameters = Map.of("email", email);
 
-        List<UserAddress> retrievedAddresses = jdbcTemplate.query(FIND_BY_EMAIL_QUERY, parameters, rowMapper);
+        List<Address> retrievedAddresses = jdbcTemplate.query(FIND_BY_EMAIL_QUERY, parameters, rowMapper);
 
         return retrievedAddresses.stream().findFirst();
     }
 
     @Override
-    public void update(UserAddress userAddress) {
-        SqlParameterSource parameters = parameters(userAddress);
+    public void update(Address address) {
+        SqlParameterSource parameters = parameters(address);
 
         jdbcTemplate.update(UPDATE_QUERY, parameters);
     }
 
-    private RowMapper<UserAddress> userAddressRowMapper() {
+    private RowMapper<Address> userAddressRowMapper() {
         return (rs, row) ->
-                UserAddress.create()
+                Address.builder()
                         .withEmail(rs.getString("email"))
                         .withAddressLine1(rs.getString("address_line_1"))
                         .withAddressLine2(rs.getString("address_line_2"))
@@ -69,11 +69,11 @@ public class AddressDatabaseAdapter implements AddressPersistencePort {
         return new String[]{"address_id"};
     }
 
-    private MapSqlParameterSource parameters(UserAddress userAddress) {
+    private MapSqlParameterSource parameters(Address address) {
         return new MapSqlParameterSource()
-                .addValue("email", userAddress.email())
-                .addValue("addressLine1", userAddress.addressLine1())
-                .addValue("addressLine2", userAddress.addressLine2())
-                .addValue("postcode", userAddress.postcode());
+                .addValue("email", address.email())
+                .addValue("addressLine1", address.addressLine1())
+                .addValue("addressLine2", address.addressLine2())
+                .addValue("postcode", address.postcode());
     }
 }

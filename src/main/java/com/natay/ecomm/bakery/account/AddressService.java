@@ -14,5 +14,5 @@ public interface AddressService {
 
     void updateAddress(String email, AddressDto addressDto);
 
-    Optional<UserAddress> findAddressByEmail(String email);
+    Optional<Address> findAddressByEmail(String email);
 }

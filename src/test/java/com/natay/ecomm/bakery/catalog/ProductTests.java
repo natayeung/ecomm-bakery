@@ -27,7 +27,7 @@ public class ProductTests {
 
     @Test
     public void productCanBeConstructed() {
-        Product constructed = Product.newBuilder()
+        Product constructed = Product.builder()
                 .withProductId(productId)
                 .withProductType(WHOLE_CAKE)
                 .withTitle(title)
@@ -44,7 +44,7 @@ public class ProductTests {
     @Test
     public void productIdIsMandatory() {
         assertThatThrownBy(() -> {
-            Product.newBuilder()
+            Product.builder()
                     .withProductType(WHOLE_CAKE)
                     .withTitle(title)
                     .withDescription(description)
@@ -56,7 +56,7 @@ public class ProductTests {
     @Test
     public void productTypeIsMandatory() {
         assertThatThrownBy(() -> {
-            Product.newBuilder()
+            Product.builder()
                     .withProductId(productId)
                     .withTitle(title)
                     .withDescription(description)
@@ -68,7 +68,7 @@ public class ProductTests {
     @Test
     public void titleIsMandatory() {
         assertThatThrownBy(() -> {
-            Product.newBuilder()
+            Product.builder()
                     .withProductId(productId)
                     .withProductType(WHOLE_CAKE)
                     .withDescription(description)
@@ -80,7 +80,7 @@ public class ProductTests {
     @Test
     public void priceIsMandatory() {
         assertThatThrownBy(() -> {
-            Product.newBuilder()
+            Product.builder()
                     .withProductId(productId)
                     .withProductType(WHOLE_CAKE)
                     .withTitle(title)
@@ -93,7 +93,7 @@ public class ProductTests {
     public void priceCannotBeNegative() {
         assertThatIllegalArgumentException()
                 .isThrownBy(() ->
-                        Product.newBuilder()
+                        Product.builder()
                                 .withProductId(productId)
                                 .withProductType(WHOLE_CAKE)
                                 .withTitle(title)
@@ -104,7 +104,7 @@ public class ProductTests {
 
     @Test
     public void descriptionIsOptional() {
-        Product constructed = Product.newBuilder()
+        Product constructed = Product.builder()
                 .withProductId(productId)
                 .withProductType(WHOLE_CAKE)
                 .withTitle(title)

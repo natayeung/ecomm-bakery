@@ -19,7 +19,7 @@ public class ProductFactory {
     }
 
     public static Product createProductWithTitleAndPrice(String title, BigDecimal price) {
-        return Product.newBuilder()
+        return Product.builder()
                 .withProductId(nextProductId())
                 .withProductType(WHOLE_CAKE)
                 .withTitle(title)

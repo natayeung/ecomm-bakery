@@ -13,7 +13,7 @@ public class RegistrationDtoFactory {
 
     public static RegistrationDto createRegistrationDtoWithEmailAndPassword(String email,
                                                                             String password) {
-        final RegistrationDto dto = new RegistrationDto();
+        RegistrationDto dto = new RegistrationDto();
         dto.setEmail(email);
         dto.setPassword(password);
         dto.setAddressLine1(addressLine1);
@@ -24,7 +24,7 @@ public class RegistrationDtoFactory {
     public static RegistrationDto createRegistrationDtoWithAddressDetails(String addressLine1,
                                                                           String addressLine2,
                                                                           String postcode) {
-        final RegistrationDto dto = new RegistrationDto();
+        RegistrationDto dto = new RegistrationDto();
         dto.setEmail(randomEmail());
         dto.setPassword(password);
         dto.setAddressLine1(addressLine1);
@@ -34,7 +34,7 @@ public class RegistrationDtoFactory {
     }
 
     public static RegistrationDto createRegistrationDtoWithEmail(String email) {
-        final RegistrationDto dto = new RegistrationDto();
+        RegistrationDto dto = new RegistrationDto();
         dto.setEmail(email);
         dto.setPassword(password);
         dto.setAddressLine1(addressLine1);

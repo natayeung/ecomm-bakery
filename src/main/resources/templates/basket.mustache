@@ -62,9 +62,9 @@
     </div>
     <div class="row my-3">
         <h4 class="mb-3">Delivery Address</h4>
-        <form name="form-delivery-address" class="needs-validation" novalidate method="post" action="/order">
+        <form name="form-checkout" class="needs-validation" novalidate method="post" action="/checkout">
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-            <div class="row g-3">
+            <div class="row g-2">
                 <div class="col-8">
                     <label for="address-line1" class="form-label">Address Line 1<small
                             class="form-text text-muted">*</small></label>
@@ -91,10 +91,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row my-3">
                 <div class="col">
-                    <button name="complete-order" class="btn btn-secondary btn-md my-3" type="submit">Complete Order
-                    </button>
+                    <input type="image"
+                           src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png"
+                           alt="Check out with PayPal" name="initiate-checkout">
                 </div>
             </div>
         </form>

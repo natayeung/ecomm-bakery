@@ -25,21 +25,21 @@ public class UserAddressService implements AddressService {
     public void registerAddress(RegistrationDto registrationDto) {
         requireNonNull(registrationDto, "Registration dto must be specified");
 
-        UserAddress userAddress = UserAddress.create()
+        Address address = Address.builder()
                 .withEmail(registrationDto.getEmail())
                 .withAddressLine1(registrationDto.getAddressLine1())
                 .withAddressLine2(registrationDto.getAddressLine2())
                 .withPostcode(registrationDto.getPostcode().toUpperCase())
                 .build();
 
-        persistencePort.add(userAddress);
+        persistencePort.add(address);
     }
 
     @Override
     public void updateAddress(String email, AddressDto addressDto) {
         requireNonNull(addressDto, "Address dto must be specified");
 
-        UserAddress address = UserAddress.create()
+        Address address = Address.builder()
                 .withEmail(email)
                 .withAddressLine1(addressDto.getAddressLine1())
                 .withAddressLine2(addressDto.getAddressLine2())
@@ -53,7 +53,7 @@ public class UserAddressService implements AddressService {
     }
 
     @Override
-    public Optional<UserAddress> findAddressByEmail(String email) {
+    public Optional<Address> findAddressByEmail(String email) {
         requireNonBlank(email, "Email cannot be blank");
 
         return persistencePort.findByEmail(email);

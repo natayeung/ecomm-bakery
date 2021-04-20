@@ -1,8 +1,8 @@
 package com.natay.ecomm.bakery.account;
 
-import com.natay.ecomm.bakery.MessageProperties;
-import com.natay.ecomm.bakery.basket.Basket;
+import com.natay.ecomm.bakery.basket.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
+import com.natay.ecomm.bakery.configuration.MessageProperties;
 import com.natay.ecomm.bakery.registration.AddressDto;
 import com.natay.ecomm.bakery.security.AuthenticatedUser;
 import com.natay.ecomm.bakery.security.AuthenticatedUserLookup;
@@ -46,11 +46,11 @@ public class AccountController {
     @ModelAttribute("account")
     public String addAccountToModel() {
         return authenticatedUserLookup.getAuthenticatedUser()
-                .flatMap(u -> Optional.of(u.username())).orElse(null);
+                .map(AuthenticatedUser::username).orElse(null);
     }
 
     @ModelAttribute("basket")
-    public Basket addBasketToModel() {
+    public BasketDto addBasketToModel() {
         return sessionBasket.getBasket();
     }
 

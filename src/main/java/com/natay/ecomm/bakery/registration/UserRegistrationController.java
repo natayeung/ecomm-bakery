@@ -1,6 +1,6 @@
 package com.natay.ecomm.bakery.registration;
 
-import com.natay.ecomm.bakery.MessageProperties;
+import com.natay.ecomm.bakery.configuration.MessageProperties;
 import com.natay.ecomm.bakery.account.EmailAlreadyUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

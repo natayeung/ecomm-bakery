@@ -1,9 +1,6 @@
-package com.natay.ecomm.bakery.order;
+package com.natay.ecomm.bakery.checkout;
 
-import com.gargoylesoftware.htmlunit.html.HtmlButton;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.*;
 import com.natay.ecomm.bakery.testutils.ControllerITests;
 import org.junit.jupiter.api.Test;
 
@@ -20,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author natayeung
  */
-public class CompleteOrderITests extends ControllerITests {
+public class CheckoutITests extends ControllerITests {
 
     @Test
-    public void confirmationIsDisplayedWhenOrderIsComplete() throws IOException {
+    public void redirectedToPayPalWhenCheckoutIsInitiated() throws IOException {
         final String email = randomEmail();
         final String password = randomPassword();
         registerWithEmailAndPassword(mockMvc(), email, password);
@@ -32,17 +29,21 @@ public class CompleteOrderITests extends ControllerITests {
         goToBasketPageFrom(catalogPage);
         webClient().waitForBackgroundJavaScript(5000);
 
-        HtmlPage resultPage = submitOrder();
+        initiateCheckout();
+        webClient().waitForBackgroundJavaScript(5000);
 
-        HtmlElement pageBody = resultPage.getBody();
-        assertThat(pageBody.getTextContent()).containsIgnoringCase("Your order is now complete");
+        HtmlPage resultPage = (HtmlPage) webClient().getCurrentWindow().getEnclosedPage();
+        assertThat(resultPage.getBaseURL())
+                .hasHost("www.sandbox.paypal.com")
+                .hasPath("/checkoutnow")
+                .hasParameter("token");
     }
 
-    private HtmlPage submitOrder() throws IOException {
+    private HtmlPage initiateCheckout() throws IOException {
         HtmlPage basketPage = (HtmlPage) webClient().getCurrentWindow().getEnclosedPage();
-        HtmlForm addressForm = basketPage.getFormByName("form-delivery-address");
+        HtmlForm addressForm = basketPage.getFormByName("form-checkout");
 
-        HtmlButton submitButton = addressForm.getButtonByName("complete-order");
-        return submitButton.click();
+        HtmlInput checkoutButton = addressForm.getInputByName("initiate-checkout");
+        return checkoutButton.click();
     }
 }

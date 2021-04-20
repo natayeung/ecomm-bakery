@@ -1,7 +1,8 @@
 package com.natay.ecomm.bakery.catalog;
 
+import lombok.ToString;
+
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.Optional;
 
 import static com.natay.ecomm.bakery.utils.Arguments.*;
@@ -9,6 +10,7 @@ import static com.natay.ecomm.bakery.utils.Arguments.*;
 /**
  * @author natayeung
  */
+@ToString
 public class Product {
 
     private final String id;
@@ -25,7 +27,7 @@ public class Product {
         price = validatePrice(builder.price);
     }
 
-    public static Builder newBuilder() {
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -47,30 +49,6 @@ public class Product {
 
     public BigDecimal price() {
         return price;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id='" + id + '\'' +
-                ", productType=" + productType +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id.equals(product.id) && productType == product.productType && title.equals(product.title) && Objects.equals(description, product.description) && price.equals(product.price);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, productType, title, description, price);
     }
 
     private BigDecimal validatePrice(BigDecimal price) {

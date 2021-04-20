@@ -8,10 +8,10 @@ import org.springframework.test.context.ActiveProfiles;
  * @author natayeung
  */
 @SpringBootTest
-@ActiveProfiles({"prod","test","dev"})
+@ActiveProfiles("prod")
 class BakeryApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 }

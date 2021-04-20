@@ -7,23 +7,22 @@ import com.natay.ecomm.bakery.catalog.ProductQueryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
 
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
+import static java.math.BigDecimal.ZERO;
 import static java.util.Objects.isNull;
 
 /**
  * @author natayeung
  */
-@SessionScope
-@Component
 public class ShoppingBasket implements Basket, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(ShoppingBasket.class);
 
@@ -46,7 +45,7 @@ public class ShoppingBasket implements Basket, Serializable {
         basketItem.addOne();
 
         basketItems.put(productId, basketItem);
-        logger.info("Item {} added to basket {}", productId, basketRef);
+        logger.info("Item {} added to basket {}, totalPrice={}", productId, basketRef, totalPrice());
     }
 
     @Override
@@ -57,7 +56,7 @@ public class ShoppingBasket implements Basket, Serializable {
         if (isNull(removed)) {
             logger.warn("Unable to remove item {} from basket: unrecognised product ID", productId);
         } else {
-            logger.info("Item {} removed from basket {}", productId, basketRef);
+            logger.info("Item {} removed from basket {}, totalPrice={}", productId, basketRef, totalPrice());
         }
     }
 
@@ -73,7 +72,11 @@ public class ShoppingBasket implements Basket, Serializable {
 
     @Override
     public BigDecimal totalPrice() {
-        return basketItems.values().stream().map(BasketItem::itemPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalPrice = ZERO;
+        for (BasketItem i : basketItems.values()) {
+            totalPrice = totalPrice.add(i.itemPrice().multiply(BigDecimal.valueOf(i.quantity())));
+        }
+        return totalPrice;
     }
 
     @Override
@@ -92,18 +95,17 @@ public class ShoppingBasket implements Basket, Serializable {
     private Product findProductById(String productId)
             throws ProductNotFoundException, ProductAccessException {
 
-        Optional<Product> product;
+        Product product;
         try {
-            product = productQueryPort.findById(productId);
+            product = productQueryPort.findById(productId)
+                    .orElseThrow(() -> {
+                        throw new ProductNotFoundException("Product not found for ID " + productId);
+                    });
         } catch (DataAccessException ex) {
             throw new ProductAccessException("Unable to retrieve product with ID " + productId, ex);
         }
 
-        if (product.isEmpty()) {
-            throw new ProductNotFoundException("Product not found for ID " + productId);
-        }
-
-        return product.get();
+        return product;
     }
 
     private BasketItem getBasketItem(Product product) {

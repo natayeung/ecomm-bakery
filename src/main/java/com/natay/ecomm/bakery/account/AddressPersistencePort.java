@@ -7,9 +7,9 @@ import java.util.Optional;
  */
 public interface AddressPersistencePort {
 
-    int add(UserAddress userAddress);
+    int add(Address address);
 
-    void update(UserAddress userAddress);
+    void update(Address address);
 
-    Optional<UserAddress> findByEmail(String email);
+    Optional<Address> findByEmail(String email);
 }

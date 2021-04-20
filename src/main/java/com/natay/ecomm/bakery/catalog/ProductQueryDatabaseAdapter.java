@@ -52,7 +52,7 @@ public class ProductQueryDatabaseAdapter implements ProductQueryPort {
     }
 
     private RowMapper<Product> productRowMapper() {
-        return (rs, row) -> Product.newBuilder()
+        return (rs, row) -> Product.builder()
                 .withProductId(rs.getString("product_id"))
                 .withProductType(Product.Type.valueOf(rs.getString("product_type")))
                 .withTitle(rs.getString("title"))

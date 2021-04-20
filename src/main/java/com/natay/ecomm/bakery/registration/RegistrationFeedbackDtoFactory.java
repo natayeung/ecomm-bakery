@@ -1,6 +1,6 @@
 package com.natay.ecomm.bakery.registration;
 
-import com.natay.ecomm.bakery.MessageProperties;
+import com.natay.ecomm.bakery.configuration.MessageProperties;
 import org.springframework.validation.BindingResult;
 
 /**

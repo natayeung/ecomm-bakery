@@ -1,7 +1,8 @@
 package com.natay.ecomm.bakery.catalog;
 
-import com.natay.ecomm.bakery.basket.Basket;
+import com.natay.ecomm.bakery.basket.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
+import com.natay.ecomm.bakery.security.AuthenticatedUser;
 import com.natay.ecomm.bakery.security.AuthenticatedUserLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author natayeung
@@ -39,11 +39,11 @@ public class CatalogController {
     @ModelAttribute("account")
     public String addAccountToModel() {
         return authenticatedUserLookup.getAuthenticatedUser()
-                .flatMap(u -> Optional.of(u.username())).orElse(null);
+                .map(AuthenticatedUser::username).orElse(null);
     }
 
     @ModelAttribute("basket")
-    public Basket addBasketToModel() {
+    public BasketDto addBasketToModel() {
         return sessionBasket.getBasket();
     }
 

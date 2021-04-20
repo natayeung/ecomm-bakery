@@ -1,25 +1,29 @@
 package com.natay.ecomm.bakery.account;
 
+import lombok.ToString;
+
+import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
 
 /**
  * @author natayeung
  */
-public class UserAddress {
+@ToString
+public class Address {
 
     private final String email;
     private final String addressLine1;
     private final String addressLine2;
     private final String postcode;
 
-    private UserAddress(Builder builder) {
+    private Address(Builder builder) {
         email = builder.email;
-        addressLine1 = builder.addressLine1;
+        addressLine1 = requireNonBlank(builder.addressLine1, "Address line 1 must be specified");
         addressLine2 = builder.addressLine2;
-        postcode = builder.postcode;
+        postcode = requireNonBlank(builder.postcode, "Postcode must be specified");
     }
 
-    public static Builder create() {
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -39,17 +43,8 @@ public class UserAddress {
         return postcode;
     }
 
-    @Override
-    public String toString() {
-        return "UserAddress{" +
-                "email='" + email + '\'' +
-                ", addressLine1='" + addressLine1 + '\'' +
-                ", addressLine2='" + addressLine2 + '\'' +
-                ", postcode='" + postcode + '\'' +
-                '}';
-    }
-
     public static final class Builder {
+
         private String email;
         private String addressLine1;
         private String addressLine2;
@@ -58,14 +53,12 @@ public class UserAddress {
         private Builder() {
         }
 
-        public Builder from(UserAddress userAddress) {
-            requireNonNull(userAddress, "An address expected");
-
-            this.email = userAddress.email;
-            this.addressLine1 = userAddress.addressLine1;
-            this.addressLine2 = userAddress.addressLine2;
-            this.postcode = userAddress.postcode;
-
+        public Builder from(Address address) {
+            requireNonNull(address, "An address expected");
+            this.email = address.email;
+            this.addressLine1 = address.addressLine1;
+            this.addressLine2 = address.addressLine2;
+            this.postcode = address.postcode;
             return this;
         }
 
@@ -89,8 +82,8 @@ public class UserAddress {
             return this;
         }
 
-        public UserAddress build() {
-            return new UserAddress(this);
+        public Address build() {
+            return new Address(this);
         }
     }
 }
