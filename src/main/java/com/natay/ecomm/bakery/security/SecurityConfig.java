@@ -1,7 +1,8 @@
 package com.natay.ecomm.bakery.security;
 
 import com.natay.ecomm.bakery.account.AccountService;
-import com.natay.ecomm.bakery.account.UserAccount;
+import com.natay.ecomm.bakery.account.Account;
+import com.natay.ecomm.bakery.security.authentication.UserCredentials;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean(name = BeanIds.USER_DETAILS_SERVICE)
     protected UserDetailsService userDetailsService() {
         return username -> {
-            Optional<UserAccount> account = accountService.findAccountByEmail(username);
+            Optional<Account> account = accountService.findAccountByEmail(username);
             return account
                     .map(acct -> UserCredentials.of(acct.email(), acct.password()))
                     .orElseThrow(() -> new UsernameNotFoundException(username + " not found"));

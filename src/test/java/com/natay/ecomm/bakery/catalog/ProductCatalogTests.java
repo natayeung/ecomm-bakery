@@ -1,5 +1,6 @@
 package com.natay.ecomm.bakery.catalog;
 
+import com.natay.ecomm.bakery.testutils.ProductFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

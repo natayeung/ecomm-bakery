@@ -1,7 +1,5 @@
 package com.natay.ecomm.bakery.checkout;
 
-import com.natay.ecomm.bakery.account.Address;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -10,33 +8,33 @@ import java.util.List;
  */
 public class OrderDetails {
 
+    private final ShippingDetails shippingDetails;
     private final List<Item> items;
-    private final Address shippingAddress;
-    private final BigDecimal amount;
+    private final BigDecimal totalPrice;
 
     private OrderDetails(Builder builder) {
+        shippingDetails = builder.shippingDetails;
         items = builder.items;
-        shippingAddress = builder.shippingAddress;
-        amount = builder.amount;
+        totalPrice = builder.totalPrice;
     }
 
     public List<Item> items() {
         return items;
     }
 
-    public Address shippingAddress() {
-        return shippingAddress;
+    public ShippingDetails shippingDetails() {
+        return shippingDetails;
     }
 
-    public BigDecimal amount() {
-        return amount;
+    public BigDecimal totalPrice() {
+        return totalPrice;
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
-    static class Item {
+    public static class Item {
         private final String title;
         private final int quantity;
         private final BigDecimal unitPrice;
@@ -47,7 +45,7 @@ public class OrderDetails {
             this.unitPrice = unitPrice;
         }
 
-        static Item of(String title, int quantity, BigDecimal unitPrice) {
+        public static Item of(String title, int quantity, BigDecimal unitPrice) {
             return new Item(title, quantity, unitPrice);
         }
 
@@ -65,11 +63,16 @@ public class OrderDetails {
     }
 
     public static final class Builder {
+        private ShippingDetails shippingDetails;
         private List<Item> items;
-        private Address shippingAddress;
-        private BigDecimal amount;
+        private BigDecimal totalPrice;
 
         private Builder() {
+        }
+
+        public Builder withShippingDetails(ShippingDetails shippingDetails) {
+            this.shippingDetails = shippingDetails;
+            return this;
         }
 
         public Builder withItems(List<Item> items) {
@@ -77,13 +80,8 @@ public class OrderDetails {
             return this;
         }
 
-        public Builder withShippingAddress(Address shippingAddress) {
-            this.shippingAddress = shippingAddress;
-            return this;
-        }
-
-        public Builder withAmount(BigDecimal amount) {
-            this.amount = amount;
+        public Builder withTotalPrice(BigDecimal totalPrice) {
+            this.totalPrice = totalPrice;
             return this;
         }
 

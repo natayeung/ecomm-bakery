@@ -1,6 +1,5 @@
 package com.natay.ecomm.bakery.account;
 
-import com.natay.ecomm.bakery.registration.AccountDto;
 import com.natay.ecomm.bakery.registration.RegistrationDto;
 import org.springframework.stereotype.Service;
 

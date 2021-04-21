@@ -14,6 +14,7 @@ class RegistrationFeedbackDtoFactory {
         feedbackDto.setEmailErrorMessage(messageProperties.getEmailInUse());
         feedbackDto.setLastInputAddressLine1(registrationDto.getAddressLine1());
         feedbackDto.setLastInputAddressLine2(registrationDto.getAddressLine2());
+        feedbackDto.setLastInputTownOrCity(registrationDto.getTownOrCity());
         feedbackDto.setLastInputPostcode(registrationDto.getPostcode());
 
         return feedbackDto;

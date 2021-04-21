@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.registration.RegistrationDtoFactory.createRegistrationDto;
+import static com.natay.ecomm.bakery.testutils.RegistrationDtoFactory.createRegistrationDto;
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 import static com.natay.ecomm.bakery.testutils.RegisterTestHelper.register;
 import static com.natay.ecomm.bakery.testutils.RegisterTestHelper.registerWithEmail;

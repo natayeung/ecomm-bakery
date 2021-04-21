@@ -2,9 +2,10 @@ package com.natay.ecomm.bakery.checkout;
 
 import com.natay.ecomm.bakery.basket.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
+import com.natay.ecomm.bakery.checkout.payment.*;
 import com.natay.ecomm.bakery.configuration.MessageProperties;
-import com.natay.ecomm.bakery.security.AuthenticatedUser;
-import com.natay.ecomm.bakery.security.AuthenticatedUserLookup;
+import com.natay.ecomm.bakery.security.authentication.AuthenticatedUser;
+import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import javax.validation.Valid;
 
 import static com.natay.ecomm.bakery.checkout.CheckoutFeedbackDtoFactory.createCheckoutFeedbackDtoForValidationErrors;
-import static com.natay.ecomm.bakery.checkout.InitiatePaymentRequestFactory.createInitiatePaymentRequest;
+import static com.natay.ecomm.bakery.checkout.payment.InitiatePaymentRequestFactory.createInitiatePaymentRequest;
 
 /**
  * @author natayeung
@@ -70,7 +71,7 @@ public class CheckoutController {
             return "basket";
         }
 
-        InitiatePaymentRequest initiatePaymentRequest = createInitiatePaymentRequest(sessionBasket.getBasket());
+        InitiatePaymentRequest initiatePaymentRequest = createInitiatePaymentRequest(sessionBasket.getBasket(), shippingDetailsDto);
         InitiatePaymentResponse initiatePaymentResponse;
         try {
             initiatePaymentResponse = paymentService.initiatePayment(initiatePaymentRequest);

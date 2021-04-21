@@ -2,8 +2,8 @@ package com.natay.ecomm.bakery.catalog;
 
 import com.natay.ecomm.bakery.basket.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
-import com.natay.ecomm.bakery.security.AuthenticatedUser;
-import com.natay.ecomm.bakery.security.AuthenticatedUserLookup;
+import com.natay.ecomm.bakery.security.authentication.AuthenticatedUser;
+import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

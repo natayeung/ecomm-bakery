@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.account.AccountTestHelper.clickUpdateButton;
-import static com.natay.ecomm.bakery.account.AccountTestHelper.goToAccountPageFrom;
+import static com.natay.ecomm.bakery.testutils.AccountTestHelper.clickUpdateButton;
+import static com.natay.ecomm.bakery.testutils.AccountTestHelper.goToAccountPageFrom;
 import static com.natay.ecomm.bakery.testutils.BasketTestHelper.goToBasketPageFrom;
 import static com.natay.ecomm.bakery.testutils.HtmlFormHelper.fillInText;
 import static com.natay.ecomm.bakery.testutils.LoginTestHelper.loginWithEmailAndPassword;

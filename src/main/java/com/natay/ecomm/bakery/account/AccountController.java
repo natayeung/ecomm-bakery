@@ -3,9 +3,8 @@ package com.natay.ecomm.bakery.account;
 import com.natay.ecomm.bakery.basket.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
 import com.natay.ecomm.bakery.configuration.MessageProperties;
-import com.natay.ecomm.bakery.registration.AccountDto;
-import com.natay.ecomm.bakery.security.AuthenticatedUser;
-import com.natay.ecomm.bakery.security.AuthenticatedUserLookup;
+import com.natay.ecomm.bakery.security.authentication.AuthenticatedUser;
+import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.natay.ecomm.bakery.account.AccountDtoFactory.createAccountDto;
 import static com.natay.ecomm.bakery.account.AccountUpdateFeedbackDtoFactory.createAccountUpdateFeedbackDtoForValidationErrors;
 
 /**
@@ -56,13 +56,12 @@ public class AccountController {
     @GetMapping
     public String viewAccountDetails(@RequestParam(value = "update-success", required = false) boolean updatedSuccessfully,
                                      ModelMap model) {
-        authenticatedUserLookup.getAuthenticatedUser()
-                .ifPresentOrElse(
-                        u -> {
-                            logger.info("Received request to view account details for {}", u.username());
-                            addAccountDetailsToModelIfPresent(model, u.username());
-                        },
-                        () -> logger.warn("Unable to retrieve account details: no authenticated user"));
+        AuthenticatedUser user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
+            throw new IllegalStateException("Authenticated user expected");
+        });
+        logger.info("Received request to view account details for {}", user.username());
+
+        addAccountDetailsToModelIfPresent(model, user);
 
         if (updatedSuccessfully) {
             model.addAttribute("feedbackMessage", messageProperties.getAccountUpdated());
@@ -96,10 +95,13 @@ public class AccountController {
         model.addAttribute("feedback", feedbackDto);
     }
 
-    private void addAccountDetailsToModelIfPresent(ModelMap model, String username) {
-        addressService.findAddressByEmail(username)
+    private void addAccountDetailsToModelIfPresent(ModelMap model, AuthenticatedUser user) {
+        addressService.findAddressByEmail(user.username())
                 .ifPresentOrElse(
-                        a -> model.addAttribute("accountDetails", a),
-                        () -> logger.info("No address found for user {}", username));
+                        a -> {
+                            AccountDto accountDto = createAccountDto(user, a);
+                            model.addAttribute("accountDetails", accountDto);
+                        },
+                        () -> logger.info("No address found for user {}", user.username()));
     }
 }

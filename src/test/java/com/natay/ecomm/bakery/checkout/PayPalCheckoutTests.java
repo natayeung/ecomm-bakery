@@ -1,7 +1,10 @@
 package com.natay.ecomm.bakery.checkout;
 
-import com.natay.ecomm.bakery.account.Address;
-import com.natay.ecomm.bakery.configuration.PayPalProperties;
+import com.natay.ecomm.bakery.checkout.payment.*;
+import com.natay.ecomm.bakery.checkout.payment.paypal.PayPalCheckoutPort;
+import com.natay.ecomm.bakery.checkout.payment.paypal.PayPalCheckoutRestAdapter;
+import com.natay.ecomm.bakery.checkout.payment.paypal.PayPalProperties;
+import com.natay.ecomm.bakery.checkout.payment.paypal.PayPalSandboxConfiguration;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
@@ -13,8 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.math.BigDecimal;
-import java.util.List;
+import static com.natay.ecomm.bakery.testutils.OrderDetailsFactory.createOrderDetails;
 
 /**
  * @author natayeung
@@ -40,10 +42,7 @@ public class PayPalCheckoutTests {
 
     @Test
     public void initiatesPayPalPayment() throws InitiatePaymentFailedException {
-        Address address = Address.builder().withAddressLine1("123 Middle Road").withPostcode("PO1 2ST").build();
-        List<OrderDetails.Item> items = List.of(OrderDetails.Item.of("Black Forest Cake", 2, BigDecimal.valueOf(22.75)));
-        BigDecimal amount = BigDecimal.valueOf(45.50);
-        OrderDetails orderDetails = OrderDetails.builder().withItems(items).withShippingAddress(address).withAmount(amount).build();
+        OrderDetails orderDetails = createOrderDetails();
         InitiatePaymentRequest request = InitiatePaymentRequest.of(orderDetails);
 
         InitiatePaymentResponse response = paymentService.initiatePayment(request);

@@ -1,7 +1,7 @@
 package com.natay.ecomm.bakery.checkout;
 
 import com.natay.ecomm.bakery.account.Address;
-import com.natay.ecomm.bakery.security.AuthenticatedUser;
+import com.natay.ecomm.bakery.security.authentication.AuthenticatedUser;
 
 /**
  * @author natayeung

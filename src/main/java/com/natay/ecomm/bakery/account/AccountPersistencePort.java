@@ -7,7 +7,7 @@ import java.util.Optional;
  */
 public interface AccountPersistencePort {
 
-    int add(UserAccount userAccount);
+    int add(Account account);
 
-    Optional<UserAccount> findByEmail(String email);
+    Optional<Account> findByEmail(String email);
 }

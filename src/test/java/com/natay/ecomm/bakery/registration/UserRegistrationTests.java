@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Optional;
 
-import static com.natay.ecomm.bakery.registration.RegistrationDtoFactory.*;
+import static com.natay.ecomm.bakery.testutils.RegistrationDtoFactory.*;
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -70,7 +70,7 @@ public class UserRegistrationTests {
 
         userRegistrationService.register(dto);
 
-        Optional<UserAccount> foundUserAccount = accountService.findAccountByEmail(email);
+        Optional<Account> foundUserAccount = accountService.findAccountByEmail(email);
         assertThat(foundUserAccount)
                 .isNotEmpty()
                 .hasValueSatisfying((acct) -> {

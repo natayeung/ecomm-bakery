@@ -1,6 +1,5 @@
 package com.natay.ecomm.bakery.account;
 
-import com.natay.ecomm.bakery.registration.AccountDto;
 import com.natay.ecomm.bakery.registration.RegistrationDto;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.assertj.core.api.SoftAssertions;
@@ -17,8 +16,8 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Optional;
 
-import static com.natay.ecomm.bakery.account.AccountDtoFactory.createAccountDtoWithAddress;
-import static com.natay.ecomm.bakery.registration.RegistrationDtoFactory.createRegistrationDtoWithAddressDetails;
+import static com.natay.ecomm.bakery.testutils.AccountDtoFactory.createAccountDtoWithAddress;
+import static com.natay.ecomm.bakery.testutils.RegistrationDtoFactory.createRegistrationDtoWithAddressDetails;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 

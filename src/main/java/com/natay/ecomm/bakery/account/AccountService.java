@@ -11,5 +11,5 @@ public interface AccountService {
 
     void registerAccount(RegistrationDto dto) throws EmailAlreadyUsedException;
 
-    Optional<UserAccount> findAccountByEmail(String email);
+    Optional<Account> findAccountByEmail(String email);
 }

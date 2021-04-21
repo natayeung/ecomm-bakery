@@ -39,17 +39,17 @@ public class UserAccountService implements AccountService {
                     throw new EmailAlreadyUsedException(email + " already used");
                 });
 
-        UserAccount newUserAccount = UserAccount.builder()
+        Account newAccount = Account.builder()
                 .withEmail(email)
                 .withPassword(encodedPassword)
                 .withFirstName(registrationDto.getFirstName())
                 .withLastName(registrationDto.getLastName())
                 .build();
-        persistencePort.add(newUserAccount);
+        persistencePort.add(newAccount);
     }
 
     @Override
-    public Optional<UserAccount> findAccountByEmail(String email) {
+    public Optional<Account> findAccountByEmail(String email) {
         requireNonBlank(email, "Email cannot be blank");
 
         logger.info("Finding account by email {}", email);

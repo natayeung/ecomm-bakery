@@ -19,9 +19,9 @@ import java.util.Optional;
 public class AccountDatabaseAdapter implements AccountPersistencePort {
 
     private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM accounts WHERE email = :email";
-    private static final String INSERT_QUERY = "INSERT INTO accounts (email, password) VALUES (:email, :password)";
+    private static final String INSERT_QUERY = "INSERT INTO accounts (email, password, first_name, last_name) VALUES (:email, :password, :firstName, :lastName)";
 
-    private final RowMapper<UserAccount> rowMapper = userAccountRowMapper();
+    private final RowMapper<Account> rowMapper = userAccountRowMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public AccountDatabaseAdapter(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -29,11 +29,13 @@ public class AccountDatabaseAdapter implements AccountPersistencePort {
     }
 
     @Override
-    public int add(UserAccount userAccount) {
+    public int add(Account account) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("email", userAccount.email())
-                .addValue("password", userAccount.password());
+                .addValue("email", account.email())
+                .addValue("password", account.password())
+                .addValue("firstName", account.firstName())
+                .addValue("lastName", account.lastName());
 
         jdbcTemplate.update(INSERT_QUERY, parameters, keyHolder, keyColumnNames());
 
@@ -41,16 +43,16 @@ public class AccountDatabaseAdapter implements AccountPersistencePort {
     }
 
     @Override
-    public Optional<UserAccount> findByEmail(String email) {
+    public Optional<Account> findByEmail(String email) {
         Map<String, String> parameters = Map.of("email", email);
 
-        List<UserAccount> retrievedAccounts = jdbcTemplate.query(FIND_BY_EMAIL_QUERY, parameters, rowMapper);
+        List<Account> retrievedAccounts = jdbcTemplate.query(FIND_BY_EMAIL_QUERY, parameters, rowMapper);
 
         return retrievedAccounts.stream().findFirst();
     }
 
-    private RowMapper<UserAccount> userAccountRowMapper() {
-        return (rs, row) -> UserAccount.builder()
+    private RowMapper<Account> userAccountRowMapper() {
+        return (rs, row) -> Account.builder()
                 .withEmail(rs.getString("email"))
                 .withPassword(rs.getString("password"))
                 .withFirstName(rs.getString("first_name"))
