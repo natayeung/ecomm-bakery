@@ -9,8 +9,10 @@ import javax.validation.constraints.Pattern;
  * @author natayeung
  */
 @Data
-public class AddressDto {
+public class AccountDto {
 
+    @NotBlank
+    private String email;
     @NotBlank
     private String addressLine1;
     private String addressLine2;

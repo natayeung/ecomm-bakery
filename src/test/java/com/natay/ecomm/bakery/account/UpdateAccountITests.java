@@ -27,8 +27,8 @@ public class UpdateAccountITests extends ControllerITests {
     public void canUpdateAccountAddressIfValidationPasses() throws IOException {
         final String email = randomEmail();
         final String password = randomPassword();
-        final String postcode = "PO7 5ET";
-        final String newPostcode = "PO5 7ET";
+        final String postcode = "E15 1GU";
+        final String newPostcode = "E15 2GU";
         registerWithEmailPasswordAndPostcode(mockMvc(), email, password, postcode);
         HtmlPage homePage = loginWithEmailAndPassword(webClient(), email, password);
 
@@ -49,8 +49,8 @@ public class UpdateAccountITests extends ControllerITests {
     public void cannotUpdateAccountIfPostcodeValidationFails() throws IOException {
         final String email = randomEmail();
         final String password = randomPassword();
-        final String oldPostcode = "PO7 5ET";
-        final String newPostcode = "PO5";
+        final String oldPostcode = "E15 2GU";
+        final String newPostcode = "E14";
         registerWithEmailPasswordAndPostcode(mockMvc(), email, password, oldPostcode);
         HtmlPage homePage = loginWithEmailAndPassword(webClient(), email, password);
 

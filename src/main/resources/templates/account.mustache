@@ -19,50 +19,70 @@
         <h4 class="mb-3">Account</h4>
         <form name="form-account" class="needs-validation" novalidate method="post" action="/account">
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-            <div class="row g-3">
+            <div class="row g-2">
                 {{#feedbackMessage}}
-                    <div class="col-8">
+                    <div class="form-group">
                         <div class="alert alert-secondary" role="alert">
                             {{feedbackMessage}}
                         </div>
                     </div>
                 {{/feedbackMessage}}
-                <div class="col-8">
+                <div class="form-group">
                     <label for="email" class="form-label">Email</label>
-                    <input type="text" readonly class="form-control" id="email" value={{account}}>
+                    <input type="text" readonly class="form-control" id="email" name="email" value={{account}}>
                 </div>
-                <div class="col-8">
+                <div class="form-group">
+                    <label for="first-name"
+                           class="form-label {{#feedback}}{{#firstNameErrorMessage}}is-invalid{{/firstNameErrorMessage}}{{/feedback}}">First
+                        Name<small class="form-text text-muted">*</small></label>
+                    <input type="text" readonly class="form-control" id="first-name" name="firstName" required
+                        {{#accountDetails}}{{#firstName}}value="{{firstName}}"{{/firstName}}{{/accountDetails}}>
+                </div>
+                <div class="form-group">
+                    <label for="last-name"
+                           class="form-label {{#feedback}}{{#lastNameErrorMessage}}is-invalid{{/lastNameErrorMessage}}{{/feedback}}">Last
+                        Name<small class="form-text text-muted">*</small></label>
+                    <input type="text" readonly class="form-control" id="last-name" name="lastName" required
+                        {{#accountDetails}}{{#lastName}}value="{{lastName}}"{{/lastName}}{{/accountDetails}}>
+                </div>
+                <div class="form-group">
                     <label for="address-line1"
                            class="form-label {{#feedback}}{{#addressLine1ErrorMessage}}is-invalid{{/addressLine1ErrorMessage}}{{/feedback}}">Address
                         Line 1<small class="form-text text-muted">*</small></label>
                     <input type="text" class="form-control" id="address-line1" name="addressLine1" required
-                           {{#address}}value="{{addressLine1}}"{{/address}}{{#feedback}}{{#lastInputAddressLine1}}value="{{lastInputAddressLine1}}"{{/lastInputAddressLine1}}{{/feedback}}>
+                        {{#accountDetails}}{{#addressLine1}}value="{{addressLine1}}"{{/addressLine1}}{{/accountDetails}}{{#feedback}}{{#lastInputAddressLine1}}value="{{lastInputAddressLine1}}"{{/lastInputAddressLine1}}{{/feedback}}>
                     <div class="invalid-feedback"
                          id="address-line1-feedback-message">{{#feedback}}{{#addressLine1ErrorMessage}}{{addressLine1ErrorMessage}}{{/addressLine1ErrorMessage}}{{/feedback}}
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="form-group">
                     <label for="address-line2" class="form-label">Address Line 2</label>
                     <input type="text" class="form-control" id="address-line2" name="addressLine2"
-                           {{#address}}value="{{addressLine2}}"{{/address}}{{#feedback}}{{#lastInputAddressLine2}}value="{{lastInputAddressLine2}}"{{/lastInputAddressLine2}}{{/feedback}}>
+                        {{#accountDetails}}{{#addressLine2}}value="{{addressLine2}}"{{/addressLine2}}{{/accountDetails}}{{#feedback}}{{#lastInputAddressLine2}}value="{{lastInputAddressLine2}}"{{/lastInputAddressLine2}}{{/feedback}}>
                 </div>
-                <div class="col-6">
+                <div class="form-group">
+                    <label for="town-or-city"
+                           class="form-label {{#feedback}}{{#townOrCityErrorMessage}}is-invalid{{/townOrCityErrorMessage}}{{/feedback}}">Town
+                        or City<small class="form-text text-muted">*</small></label>
+                    <input type="text" class="form-control" id="town-or-city" name="townOrCity" required
+                        {{#accountDetails}}{{#townOrCity}}value="{{townOrCity}}"{{/townOrCity}}{{/accountDetails}}{{#feedback}}{{#lastInputTownOrCity}}value="{{lastInputTownOrCity}}"{{/lastInputTownOrCity}}{{/feedback}}>
+                    <div class="invalid-feedback"
+                         id="town-or-city-feedback-message">{{#feedback}}{{#townOrCityErrorMessage}}{{townOrCityErrorMessage}}{{/townOrCityErrorMessage}}{{/feedback}}
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="post-code"
-                           class="form-label {{#feedback}}{{#postcodeErrorMessage}}is-invalid{{/postcodeErrorMessage}}{{/feedback}}">Post
-                        Code<small class="form-text text-muted">*</small></label>
+                           class="form-label {{#feedback}}{{#postcodeErrorMessage}}is-invalid{{/postcodeErrorMessage}}{{/feedback}}">Postcode<small
+                            class="form-text text-muted">*</small></label>
                     <input type="text" class="form-control" id="post-code" name="postcode" required
-                           {{#address}}value="{{postcode}}"{{/address}}{{#feedback}}{{#lastInputPostcode}}value="{{lastInputPostcode}}"{{/lastInputPostcode}}{{/feedback}}>
+                        {{#accountDetails}}{{#postcode}}value="{{postcode}}"{{/postcode}}{{/accountDetails}}{{#feedback}}{{#lastInputPostcode}}value="{{lastInputPostcode}}"{{/lastInputPostcode}}{{/feedback}}>
                     <div class="invalid-feedback"
                          id="postcode-feedback-message">{{#feedback}}{{#postcodeErrorMessage}}{{postcodeErrorMessage}}{{/postcodeErrorMessage}}{{/feedback}}
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <button name="update-account" class="btn btn-secondary btn-md my-3" type="submit">Update Details
-                    </button>
-                </div>
-            </div>
+            <button name="update-account" class="btn btn-secondary btn-md my-3" type="submit">Update Details
+            </button>
         </form>
     </div>
 </main>

@@ -43,13 +43,26 @@ public class PayPalCheckoutRestAdapter implements PayPalCheckoutPort {
         } catch (IOException ex) {
             throw new PayPalCheckoutException("Unable to create order: " + ex.getMessage(), ex);
         }
-        Order payPalCreatedOrder = Optional.ofNullable(response)
-                .map(HttpResponse::result)
-                .orElseThrow(() -> {
-                    throw new PayPalCheckoutException("PayPal response expected");
-                });
 
-        return orderCreated(payPalCreatedOrder);
+        Order payPalOrder = extractOrder(response, "CREATED");
+
+        return orderCreated(payPalOrder);
+    }
+
+    @Override
+    public OrderCaptured captureOrder(String orderId) {
+        OrdersCaptureRequest request = new OrdersCaptureRequest(orderId);
+        HttpResponse<Order> response;
+        try {
+            response = payPalHttpClient.execute(request);
+            logger.debug("Received response from PayPal {}", response);
+        } catch (IOException ex) {
+            throw new PayPalCheckoutException("Unable to capture order: " + ex.getMessage(), ex);
+        }
+
+        Order payPalOrder = extractOrder(response, "COMPLETED");
+
+        return new OrderCaptured(payPalOrder.id());
     }
 
     private OrdersCreateRequest createOrderRequest(OrderDetails orderDetails) {
@@ -96,6 +109,20 @@ public class PayPalCheckoutRestAdapter implements PayPalCheckoutPort {
 
     private Money toMoney(BigDecimal amount) {
         return new Money().currencyCode(properties.getCurrencyCode()).value(amount.toPlainString());
+    }
+
+    private Order extractOrder(HttpResponse<Order> response, String expectedStatus) {
+        Order order = Optional.ofNullable(response)
+                .map(HttpResponse::result)
+                .orElseThrow(() -> {
+                    throw new PayPalCheckoutException("PayPal response expected");
+                });
+
+        if (!expectedStatus.equals(order.status())) {
+            throw new PayPalCheckoutException("Expecting order status " + expectedStatus + " but was " + order.status());
+        }
+
+        return order;
     }
 
     private OrderCreated orderCreated(com.paypal.orders.Order createdOrder) {

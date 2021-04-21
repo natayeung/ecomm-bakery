@@ -20,7 +20,7 @@ public class InitiatePaymentRequestFactory {
                 .withItems(items)
                 .build();
 
-        return InitiatePaymentRequest.with(orderDetails);
+        return InitiatePaymentRequest.of(orderDetails);
     }
 
     private static Function<ItemDto, OrderDetails.Item> itemMapper() {

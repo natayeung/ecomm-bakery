@@ -8,7 +8,7 @@ import com.natay.ecomm.bakery.registration.AddressDto;
 public class AddressDtoFactory {
 
     public static AddressDto createAddressDto(String addressLine1, String addressLine2, String postcode) {
-        final AddressDto addressDto = new AddressDto();
+        AddressDto addressDto = new AddressDto();
         addressDto.setAddressLine1(addressLine1);
         addressDto.setAddressLine2(addressLine2);
         addressDto.setPostcode(postcode);
@@ -20,5 +20,6 @@ public class AddressDtoFactory {
         return createAddressDto(addressLine1, null, postcode);
     }
 
-    private AddressDtoFactory() {}
+    private AddressDtoFactory() {
+    }
 }

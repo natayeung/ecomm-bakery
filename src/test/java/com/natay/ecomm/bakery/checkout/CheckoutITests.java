@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import static com.natay.ecomm.bakery.testutils.BasketTestHelper.addItemToBasket;
 import static com.natay.ecomm.bakery.testutils.BasketTestHelper.goToBasketPageFrom;
+import static com.natay.ecomm.bakery.testutils.HtmlFormHelper.fillInText;
 import static com.natay.ecomm.bakery.testutils.LoginTestHelper.loginWithEmailAndPassword;
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomPassword;
@@ -41,9 +42,11 @@ public class CheckoutITests extends ControllerITests {
 
     private HtmlPage initiateCheckout() throws IOException {
         HtmlPage basketPage = (HtmlPage) webClient().getCurrentWindow().getEnclosedPage();
-        HtmlForm addressForm = basketPage.getFormByName("form-checkout");
+        HtmlForm checkoutForm = basketPage.getFormByName("form-checkout");
+        fillInText(checkoutForm, "shippingFirstName", "John");
+        fillInText(checkoutForm, "shippingLastName", "Doe");
 
-        HtmlInput checkoutButton = addressForm.getInputByName("initiate-checkout");
+        HtmlInput checkoutButton = checkoutForm.getInputByName("initiate-checkout");
         return checkoutButton.click();
     }
 }

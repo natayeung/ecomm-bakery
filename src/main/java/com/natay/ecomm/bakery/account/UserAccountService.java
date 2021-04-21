@@ -34,13 +34,17 @@ public class UserAccountService implements AccountService {
 
         final String email = registrationDto.getEmail();
         final String encodedPassword = passwordEncoder.encode(registrationDto.getPassword());
-
         persistencePort.findByEmail(email)
                 .ifPresent(account -> {
                     throw new EmailAlreadyUsedException(email + " already used");
                 });
 
-        UserAccount newUserAccount = new UserAccount(email, encodedPassword);
+        UserAccount newUserAccount = UserAccount.builder()
+                .withEmail(email)
+                .withPassword(encodedPassword)
+                .withFirstName(registrationDto.getFirstName())
+                .withLastName(registrationDto.getLastName())
+                .build();
         persistencePort.add(newUserAccount);
     }
 

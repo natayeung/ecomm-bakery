@@ -1,6 +1,6 @@
 package com.natay.ecomm.bakery.account;
 
-import com.natay.ecomm.bakery.registration.AddressDto;
+import com.natay.ecomm.bakery.registration.AccountDto;
 import com.natay.ecomm.bakery.registration.RegistrationDto;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +29,7 @@ public class UserAddressService implements AddressService {
                 .withEmail(registrationDto.getEmail())
                 .withAddressLine1(registrationDto.getAddressLine1())
                 .withAddressLine2(registrationDto.getAddressLine2())
+                .withTownOrCity(registrationDto.getTownOrCity())
                 .withPostcode(registrationDto.getPostcode().toUpperCase())
                 .build();
 
@@ -36,17 +37,18 @@ public class UserAddressService implements AddressService {
     }
 
     @Override
-    public void updateAddress(String email, AddressDto addressDto) {
-        requireNonNull(addressDto, "Address dto must be specified");
+    public void updateAddress(AccountDto accountDto) {
+        requireNonNull(accountDto, "Account dto must be specified");
 
         Address address = Address.builder()
-                .withEmail(email)
-                .withAddressLine1(addressDto.getAddressLine1())
-                .withAddressLine2(addressDto.getAddressLine2())
-                .withPostcode(addressDto.getPostcode().toUpperCase())
+                .withEmail(accountDto.getEmail())
+                .withAddressLine1(accountDto.getAddressLine1())
+                .withAddressLine2(accountDto.getAddressLine2())
+                .withTownOrCity(accountDto.getTownOrCity())
+                .withPostcode(accountDto.getPostcode().toUpperCase())
                 .build();
 
-        persistencePort.findByEmail(email)
+        persistencePort.findByEmail(address.email())
                 .ifPresentOrElse(
                         (a) -> persistencePort.update(address),
                         () -> persistencePort.add(address));

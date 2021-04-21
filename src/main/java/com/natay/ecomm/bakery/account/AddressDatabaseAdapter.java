@@ -19,8 +19,8 @@ import java.util.Optional;
 public class AddressDatabaseAdapter implements AddressPersistencePort {
 
     private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM addresses WHERE email = :email";
-    private static final String INSERT_QUERY = "INSERT INTO addresses (email, address_line_1, address_line_2, postcode) VALUES (:email, :addressLine1, :addressLine2, :postcode)";
-    private static final String UPDATE_QUERY = "UPDATE addresses SET address_line_1 = :addressLine1, address_line_2 = :addressLine2, postcode = :postcode WHERE email = :email";
+    private static final String INSERT_QUERY = "INSERT INTO addresses (email, address_line_1, address_line_2, town_or_city, postcode) VALUES (:email, :addressLine1, :addressLine2, :townOrCity,:postcode)";
+    private static final String UPDATE_QUERY = "UPDATE addresses SET address_line_1 = :addressLine1, address_line_2 = :addressLine2, town_or_city = :townOrCity, postcode = :postcode WHERE email = :email";
 
     private final RowMapper<Address> rowMapper = userAddressRowMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -61,6 +61,7 @@ public class AddressDatabaseAdapter implements AddressPersistencePort {
                         .withEmail(rs.getString("email"))
                         .withAddressLine1(rs.getString("address_line_1"))
                         .withAddressLine2(rs.getString("address_line_2"))
+                        .withTownOrCity(rs.getString("town_or_city"))
                         .withPostcode(rs.getString("postcode"))
                         .build();
     }
@@ -74,6 +75,7 @@ public class AddressDatabaseAdapter implements AddressPersistencePort {
                 .addValue("email", address.email())
                 .addValue("addressLine1", address.addressLine1())
                 .addValue("addressLine2", address.addressLine2())
+                .addValue("townOrCity", address.townOrCity())
                 .addValue("postcode", address.postcode());
     }
 }

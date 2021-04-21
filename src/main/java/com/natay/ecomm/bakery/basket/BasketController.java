@@ -3,6 +3,7 @@ package com.natay.ecomm.bakery.basket;
 import com.natay.ecomm.bakery.account.AddressService;
 import com.natay.ecomm.bakery.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
+import com.natay.ecomm.bakery.checkout.ShippingDetailsDto;
 import com.natay.ecomm.bakery.security.AuthenticatedUser;
 import com.natay.ecomm.bakery.security.AuthenticatedUserLookup;
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import static com.natay.ecomm.bakery.checkout.ShippingDetailsDtoFactory.createShippingDetailsDto;
 
 /**
  * @author natayeung
@@ -68,14 +71,17 @@ public class BasketController {
     public String viewBasket(Model model) {
         logger.info("Received request to view basket {}", sessionBasket.getBasketRef());
 
-        addAddressToModelIfPresent(model);
+        addShippingDetailsToModelIfPresent(model);
 
         return "basket";
     }
 
-    private void addAddressToModelIfPresent(Model model) {
+    private void addShippingDetailsToModelIfPresent(Model model) {
         authenticatedUserLookup.getAuthenticatedUser()
-                .flatMap(u -> addressService.findAddressByEmail(u.username()))
-                .ifPresent(a -> model.addAttribute("address", a));
+                .ifPresent(user -> addressService.findAddressByEmail(user.username())
+                        .ifPresent(address -> {
+                            ShippingDetailsDto dto = createShippingDetailsDto(user, address);
+                            model.addAttribute("shippingDetails", dto);
+                        }));
     }
 }

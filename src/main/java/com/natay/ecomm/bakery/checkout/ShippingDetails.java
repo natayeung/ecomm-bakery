@@ -1,36 +1,41 @@
-package com.natay.ecomm.bakery.account;
+package com.natay.ecomm.bakery.checkout;
 
 import lombok.ToString;
 
-import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
-import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * @author natayeung
  */
 @ToString
-public class Address {
+public class ShippingDetails implements Serializable {
 
-    private final String email;
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private final String shippingFirstName;
+    private final String shippingLastName;
     private final String addressLine1;
     private final String addressLine2;
     private final String townOrCity;
     private final String postcode;
 
-    private Address(Builder builder) {
-        email = builder.email;
-        addressLine1 = requireNonBlank(builder.addressLine1, "Address line 1 must be specified");
+    private ShippingDetails(Builder builder) {
+        shippingFirstName = builder.shippingFirstName;
+        shippingLastName = builder.shippingLastName;
+        addressLine1 = builder.addressLine1;
         addressLine2 = builder.addressLine2;
         townOrCity = builder.townOrCity;
-        postcode = requireNonBlank(builder.postcode, "Postcode must be specified");
+        postcode = builder.postcode;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public String shippingFirstName() {
+        return shippingFirstName;
     }
 
-    public String email() {
-        return email;
+    public String shippingLastName() {
+        return shippingLastName;
     }
 
     public String addressLine1() {
@@ -49,9 +54,13 @@ public class Address {
         return postcode;
     }
 
-    public static final class Builder {
+    public static Builder builder() {
+        return new Builder();
+    }
 
-        private String email;
+    public static final class Builder {
+        private String shippingFirstName;
+        private String shippingLastName;
         private String addressLine1;
         private String addressLine2;
         private String townOrCity;
@@ -60,18 +69,13 @@ public class Address {
         private Builder() {
         }
 
-        public Builder from(Address address) {
-            requireNonNull(address, "An address expected");
-            this.email = address.email;
-            this.addressLine1 = address.addressLine1;
-            this.addressLine2 = address.addressLine2;
-            this.townOrCity = address.townOrCity;
-            this.postcode = address.postcode;
+        public Builder withShippingFirstName(String shippingFirstName) {
+            this.shippingFirstName = shippingFirstName;
             return this;
         }
 
-        public Builder withEmail(String email) {
-            this.email = email;
+        public Builder withShippingLastName(String shippingLastName) {
+            this.shippingLastName = shippingLastName;
             return this;
         }
 
@@ -95,8 +99,8 @@ public class Address {
             return this;
         }
 
-        public Address build() {
-            return new Address(this);
+        public ShippingDetails build() {
+            return new ShippingDetails(this);
         }
     }
 }

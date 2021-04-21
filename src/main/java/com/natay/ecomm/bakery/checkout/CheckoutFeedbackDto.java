@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.account;
+package com.natay.ecomm.bakery.checkout;
 
 import lombok.Data;
 
@@ -6,15 +6,15 @@ import lombok.Data;
  * @author natayeung
  */
 @Data
-public class AccountUpdateFeedbackDto {
+public class CheckoutFeedbackDto {
 
-    private String firstNameErrorMessage;
-    private String lastNameErrorMessage;
+    private String shippingFirstNameErrorMessage;
+    private String shippingLastNameErrorMessage;
     private String addressLine1ErrorMessage;
     private String townOrCityErrorMessage;
     private String postcodeErrorMessage;
-    private String lastInputFirstName;
-    private String lastInputLastName;
+    private String lastInputShippingFirstName;
+    private String lastInputShippingLastName;
     private String lastInputAddressLine1;
     private String lastInputAddressLine2;
     private String lastInputTownOrCity;

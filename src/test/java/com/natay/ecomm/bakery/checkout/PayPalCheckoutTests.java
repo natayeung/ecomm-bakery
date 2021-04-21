@@ -39,17 +39,16 @@ public class PayPalCheckoutTests {
     }
 
     @Test
-    public void initiatesPayPalPayment() {
+    public void initiatesPayPalPayment() throws InitiatePaymentFailedException {
         Address address = Address.builder().withAddressLine1("123 Middle Road").withPostcode("PO1 2ST").build();
         List<OrderDetails.Item> items = List.of(OrderDetails.Item.of("Black Forest Cake", 2, BigDecimal.valueOf(22.75)));
         BigDecimal amount = BigDecimal.valueOf(45.50);
         OrderDetails orderDetails = OrderDetails.builder().withItems(items).withShippingAddress(address).withAmount(amount).build();
-        InitiatePaymentRequest request = InitiatePaymentRequest.with(orderDetails);
+        InitiatePaymentRequest request = InitiatePaymentRequest.of(orderDetails);
 
         InitiatePaymentResponse response = paymentService.initiatePayment(request);
 
-        softly.assertThat(response.isSuccess()).isTrue();
-        softly.assertThat(response.getOrderRef()).isNotBlank();
-        softly.assertThat(response.getApprovalLink()).isNotBlank();
+        softly.assertThat(response.externalOrderId()).isNotBlank();
+        softly.assertThat(response.approvalLink()).isNotBlank();
     }
 }

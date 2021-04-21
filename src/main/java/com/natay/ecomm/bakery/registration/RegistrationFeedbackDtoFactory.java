@@ -33,6 +33,18 @@ class RegistrationFeedbackDtoFactory {
             feedbackDto.setPasswordErrorMessage(messageProperties.getInvalidPassword());
         }
 
+        if (bindingResult.hasFieldErrors("firstName")) {
+            feedbackDto.setFirstNameErrorMessage(messageProperties.getInvalidFirstName());
+        } else {
+            feedbackDto.setLastInputFirstName(registrationDto.getFirstName());
+        }
+
+        if (bindingResult.hasFieldErrors("lastName")) {
+            feedbackDto.setLastNameErrorMessage(messageProperties.getInvalidLastName());
+        } else {
+            feedbackDto.setLastInputLastName(registrationDto.getLastName());
+        }
+
         if (bindingResult.hasFieldErrors("addressLine1")) {
             feedbackDto.setAddressLine1ErrorMessage(messageProperties.getInvalidAddressLine1());
         } else {
@@ -40,6 +52,12 @@ class RegistrationFeedbackDtoFactory {
         }
 
         feedbackDto.setLastInputAddressLine2(registrationDto.getAddressLine2());
+
+        if (bindingResult.hasFieldErrors("townOrCity")) {
+            feedbackDto.setTownOrCityErrorMessage(messageProperties.getInvalidTownOrCity());
+        } else {
+            feedbackDto.setLastInputTownOrCity(registrationDto.getTownOrCity());
+        }
 
         if (bindingResult.hasFieldErrors("postcode")) {
             feedbackDto.setPostcodeErrorMessage(messageProperties.getInvalidPostcode());

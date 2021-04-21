@@ -17,7 +17,10 @@ public class MessageProperties {
     private String loginFailed;
     private String emailInUse;
     private String invalidEmail;
+    private String invalidFirstName;
+    private String invalidLastName;
     private String invalidAddressLine1;
+    private String invalidTownOrCity;
     private String invalidPostcode;
     private String invalidPassword;
     private String accountUpdated;

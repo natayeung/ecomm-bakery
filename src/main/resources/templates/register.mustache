@@ -19,8 +19,8 @@
         <h4 class="mb-3">Register</h4>
         <form name="form-register" class="needs-validation" novalidate method="post" action="/register">
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-            <div class="row g-3">
-                <div class="col-8">
+            <div class="row g-2">
+                <div class="form-group">
                     <label for="email"
                            class="form-label {{#feedback}}{{#emailErrorMessage}}is-invalid{{/emailErrorMessage}}{{/feedback}}">Email<small
                             class="form-text text-muted">*</small></label>
@@ -30,7 +30,7 @@
                          id="email-feedback-message">{{#feedback}}{{#emailErrorMessage}}{{emailErrorMessage}}{{/emailErrorMessage}}{{/feedback}}
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="form-group">
                     <label for="password"
                            class="form-label {{#feedback}}{{#passwordErrorMessage}}is-invalid{{/passwordErrorMessage}}{{/feedback}}">Password<small
                             class="form-text text-muted">*</small></label>
@@ -40,7 +40,27 @@
                          id="password-feedback-message">{{#feedback}}{{#passwordErrorMessage}}{{passwordErrorMessage}}{{/passwordErrorMessage}}{{/feedback}}
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="form-group">
+                    <label for="first-name"
+                           class="form-label {{#feedback}}{{#firstNameErrorMessage}}is-invalid{{/firstNameErrorMessage}}{{/feedback}}">First
+                        Name<small class="form-text text-muted">*</small></label>
+                    <input type="text" class="form-control" id="first-name" name="firstName" required
+                        {{#feedback}}{{#lastInputFirstName}}value="{{lastInputFirstName}}"{{/lastInputFirstName}}{{/feedback}}>
+                    <div class="invalid-feedback"
+                         id="first-name-feedback-message">{{#feedback}}{{#firstNameErrorMessage}}{{firstNameErrorMessage}}{{/firstNameErrorMessage}}{{/feedback}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="last-name"
+                           class="form-label {{#feedback}}{{#lastNameErrorMessage}}is-invalid{{/lastNameErrorMessage}}{{/feedback}}">Last
+                        Name<small class="form-text text-muted">*</small></label>
+                    <input type="text" class="form-control" id="last-name" name="lastName" required
+                        {{#feedback}}{{#lastInputLastName}}value="{{lastInputLastName}}"{{/lastInputLastName}}{{/feedback}}>
+                    <div class="invalid-feedback"
+                         id="last-name-feedback-message">{{#feedback}}{{#lastNameErrorMessage}}{{lastNameErrorMessage}}{{/lastNameErrorMessage}}{{/feedback}}
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="address-line1"
                            class="form-label {{#feedback}}{{#addressLine1ErrorMessage}}is-invalid{{/addressLine1ErrorMessage}}{{/feedback}}">Address
                         Line 1<small class="form-text text-muted">*</small></label>
@@ -50,15 +70,25 @@
                          id="address-line1-feedback-message">{{#feedback}}{{#addressLine1ErrorMessage}}{{addressLine1ErrorMessage}}{{/addressLine1ErrorMessage}}{{/feedback}}
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="form-group">
                     <label for="address-line2" class="form-label">Address Line 2</label>
                     <input type="text" class="form-control" id="address-line2" name="addressLine2"
                         {{#feedback}}{{#lastInputAddressLine2}}value="{{lastInputAddressLine2}}"{{/lastInputAddressLine2}}{{/feedback}}>
                 </div>
-                <div class="col-6">
+                <div class="form-group">
+                    <label for="town-or-city"
+                           class="form-label {{#feedback}}{{#townOrCityErrorMessage}}is-invalid{{/townOrCityErrorMessage}}{{/feedback}}">Town
+                        or City<small class="form-text text-muted">*</small></label>
+                    <input type="text" class="form-control" id="town-or-city" name="townOrCity" required
+                        {{#feedback}}{{#lastInputTownOrCity}}value="{{lastInputTownOrCity}}"{{/lastInputTownOrCity}}{{/feedback}}>
+                    <div class="invalid-feedback"
+                         id="town-or-city-feedback-message">{{#feedback}}{{#townOrCityErrorMessage}}{{townOrCityErrorMessage}}{{/townOrCityErrorMessage}}{{/feedback}}
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="post-code"
-                           class="form-label {{#feedback}}{{#postcodeErrorMessage}}is-invalid{{/postcodeErrorMessage}}{{/feedback}}">Post
-                        Code<small class="form-text text-muted">*</small></label>
+                           class="form-label {{#feedback}}{{#postcodeErrorMessage}}is-invalid{{/postcodeErrorMessage}}{{/feedback}}">Postcode<small
+                            class="form-text text-muted">*</small></label>
                     <input type="text" class="form-control" id="post-code" name="postcode" required
                         {{#feedback}}{{#lastInputPostcode}}value="{{lastInputPostcode}}"{{/lastInputPostcode}}{{/feedback}}>
                     <div class="invalid-feedback"
@@ -66,12 +96,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <button name="register" class="btn btn-secondary btn-md my-3" type="submit">Submit Details
-                    </button>
-                </div>
-            </div>
+            <button name="register" class="btn btn-secondary btn-md my-3" type="submit">Submit Details
+            </button>
         </form>
     </div>
 </main>

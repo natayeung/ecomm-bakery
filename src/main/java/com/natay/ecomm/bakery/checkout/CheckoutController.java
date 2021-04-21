@@ -1,10 +1,8 @@
 package com.natay.ecomm.bakery.checkout;
 
-import com.natay.ecomm.bakery.account.AccountUpdateFeedbackDto;
 import com.natay.ecomm.bakery.basket.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
 import com.natay.ecomm.bakery.configuration.MessageProperties;
-import com.natay.ecomm.bakery.registration.AddressDto;
 import com.natay.ecomm.bakery.security.AuthenticatedUser;
 import com.natay.ecomm.bakery.security.AuthenticatedUserLookup;
 import org.slf4j.Logger;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 
-import static com.natay.ecomm.bakery.account.AccountUpdateFeedbackDtoFactory.createAccountUpdateFeedbackDtoForValidationErrors;
+import static com.natay.ecomm.bakery.checkout.CheckoutFeedbackDtoFactory.createCheckoutFeedbackDtoForValidationErrors;
 import static com.natay.ecomm.bakery.checkout.InitiatePaymentRequestFactory.createInitiatePaymentRequest;
 
 /**
@@ -57,10 +55,10 @@ public class CheckoutController {
     }
 
     @PostMapping
-    public String initiateCheckout(@ModelAttribute("address") @Valid AddressDto addressDto,
+    public String initiateCheckout(@ModelAttribute("shippingDetails") @Valid ShippingDetailsDto shippingDetailsDto,
                                    BindingResult bindingResult,
                                    Model model) {
-        logger.info("Received request to initiate checkout, delivery address: {}", addressDto);
+        logger.info("Received request to initiate checkout, delivery address: {}", shippingDetailsDto);
 
         AuthenticatedUser user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
             throw new IllegalStateException("Authenticated user expected");
@@ -68,31 +66,53 @@ public class CheckoutController {
 
         if (bindingResult.hasErrors()) {
             logger.warn("Unable to proceed with checkout, validation failed: {}", bindingResult.getFieldErrors());
-            addFeedbackToModel(addressDto, bindingResult, model);
+            addFeedbackToModel(shippingDetailsDto, bindingResult, model);
             return "basket";
         }
 
         InitiatePaymentRequest initiatePaymentRequest = createInitiatePaymentRequest(sessionBasket.getBasket());
-        InitiatePaymentResponse initiatePaymentResponse = paymentService.initiatePayment(initiatePaymentRequest);
-        if (initiatePaymentResponse.isFailure()) {
-            logger.warn("Unable to initiate payment: {}", initiatePaymentResponse.getFailureReason());
-            return "basket";
+        InitiatePaymentResponse initiatePaymentResponse;
+        try {
+            initiatePaymentResponse = paymentService.initiatePayment(initiatePaymentRequest);
+        } catch (InitiatePaymentFailedException ex) {
+            logger.warn("Unable to initiate payment: {}", ex.getMessage(), ex);
+            return "redirect:/error";
         }
 
-        String approvalLink = initiatePaymentResponse.getApprovalLink();
-        logger.debug("Payment approval link {}", approvalLink);
+        sessionBasket.addShippingDetails(shippingDetailsDto);
+
+        String approvalLink = initiatePaymentResponse.approvalLink();
+        logger.debug("Redirecting to payment approval link {}", approvalLink);
         return "redirect:" + approvalLink;
     }
 
     @GetMapping("complete")
-    public String completeCheckout(SessionStatus sessionStatus) {
-        // TODO capture payment
+    public String completeCheckout(@RequestParam(name = "token") String externalOrderId,
+                                   SessionStatus sessionStatus) {
+        logger.info("Received request to complete checkout, externalOrderId: {}", externalOrderId);
+
+        CapturePaymentRequest capturePaymentRequest = CapturePaymentRequest.of(externalOrderId);
+        CapturePaymentResponse capturePaymentResponse;
+        try {
+            capturePaymentResponse = paymentService.capturePayment(capturePaymentRequest);
+        } catch (CapturePaymentFailedException ex) {
+            logger.warn("Unable to capture payment: {}", ex.getMessage(), ex);
+            return "redirect:/error";
+        }
+
+        String orderId = capturePaymentResponse.externalOrderId();
+        ShippingDetailsDto shippingDetails = sessionBasket.getShippingDetails().orElseThrow(() -> {
+            throw new IllegalStateException("Shipping details expected");
+        });
+        BasketDto basket = sessionBasket.getBasket();
+        logger.info("orderId={}, shippingDetails={}, basket={}", orderId, shippingDetails, basket);
         sessionStatus.setComplete();
+
         return "order-confirm";
     }
 
-    private void addFeedbackToModel(AddressDto addressDto, BindingResult bindingResult, Model model) {
-        AccountUpdateFeedbackDto feedbackDto = createAccountUpdateFeedbackDtoForValidationErrors(addressDto, bindingResult, messageProperties);
+    private void addFeedbackToModel(ShippingDetailsDto shippingDetailsDto, BindingResult bindingResult, Model model) {
+        CheckoutFeedbackDto feedbackDto = createCheckoutFeedbackDtoForValidationErrors(shippingDetailsDto, bindingResult, messageProperties);
         model.addAttribute("feedback", feedbackDto);
     }
 }

@@ -61,32 +61,62 @@
         </div>
     </div>
     <div class="row my-3">
-        <h4 class="mb-3">Delivery Address</h4>
+        <h4 class="mb-3">Shipping Details</h4>
         <form name="form-checkout" class="needs-validation" novalidate method="post" action="/checkout">
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
             <div class="row g-2">
-                <div class="col-8">
+                <div class="form-group">
+                    <label for="shipping-first-name" class="form-label">First Name<small
+                            class="form-text text-muted">*</small></label>
+                    <input type="text"
+                           class="form-control {{#feedback}}{{#shippingFirstNameErrorMessage}}is-invalid{{/shippingFirstNameErrorMessage}}{{/feedback}}"
+                           id="shipping-first-name" name="shippingFirstName" required
+                        {{#shippingDetails}}{{#shippingFirstName}}value="{{shippingFirstName}}"{{/shippingFirstName}}{{/shippingDetails}}{{#feedback}}{{#lastInputShippingFirstName}}value="{{lastInputShippingFirstName}}"{{/lastInputShippingFirstName}}{{/feedback}}>
+                    <div class="invalid-feedback">{{#feedback}}{{#shippingFirstNameErrorMessage}}{{shippingFirstNameErrorMessage}}{{/shippingFirstNameErrorMessage}}{{/feedback}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-last-name" class="form-label">Last Name<small
+                            class="form-text text-muted">*</small></label>
+                    <input type="text"
+                           class="form-control {{#feedback}}{{#shippingLastNameErrorMessage}}is-invalid{{/shippingLastNameErrorMessage}}{{/feedback}}"
+                           id="shipping-last-name" name="shippingLastName" required
+                        {{#shippingDetails}}{{#shippingLastName}}value="{{shippingLastName}}"{{/shippingLastName}}{{/shippingDetails}}{{#feedback}}{{#lastInputShippingLastName}}value="{{lastInputShippingLastName}}"{{/lastInputShippingLastName}}{{/feedback}}>
+                    <div class="invalid-feedback">{{#feedback}}{{#shippingLastNameErrorMessage}}{{shippingLastNameErrorMessage}}{{/shippingLastNameErrorMessage}}{{/feedback}}
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="address-line1" class="form-label">Address Line 1<small
                             class="form-text text-muted">*</small></label>
                     <input type="text"
                            class="form-control {{#feedback}}{{#addressLine1ErrorMessage}}is-invalid{{/addressLine1ErrorMessage}}{{/feedback}}"
                            id="address-line1" name="addressLine1" required
-                           {{#address}}value="{{addressLine1}}"{{/address}}{{#feedback}}{{#lastInputAddressLine1}}value="{{lastInputAddressLine1}}"{{/lastInputAddressLine1}}{{/feedback}}>
+                        {{#shippingDetails}}{{#addressLine1}}value="{{addressLine1}}"{{/addressLine1}}{{/shippingDetails}}{{#feedback}}{{#lastInputAddressLine1}}value="{{lastInputAddressLine1}}"{{/lastInputAddressLine1}}{{/feedback}}>
                     <div class="invalid-feedback">{{#feedback}}{{#addressLine1ErrorMessage}}{{addressLine1ErrorMessage}}{{/addressLine1ErrorMessage}}{{/feedback}}
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="form-group">
                     <label for="address-line2" class="form-label">Address Line 2</label>
                     <input type="text" class="form-control" id="address-line2" name="addressLine2"
-                           {{#address}}value="{{addressLine2}}"{{/address}}{{#feedback}}{{#lastInputAddressLine2}}value="{{lastInputAddressLine2}}"{{/lastInputAddressLine2}}{{/feedback}}>
+                        {{#shippingDetails}}{{#addressLine2}}value="{{addressLine2}}"{{/addressLine2}}{{/shippingDetails}}{{#feedback}}{{#lastInputAddressLine2}}value="{{lastInputAddressLine2}}"{{/lastInputAddressLine2}}{{/feedback}}>
                 </div>
-                <div class="col-6">
+                <div class="form-group">
+                    <label for="town-or-city" class="form-label">Town or City<small
+                            class="form-text text-muted">*</small></label>
+                    <input type="text"
+                           class="form-control {{#feedback}}{{#townOrCityErrorMessage}}is-invalid{{/townOrCityErrorMessage}}{{/feedback}}"
+                           id="town-or-city" name="townOrCity" required
+                        {{#shippingDetails}}{{#townOrCity}}value="{{townOrCity}}"{{/townOrCity}}{{/shippingDetails}}{{#feedback}}{{#lastInputTownOrCity}}value="{{lastInputTownOrCity}}"{{/lastInputTownOrCity}}{{/feedback}}>
+                    <div class="invalid-feedback">{{#feedback}}{{#townOrCityErrorMessage}}{{townOrCityErrorMessage}}{{/townOrCityErrorMessage}}{{/feedback}}
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="postcode" class="form-label">Post Code<small
                             class="form-text text-muted">*</small></label>
                     <input type="text"
                            class="form-control {{#feedback}}{{#postcodeErrorMessage}}is-invalid{{/postcodeErrorMessage}}{{/feedback}}"
                            id="postcode" name="postcode" required
-                           {{#address}}value="{{postcode}}"{{/address}}{{#feedback}}{{#lastInputPostcode}}value="{{lastInputPostcode}}"{{/lastInputPostcode}}{{/feedback}}>
+                        {{#shippingDetails}}{{#postcode}}value="{{postcode}}"{{/postcode}}{{/shippingDetails}}{{#feedback}}{{#lastInputPostcode}}value="{{lastInputPostcode}}"{{/lastInputPostcode}}{{/feedback}}>
                     <div class="invalid-feedback">{{#feedback}}{{#postcodeErrorMessage}}{{postcodeErrorMessage}}{{/postcodeErrorMessage}}{{/feedback}}
                     </div>
                 </div>

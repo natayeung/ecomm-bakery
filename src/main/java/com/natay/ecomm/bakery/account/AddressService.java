@@ -1,6 +1,6 @@
 package com.natay.ecomm.bakery.account;
 
-import com.natay.ecomm.bakery.registration.AddressDto;
+import com.natay.ecomm.bakery.registration.AccountDto;
 import com.natay.ecomm.bakery.registration.RegistrationDto;
 
 import java.util.Optional;
@@ -12,7 +12,7 @@ public interface AddressService {
 
     void registerAddress(RegistrationDto registrationDto);
 
-    void updateAddress(String email, AddressDto addressDto);
+    void updateAddress(AccountDto accountDto);
 
     Optional<Address> findAddressByEmail(String email);
 }

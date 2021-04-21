@@ -40,10 +40,11 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 @ExtendWith(SoftAssertionsExtension.class)
 public class UserRegistrationTests {
 
-    private final String password = "harrypass";
+    private final String password = "jdpass";
     private final String addressLine1 = "2A Silver Count";
     private final String addressLine2 = "1 High Street";
-    private final String postcode = "PO1 2ST";
+    private final String townOrCity = "London";
+    private final String postcode = "E15 2GU";
 
     @InjectSoftAssertions
     private SoftAssertions softly;
@@ -80,7 +81,7 @@ public class UserRegistrationTests {
 
     @Test
     public void shouldRegisterAddressForNewUser() {
-        RegistrationDto dto = createRegistrationDtoWithAddressDetails(addressLine1, addressLine2, postcode);
+        RegistrationDto dto = createRegistrationDtoWithAddressDetails(addressLine1, addressLine2, townOrCity, postcode);
 
         userRegistrationService.register(dto);
 

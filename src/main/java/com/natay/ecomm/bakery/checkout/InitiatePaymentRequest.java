@@ -5,25 +5,9 @@ import java.util.UUID;
 /**
  * @author natayeung
  */
-public class InitiatePaymentRequest {
+public record InitiatePaymentRequest(String requestId, OrderDetails orderDetails) {
 
-    private final String requestId;
-    private final OrderDetails orderDetails;
-
-    private InitiatePaymentRequest(OrderDetails orderDetails) {
-        this.requestId = UUID.randomUUID().toString();
-        this.orderDetails = orderDetails;
-    }
-
-    public static InitiatePaymentRequest with(OrderDetails orderDetails) {
-        return new InitiatePaymentRequest(orderDetails);
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public OrderDetails getOrder() {
-        return orderDetails;
+    public static InitiatePaymentRequest of(OrderDetails orderDetails) {
+        return new InitiatePaymentRequest(UUID.randomUUID().toString(), orderDetails);
     }
 }
