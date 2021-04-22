@@ -38,7 +38,7 @@ public class SessionBasket implements Serializable {
 
     public BasketDto getBasket() {
         List<ItemDto> items = basket.items().stream().map(itemMapper()).collect(toList());
-        return new BasketDto(items, basket.itemCount(), basket.totalPrice());
+        return new BasketDto(items, basket.itemCount(), basket.totalPrice(), items.isEmpty());
     }
 
     public Optional<ShippingDetailsDto> getShippingDetails() {

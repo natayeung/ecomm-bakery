@@ -64,6 +64,7 @@ public class CatalogController {
 
         List<Product> products = catalog.findProductByType(Product.Type.valueOf(productType));
         model.addAttribute("catalog", products);
+        model.addAttribute("productType", productType);
 
         return "catalog";
     }

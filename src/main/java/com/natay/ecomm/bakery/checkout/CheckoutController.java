@@ -61,7 +61,7 @@ public class CheckoutController {
                                    Model model) {
         logger.info("Received request to initiate checkout, delivery address: {}", shippingDetailsDto);
 
-        AuthenticatedUser user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
+        authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
             throw new IllegalStateException("Authenticated user expected");
         });
 
@@ -87,7 +87,7 @@ public class CheckoutController {
         return "redirect:" + approvalLink;
     }
 
-    @GetMapping("complete")
+    @GetMapping("/complete")
     public String completeCheckout(@RequestParam(name = "token") String externalOrderId,
                                    SessionStatus sessionStatus) {
         logger.info("Received request to complete checkout, externalOrderId: {}", externalOrderId);
@@ -101,19 +101,31 @@ public class CheckoutController {
             return "redirect:/error";
         }
 
+        processOrder(capturePaymentResponse);
+        sessionStatus.setComplete();
+
+        return "order-confirm";
+    }
+
+    @GetMapping("/cancel")
+    public String cancelCheckout() {
+        logger.debug("Received request to cancel checkout");
+        return "redirect:/basket";
+    }
+
+    private void addFeedbackToModel(ShippingDetailsDto shippingDetailsDto,
+                                    BindingResult bindingResult,
+                                    Model model) {
+        CheckoutFeedbackDto feedbackDto = createCheckoutFeedbackDtoForValidationErrors(shippingDetailsDto, bindingResult, messageProperties);
+        model.addAttribute("feedback", feedbackDto);
+    }
+
+    private void processOrder(CapturePaymentResponse capturePaymentResponse) {
         String orderId = capturePaymentResponse.externalOrderId();
         ShippingDetailsDto shippingDetails = sessionBasket.getShippingDetails().orElseThrow(() -> {
             throw new IllegalStateException("Shipping details expected");
         });
         BasketDto basket = sessionBasket.getBasket();
         logger.info("orderId={}, shippingDetails={}, basket={}", orderId, shippingDetails, basket);
-        sessionStatus.setComplete();
-
-        return "order-confirm";
-    }
-
-    private void addFeedbackToModel(ShippingDetailsDto shippingDetailsDto, BindingResult bindingResult, Model model) {
-        CheckoutFeedbackDto feedbackDto = createCheckoutFeedbackDtoForValidationErrors(shippingDetailsDto, bindingResult, messageProperties);
-        model.addAttribute("feedback", feedbackDto);
     }
 }

@@ -32,7 +32,7 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 @ActiveProfiles("dev")
 @EnableEncryptableProperties
 @ExtendWith(SoftAssertionsExtension.class)
-public class AccountUpdateTests {
+public class AddressUpdateTests {
 
     private final String addressLine1 = "2A Silver Count";
     private final String addressLine2 = "12 High Street";

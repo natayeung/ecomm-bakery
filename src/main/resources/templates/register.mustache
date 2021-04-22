@@ -86,10 +86,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="post-code"
+                    <label for="postcode"
                            class="form-label {{#feedback}}{{#postcodeErrorMessage}}is-invalid{{/postcodeErrorMessage}}{{/feedback}}">Postcode<small
                             class="form-text text-muted">*</small></label>
-                    <input type="text" class="form-control" id="post-code" name="postcode" required
+                    <input type="text" class="form-control" id="postcode" name="postcode" required
                         {{#feedback}}{{#lastInputPostcode}}value="{{lastInputPostcode}}"{{/lastInputPostcode}}{{/feedback}}>
                     <div class="invalid-feedback"
                          id="postcode-feedback-message">{{#feedback}}{{#postcodeErrorMessage}}{{postcodeErrorMessage}}{{/postcodeErrorMessage}}{{/feedback}}

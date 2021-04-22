@@ -31,7 +31,7 @@ public class LoginController {
     }
 
     @GetMapping("/error")
-    public String showLoginFormWithError(@RequestParam("cause") String exceptionName,
+    public String showLoginFormWithError(@RequestParam(name = "cause") String exceptionName,
                                          ModelMap model) {
 
         logger.info("Login failed with {}", exceptionName);

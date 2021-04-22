@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 import static com.natay.ecomm.bakery.checkout.ShippingDetailsDtoFactory.createShippingDetailsDto;
 
 /**
@@ -47,18 +49,20 @@ public class BasketController {
     }
 
     @PostMapping("/add")
-    public String addItemToBasket(@RequestParam("item-to-add") String productId)
+    public String addItemToBasket(@RequestParam(name = "item-to-add") String productId,
+                                  @RequestParam(name = "product-type", required = false) String productType)
             throws ProductAccessException, ProductNotFoundException {
         logger.info("Received request to add item {} to basket {}", productId, sessionBasket.getBasketRef());
 
         sessionBasket.addItem(productId);
         logger.info("Item count: {}", sessionBasket.getBasket().getItemCount());
 
-        return "redirect:/";
+        String redirectUri = Optional.ofNullable(productType).map(type -> "/catalog/" + type).orElse("/");
+        return "redirect:" + redirectUri;
     }
 
     @PostMapping("/delete")
-    public String removeItemFromBasket(@RequestParam("item-to-remove") String productId) {
+    public String removeItemFromBasket(@RequestParam(name = "item-to-remove") String productId) {
         logger.info("Received request to remove item {} from basket {}", productId, sessionBasket.getBasketRef());
 
         sessionBasket.removeItem(productId);

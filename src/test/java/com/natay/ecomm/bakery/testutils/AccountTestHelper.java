@@ -7,6 +7,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import java.io.IOException;
 
+import static com.natay.ecomm.bakery.testutils.HtmlFormHelper.fillInText;
+
 /**
  * @author natayeung
  */
@@ -17,10 +19,17 @@ public class AccountTestHelper {
         return accountAnchor.click();
     }
 
+    public static void updateField(HtmlPage accountPage, String inputName, String newValue) throws IOException {
+        HtmlForm accountForm = accountPage.getFormByName("form-account");
+        fillInText(accountForm, inputName, newValue);
+        clickUpdateButton(accountForm);
+    }
+
     public static void clickUpdateButton(HtmlForm accountForm) throws IOException {
         HtmlButton updateButton = accountForm.getButtonByName("update-account");
         updateButton.click();
     }
 
-    private AccountTestHelper() {}
+    private AccountTestHelper() {
+    }
 }

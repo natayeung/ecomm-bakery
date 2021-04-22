@@ -54,7 +54,7 @@ public class AccountController {
     }
 
     @GetMapping
-    public String viewAccountDetails(@RequestParam(value = "update-success", required = false) boolean updatedSuccessfully,
+    public String viewAccountDetails(@RequestParam(name = "update-success", required = false) boolean updatedSuccessfully,
                                      ModelMap model) {
         AuthenticatedUser user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
             throw new IllegalStateException("Authenticated user expected");
@@ -81,7 +81,7 @@ public class AccountController {
 
         if (bindingResult.hasErrors()) {
             logger.warn("Unable to update account details {}, validation failed: {}", accountDto, bindingResult.getFieldErrors());
-            addFeedbackToModel(accountDto, bindingResult, model, user);
+            addFeedbackToModel(accountDto, bindingResult, model);
             return "account";
         }
 
@@ -90,7 +90,7 @@ public class AccountController {
         return "redirect:/account?update-success=true";
     }
 
-    private void addFeedbackToModel(AccountDto accountDto, BindingResult bindingResult, Model model, AuthenticatedUser user) {
+    private void addFeedbackToModel(AccountDto accountDto, BindingResult bindingResult, Model model) {
         AccountUpdateFeedbackDto feedbackDto = createAccountUpdateFeedbackDtoForValidationErrors(accountDto, bindingResult, messageProperties);
         model.addAttribute("feedback", feedbackDto);
     }
