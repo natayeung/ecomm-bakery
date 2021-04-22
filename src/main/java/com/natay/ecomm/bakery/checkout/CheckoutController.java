@@ -58,7 +58,8 @@ public class CheckoutController {
     @PostMapping
     public String initiateCheckout(@ModelAttribute("shippingDetails") @Valid ShippingDetailsDto shippingDetailsDto,
                                    BindingResult bindingResult,
-                                   Model model) {
+                                   Model model)
+            throws InitiatePaymentFailedException {
         logger.info("Received request to initiate checkout, delivery address: {}", shippingDetailsDto);
 
         authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
@@ -72,13 +73,7 @@ public class CheckoutController {
         }
 
         InitiatePaymentRequest initiatePaymentRequest = createInitiatePaymentRequest(sessionBasket.getBasket(), shippingDetailsDto);
-        InitiatePaymentResponse initiatePaymentResponse;
-        try {
-            initiatePaymentResponse = paymentService.initiatePayment(initiatePaymentRequest);
-        } catch (InitiatePaymentFailedException ex) {
-            logger.warn("Unable to initiate payment: {}", ex.getMessage(), ex);
-            return "redirect:/error";
-        }
+        InitiatePaymentResponse initiatePaymentResponse = paymentService.initiatePayment(initiatePaymentRequest);
 
         sessionBasket.addShippingDetails(shippingDetailsDto);
 
@@ -89,17 +84,12 @@ public class CheckoutController {
 
     @GetMapping("/complete")
     public String completeCheckout(@RequestParam(name = "token") String externalOrderId,
-                                   SessionStatus sessionStatus) {
+                                   SessionStatus sessionStatus)
+            throws CapturePaymentFailedException {
         logger.info("Received request to complete checkout, externalOrderId: {}", externalOrderId);
 
         CapturePaymentRequest capturePaymentRequest = CapturePaymentRequest.of(externalOrderId);
-        CapturePaymentResponse capturePaymentResponse;
-        try {
-            capturePaymentResponse = paymentService.capturePayment(capturePaymentRequest);
-        } catch (CapturePaymentFailedException ex) {
-            logger.warn("Unable to capture payment: {}", ex.getMessage(), ex);
-            return "redirect:/error";
-        }
+        CapturePaymentResponse capturePaymentResponse = paymentService.capturePayment(capturePaymentRequest);
 
         processOrder(capturePaymentResponse);
         sessionStatus.setComplete();
