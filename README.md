@@ -7,10 +7,10 @@ This is an e-commerce web application for a mock bakery called N-2 Bakery. It is
 * Shopping Basket
 * User Registration/ Login
 * Facebook Login 
-* PayPal Checkout (WIP)
+* PayPal Checkout
 
 ## Built With
-* Java 11
+* Java 16
 * Spring Boot 2.4.3
 * Bootstrap 5.0.0-beta2
 * Mustache
