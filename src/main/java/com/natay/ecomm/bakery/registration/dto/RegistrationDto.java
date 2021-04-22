@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.registration;
+package com.natay.ecomm.bakery.registration.dto;
 
 import lombok.Data;
 

@@ -1,10 +1,11 @@
 package com.natay.ecomm.bakery.basket;
 
 import com.natay.ecomm.bakery.account.AddressService;
+import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
-import com.natay.ecomm.bakery.checkout.ShippingDetailsDto;
-import com.natay.ecomm.bakery.security.authentication.AuthenticatedUser;
+import com.natay.ecomm.bakery.checkout.dto.ShippingDetailsDto;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-import static com.natay.ecomm.bakery.checkout.ShippingDetailsDtoFactory.createShippingDetailsDto;
+import static com.natay.ecomm.bakery.checkout.dto.ShippingDetailsDtoFactory.createShippingDetailsDto;
 
 /**
  * @author natayeung
@@ -40,7 +41,7 @@ public class BasketController {
     @ModelAttribute("account")
     public String addAccountToModel() {
         return authenticatedUserLookup.getAuthenticatedUser()
-                .map(AuthenticatedUser::username).orElse(null);
+                .map(UserIdentity::username).orElse(null);
     }
 
     @ModelAttribute("basket")

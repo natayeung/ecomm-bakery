@@ -1,5 +1,6 @@
 package com.natay.ecomm.bakery.catalog;
 
+import com.natay.ecomm.bakery.catalog.persistence.ProductQueryDatabaseAdapter;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;

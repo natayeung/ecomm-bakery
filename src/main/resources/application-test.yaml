@@ -28,6 +28,12 @@ spring:
               - public_profile
             user-name-attribute: email
 
+  cache:
+    cache-names:
+      - orders
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=30m
+
 logging:
   level:
     root: INFO

@@ -1,5 +1,6 @@
-package com.natay.ecomm.bakery.account;
+package com.natay.ecomm.bakery.account.persistence;
 
+import com.natay.ecomm.bakery.account.Address;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

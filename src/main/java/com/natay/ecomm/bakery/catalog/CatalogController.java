@@ -1,8 +1,8 @@
 package com.natay.ecomm.bakery.catalog;
 
-import com.natay.ecomm.bakery.basket.BasketDto;
+import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
-import com.natay.ecomm.bakery.security.authentication.AuthenticatedUser;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ public class CatalogController {
     @ModelAttribute("account")
     public String addAccountToModel() {
         return authenticatedUserLookup.getAuthenticatedUser()
-                .map(AuthenticatedUser::username).orElse(null);
+                .map(UserIdentity::username).orElse(null);
     }
 
     @ModelAttribute("basket")

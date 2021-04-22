@@ -1,6 +1,6 @@
-package com.natay.ecomm.bakery.checkout;
+package com.natay.ecomm.bakery.checkout.dto;
 
-import com.natay.ecomm.bakery.configuration.MessageProperties;
+import com.natay.ecomm.bakery.common.MessageProperties;
 import org.springframework.validation.BindingResult;
 
 /**

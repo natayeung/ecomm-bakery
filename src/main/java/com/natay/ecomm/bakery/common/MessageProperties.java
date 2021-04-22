@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.configuration;
+package com.natay.ecomm.bakery.common;
 
 import lombok.Getter;
 import lombok.Setter;

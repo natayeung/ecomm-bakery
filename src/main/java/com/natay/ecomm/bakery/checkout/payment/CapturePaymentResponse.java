@@ -3,9 +3,9 @@ package com.natay.ecomm.bakery.checkout.payment;
 /**
  * @author natayeung
  */
-public record CapturePaymentResponse(String requestId, String externalOrderId) {
+public record CapturePaymentResponse(String externalOrderId) {
 
-    public static CapturePaymentResponse of(String requestId, String externalOrderId) {
-        return new CapturePaymentResponse(requestId, externalOrderId);
+    public static CapturePaymentResponse of(String externalOrderId) {
+        return new CapturePaymentResponse(externalOrderId);
     }
 }

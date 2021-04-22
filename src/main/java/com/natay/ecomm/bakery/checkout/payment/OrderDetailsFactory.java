@@ -1,10 +1,12 @@
 package com.natay.ecomm.bakery.checkout.payment;
 
-import com.natay.ecomm.bakery.basket.BasketDto;
-import com.natay.ecomm.bakery.basket.ItemDto;
+import com.natay.ecomm.bakery.basket.dto.BasketDto;
+import com.natay.ecomm.bakery.basket.dto.ItemDto;
+import com.natay.ecomm.bakery.checkout.CustomerDetails;
 import com.natay.ecomm.bakery.checkout.OrderDetails;
 import com.natay.ecomm.bakery.checkout.ShippingDetails;
-import com.natay.ecomm.bakery.checkout.ShippingDetailsDto;
+import com.natay.ecomm.bakery.checkout.dto.ShippingDetailsDto;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 
 import java.util.List;
 import java.util.function.Function;
@@ -14,17 +16,20 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author natayeung
  */
-public class InitiatePaymentRequestFactory {
+public class OrderDetailsFactory {
 
-    public static InitiatePaymentRequest createInitiatePaymentRequest(BasketDto basketDto, ShippingDetailsDto shippingDetailsDto) {
-        List<OrderDetails.Item> items = basketDto.getItems().stream().map(itemMapper()).collect(toList());
-        OrderDetails orderDetails = OrderDetails.builder()
-                .withShippingDetails(shippingDetailsMapper().apply(shippingDetailsDto))
+    public static OrderDetails createOrderDetails(InitiatePaymentRequest initiatePaymentRequest) {
+        UserIdentity customer = initiatePaymentRequest.customer();
+        BasketDto basket = initiatePaymentRequest.basket();
+        ShippingDetailsDto shippingDetails = initiatePaymentRequest.shippingDetails();
+
+        List<OrderDetails.Item> items = basket.getItems().stream().map(itemMapper()).collect(toList());
+        return OrderDetails.builder()
+                .withCustomerDetails(CustomerDetails.from(customer))
+                .withShippingDetails(shippingDetailsMapper().apply(shippingDetails))
                 .withItems(items)
-                .withTotalPrice(basketDto.getTotalPrice())
+                .withTotalPrice(basket.getTotalPrice())
                 .build();
-
-        return InitiatePaymentRequest.of(orderDetails);
     }
 
     private static Function<ShippingDetailsDto, ShippingDetails> shippingDetailsMapper() {

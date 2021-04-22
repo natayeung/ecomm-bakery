@@ -1,5 +1,6 @@
-package com.natay.ecomm.bakery.catalog;
+package com.natay.ecomm.bakery.catalog.persistence;
 
+import com.natay.ecomm.bakery.catalog.Product;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;

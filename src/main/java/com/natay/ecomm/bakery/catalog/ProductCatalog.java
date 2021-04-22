@@ -1,5 +1,6 @@
 package com.natay.ecomm.bakery.catalog;
 
+import com.natay.ecomm.bakery.catalog.persistence.ProductQueryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;

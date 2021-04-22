@@ -1,7 +1,8 @@
-package com.natay.ecomm.bakery.error;
+package com.natay.ecomm.bakery.common;
 
 import com.natay.ecomm.bakery.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
+import com.natay.ecomm.bakery.checkout.OrderNotFoundException;
 import com.natay.ecomm.bakery.checkout.payment.CapturePaymentFailedException;
 import com.natay.ecomm.bakery.checkout.payment.InitiatePaymentFailedException;
 import org.slf4j.Logger;
@@ -38,6 +39,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CapturePaymentFailedException.class)
     public String handleCapturePaymentFailedException(CapturePaymentFailedException ex) {
         logger.warn("Failed to complete checkout: {}", ex.getMessage(), ex);
+        return "redirect:/error";
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public String handleOrderNotFoundException(OrderNotFoundException ex) {
+        logger.warn("Failed to process order: {}", ex.getMessage(), ex);
         return "redirect:/error";
     }
 

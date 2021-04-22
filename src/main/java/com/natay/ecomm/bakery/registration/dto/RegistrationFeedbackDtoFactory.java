@@ -1,15 +1,15 @@
-package com.natay.ecomm.bakery.registration;
+package com.natay.ecomm.bakery.registration.dto;
 
-import com.natay.ecomm.bakery.configuration.MessageProperties;
+import com.natay.ecomm.bakery.common.MessageProperties;
 import org.springframework.validation.BindingResult;
 
 /**
  * @author natayeung
  */
-class RegistrationFeedbackDtoFactory {
+public class RegistrationFeedbackDtoFactory {
 
-    static RegistrationFeedbackDto createRegistrationFeedbackDtoForEmailAlreadyInUse(RegistrationDto registrationDto,
-                                                                                     MessageProperties messageProperties) {
+    public static RegistrationFeedbackDto createRegistrationFeedbackDtoForEmailAlreadyInUse(RegistrationDto registrationDto,
+                                                                                            MessageProperties messageProperties) {
         RegistrationFeedbackDto feedbackDto = new RegistrationFeedbackDto();
         feedbackDto.setEmailErrorMessage(messageProperties.getEmailInUse());
         feedbackDto.setLastInputAddressLine1(registrationDto.getAddressLine1());
@@ -20,9 +20,9 @@ class RegistrationFeedbackDtoFactory {
         return feedbackDto;
     }
 
-    static RegistrationFeedbackDto createRegistrationFeedbackDtoForValidationErrors(RegistrationDto registrationDto,
-                                                                                    BindingResult bindingResult,
-                                                                                    MessageProperties messageProperties) {
+    public static RegistrationFeedbackDto createRegistrationFeedbackDtoForValidationErrors(RegistrationDto registrationDto,
+                                                                                           BindingResult bindingResult,
+                                                                                           MessageProperties messageProperties) {
         RegistrationFeedbackDto feedbackDto = new RegistrationFeedbackDto();
         if (bindingResult.hasFieldErrors("email")) {
             feedbackDto.setEmailErrorMessage(messageProperties.getInvalidEmail());

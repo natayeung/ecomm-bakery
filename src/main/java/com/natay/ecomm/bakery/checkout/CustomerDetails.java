@@ -1,48 +1,43 @@
-package com.natay.ecomm.bakery.account;
+package com.natay.ecomm.bakery.checkout;
 
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * @author natayeung
  */
 @ToString
-public class Account {
+public class CustomerDetails implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private final String email;
-    private final String password;
     private final String firstName;
     private final String lastName;
 
-    private Account(Builder builder) {
+    private CustomerDetails(Builder builder) {
         email = builder.email;
-        password = builder.password;
         firstName = builder.firstName;
         lastName = builder.lastName;
+    }
+
+    public static CustomerDetails from(UserIdentity userIdentity) {
+        return CustomerDetails.builder()
+                .withEmail(userIdentity.email())
+                .withFirstName(userIdentity.firstName())
+                .withLastName(userIdentity.lastName())
+                .build();
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public String email() {
-        return email;
-    }
-
-    public String password() {
-        return password;
-    }
-
-    public String firstName() {
-        return firstName;
-    }
-
-    public String lastName() {
-        return lastName;
-    }
-
     public static final class Builder {
         private String email;
-        private String password;
         private String firstName;
         private String lastName;
 
@@ -51,11 +46,6 @@ public class Account {
 
         public Builder withEmail(String email) {
             this.email = email;
-            return this;
-        }
-
-        public Builder withPassword(String password) {
-            this.password = password;
             return this;
         }
 
@@ -69,8 +59,8 @@ public class Account {
             return this;
         }
 
-        public Account build() {
-            return new Account(this);
+        public CustomerDetails build() {
+            return new CustomerDetails(this);
         }
     }
 }

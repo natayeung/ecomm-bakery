@@ -1,7 +1,9 @@
 package com.natay.ecomm.bakery.registration;
 
-import com.natay.ecomm.bakery.configuration.MessageProperties;
+import com.natay.ecomm.bakery.common.MessageProperties;
 import com.natay.ecomm.bakery.account.EmailAlreadyUsedException;
+import com.natay.ecomm.bakery.registration.dto.RegistrationDto;
+import com.natay.ecomm.bakery.registration.dto.RegistrationFeedbackDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static com.natay.ecomm.bakery.registration.RegistrationFeedbackDtoFactory.createRegistrationFeedbackDtoForEmailAlreadyInUse;
-import static com.natay.ecomm.bakery.registration.RegistrationFeedbackDtoFactory.createRegistrationFeedbackDtoForValidationErrors;
+import static com.natay.ecomm.bakery.registration.dto.RegistrationFeedbackDtoFactory.createRegistrationFeedbackDtoForEmailAlreadyInUse;
+import static com.natay.ecomm.bakery.registration.dto.RegistrationFeedbackDtoFactory.createRegistrationFeedbackDtoForValidationErrors;
 
 /**
  * @author natayeung

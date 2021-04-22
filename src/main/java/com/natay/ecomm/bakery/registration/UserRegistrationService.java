@@ -2,6 +2,7 @@ package com.natay.ecomm.bakery.registration;
 
 import com.natay.ecomm.bakery.account.AccountService;
 import com.natay.ecomm.bakery.account.AddressService;
+import com.natay.ecomm.bakery.registration.dto.RegistrationDto;
 import org.springframework.stereotype.Service;
 
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;

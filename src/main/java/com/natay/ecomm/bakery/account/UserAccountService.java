@@ -1,6 +1,7 @@
 package com.natay.ecomm.bakery.account;
 
-import com.natay.ecomm.bakery.registration.RegistrationDto;
+import com.natay.ecomm.bakery.account.persistence.AccountPersistencePort;
+import com.natay.ecomm.bakery.registration.dto.RegistrationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,13 +1,19 @@
 package com.natay.ecomm.bakery.checkout;
 
-import com.natay.ecomm.bakery.basket.BasketDto;
+import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
+import com.natay.ecomm.bakery.checkout.cache.OrderCache;
+import com.natay.ecomm.bakery.checkout.dto.CheckoutFeedbackDto;
+import com.natay.ecomm.bakery.checkout.dto.ShippingDetailsDto;
 import com.natay.ecomm.bakery.checkout.payment.*;
-import com.natay.ecomm.bakery.configuration.MessageProperties;
-import com.natay.ecomm.bakery.security.authentication.AuthenticatedUser;
+import com.natay.ecomm.bakery.common.MessageProperties;
+import com.natay.ecomm.bakery.checkout.events.OrderReceivedEvent;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,8 +22,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 
-import static com.natay.ecomm.bakery.checkout.CheckoutFeedbackDtoFactory.createCheckoutFeedbackDtoForValidationErrors;
-import static com.natay.ecomm.bakery.checkout.payment.InitiatePaymentRequestFactory.createInitiatePaymentRequest;
+import static com.natay.ecomm.bakery.checkout.dto.CheckoutFeedbackDtoFactory.createCheckoutFeedbackDtoForValidationErrors;
 
 /**
  * @author natayeung
@@ -25,22 +30,26 @@ import static com.natay.ecomm.bakery.checkout.payment.InitiatePaymentRequestFact
 @Controller
 @RequestMapping("/checkout")
 @SessionAttributes("scopedTarget.sessionBasket")
-public class CheckoutController {
+public class CheckoutController implements ApplicationEventPublisherAware {
 
     private static final Logger logger = LoggerFactory.getLogger(CheckoutController.class);
 
     private final AuthenticatedUserLookup authenticatedUserLookup;
     private final SessionBasket sessionBasket;
     private final PaymentService paymentService;
+    private final OrderCache orderCache;
     private final MessageProperties messageProperties;
+    private ApplicationEventPublisher eventPublisher;
 
     public CheckoutController(AuthenticatedUserLookup authenticatedUserLookup,
                               SessionBasket sessionBasket,
                               PaymentService paymentService,
+                              OrderCache orderCache,
                               MessageProperties messageProperties) {
         this.authenticatedUserLookup = authenticatedUserLookup;
         this.sessionBasket = sessionBasket;
         this.paymentService = paymentService;
+        this.orderCache = orderCache;
         this.messageProperties = messageProperties;
     }
 
@@ -52,7 +61,7 @@ public class CheckoutController {
     @ModelAttribute("account")
     public String addAccountToModel() {
         return authenticatedUserLookup.getAuthenticatedUser()
-                .map(AuthenticatedUser::username).orElse(null);
+                .map(UserIdentity::username).orElse(null);
     }
 
     @PostMapping
@@ -62,7 +71,7 @@ public class CheckoutController {
             throws InitiatePaymentFailedException {
         logger.info("Received request to initiate checkout, delivery address: {}", shippingDetailsDto);
 
-        authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
+        UserIdentity user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
             throw new IllegalStateException("Authenticated user expected");
         });
 
@@ -72,10 +81,10 @@ public class CheckoutController {
             return "basket";
         }
 
-        InitiatePaymentRequest initiatePaymentRequest = createInitiatePaymentRequest(sessionBasket.getBasket(), shippingDetailsDto);
+        InitiatePaymentRequest initiatePaymentRequest = InitiatePaymentRequest.of(user, sessionBasket.getBasket(), shippingDetailsDto);
         InitiatePaymentResponse initiatePaymentResponse = paymentService.initiatePayment(initiatePaymentRequest);
 
-        sessionBasket.addShippingDetails(shippingDetailsDto);
+        orderCache.put(initiatePaymentResponse.externalOrderId(), initiatePaymentResponse.orderDetails());
 
         String approvalLink = initiatePaymentResponse.approvalLink();
         logger.debug("Redirecting to payment approval link {}", approvalLink);
@@ -91,7 +100,7 @@ public class CheckoutController {
         CapturePaymentRequest capturePaymentRequest = CapturePaymentRequest.of(externalOrderId);
         CapturePaymentResponse capturePaymentResponse = paymentService.capturePayment(capturePaymentRequest);
 
-        processOrder(capturePaymentResponse);
+        publishOrderReceivedEvent(capturePaymentResponse.externalOrderId());
         sessionStatus.setComplete();
 
         return "order-confirm";
@@ -103,6 +112,11 @@ public class CheckoutController {
         return "redirect:/basket";
     }
 
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        eventPublisher = applicationEventPublisher;
+    }
+
     private void addFeedbackToModel(ShippingDetailsDto shippingDetailsDto,
                                     BindingResult bindingResult,
                                     Model model) {
@@ -110,12 +124,10 @@ public class CheckoutController {
         model.addAttribute("feedback", feedbackDto);
     }
 
-    private void processOrder(CapturePaymentResponse capturePaymentResponse) {
-        String orderId = capturePaymentResponse.externalOrderId();
-        ShippingDetailsDto shippingDetails = sessionBasket.getShippingDetails().orElseThrow(() -> {
-            throw new IllegalStateException("Shipping details expected");
-        });
-        BasketDto basket = sessionBasket.getBasket();
-        logger.info("orderId={}, shippingDetails={}, basket={}", orderId, shippingDetails, basket);
+    private void publishOrderReceivedEvent(String orderId) {
+        OrderDetails orderDetails = orderCache.get(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found, orderId=" + orderId));
+        OrderReceivedEvent orderReceivedEvent = new OrderReceivedEvent(this, orderDetails);
+        eventPublisher.publishEvent(orderReceivedEvent);
+        logger.info("Published {}", orderReceivedEvent);
     }
 }

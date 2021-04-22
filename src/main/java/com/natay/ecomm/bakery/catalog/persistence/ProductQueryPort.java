@@ -1,4 +1,6 @@
-package com.natay.ecomm.bakery.catalog;
+package com.natay.ecomm.bakery.catalog.persistence;
+
+import com.natay.ecomm.bakery.catalog.Product;
 
 import java.util.List;
 import java.util.Optional;

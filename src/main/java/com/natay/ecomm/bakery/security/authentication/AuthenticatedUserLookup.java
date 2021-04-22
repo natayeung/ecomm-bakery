@@ -21,13 +21,13 @@ public class AuthenticatedUserLookup {
         this.accountService = accountService;
     }
 
-    public Optional<AuthenticatedUser> getAuthenticatedUser() {
+    public Optional<UserIdentity> getAuthenticatedUser() {
         return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
                 .flatMap(a -> getAuthenticatedUser(a.getPrincipal()));
     }
 
-    private Optional<AuthenticatedUser> getAuthenticatedUser(Object principal) {
-        AuthenticatedUser.Builder userBuilder = AuthenticatedUser.builder();
+    private Optional<UserIdentity> getAuthenticatedUser(Object principal) {
+        UserIdentity.Builder userBuilder = UserIdentity.builder();
         String email = null;
         if (principal instanceof UserDetails userDetails) {
             email = userDetails.getUsername();
@@ -39,12 +39,12 @@ public class AuthenticatedUserLookup {
         return Optional.ofNullable(email).map(e -> userBuilder.withUsername(e).build());
     }
 
-    private void populateFirstNameAndLastNameIfPresent(AuthenticatedUser.Builder userBuilder, String email) {
+    private void populateFirstNameAndLastNameIfPresent(UserIdentity.Builder userBuilder, String email) {
         accountService.findAccountByEmail(email)
                 .ifPresent(a -> userBuilder.withFirstName(a.firstName()).withLastName(a.lastName()));
     }
 
-    private void populateFirstNameAndLastNameIfPresent(AuthenticatedUser.Builder userBuilder, OAuth2User oAuth2User) {
+    private void populateFirstNameAndLastNameIfPresent(UserIdentity.Builder userBuilder, OAuth2User oAuth2User) {
         Optional.<String>ofNullable(oAuth2User.getAttribute("name"))
                 .ifPresent(n -> {
                     String[] nameParts = n.split(" ");

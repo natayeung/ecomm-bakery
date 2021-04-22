@@ -1,11 +1,13 @@
 package com.natay.ecomm.bakery.checkout.payment;
 
+import com.natay.ecomm.bakery.checkout.OrderDetails;
+
 /**
  * @author natayeung
  */
-public record InitiatePaymentResponse(String requestId, String externalOrderId, String approvalLink) {
+public record InitiatePaymentResponse(String externalOrderId, OrderDetails orderDetails, String approvalLink) {
 
-    static InitiatePaymentResponse of(String requestId, String externalOrderId, String approvalLink) {
-        return new InitiatePaymentResponse(requestId, externalOrderId, approvalLink);
+    static InitiatePaymentResponse of(String externalOrderId, OrderDetails orderDetails, String approvalLink) {
+        return new InitiatePaymentResponse(externalOrderId, orderDetails, approvalLink);
     }
 }

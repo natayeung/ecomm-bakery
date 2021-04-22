@@ -1,6 +1,6 @@
-package com.natay.ecomm.bakery.account;
+package com.natay.ecomm.bakery.account.dto;
 
-import com.natay.ecomm.bakery.configuration.MessageProperties;
+import com.natay.ecomm.bakery.common.MessageProperties;
 import org.springframework.validation.BindingResult;
 
 /**

@@ -5,7 +5,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.natay.ecomm.bakery.registration.RegistrationDto;
+import com.natay.ecomm.bakery.registration.dto.RegistrationDto;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;

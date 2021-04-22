@@ -1,5 +1,7 @@
 package com.natay.ecomm.bakery.catalog;
 
+import com.natay.ecomm.bakery.catalog.persistence.ProductQueryPort;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

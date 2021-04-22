@@ -3,7 +3,7 @@ package com.natay.ecomm.bakery.basket;
 import com.natay.ecomm.bakery.catalog.Product;
 import com.natay.ecomm.bakery.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
-import com.natay.ecomm.bakery.catalog.ProductQueryPort;
+import com.natay.ecomm.bakery.catalog.persistence.ProductQueryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;

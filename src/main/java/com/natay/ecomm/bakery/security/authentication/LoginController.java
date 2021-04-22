@@ -1,6 +1,6 @@
 package com.natay.ecomm.bakery.security.authentication;
 
-import com.natay.ecomm.bakery.configuration.MessageProperties;
+import com.natay.ecomm.bakery.common.MessageProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;

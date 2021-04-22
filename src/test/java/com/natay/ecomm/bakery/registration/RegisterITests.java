@@ -2,6 +2,7 @@ package com.natay.ecomm.bakery.registration;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.natay.ecomm.bakery.registration.dto.RegistrationDto;
 import com.natay.ecomm.bakery.testutils.ControllerITests;
 import org.junit.jupiter.api.Test;
 

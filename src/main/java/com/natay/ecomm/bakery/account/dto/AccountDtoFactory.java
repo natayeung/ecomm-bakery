@@ -1,17 +1,18 @@
-package com.natay.ecomm.bakery.account;
+package com.natay.ecomm.bakery.account.dto;
 
-import com.natay.ecomm.bakery.security.authentication.AuthenticatedUser;
+import com.natay.ecomm.bakery.account.Address;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 
 /**
  * @author natayeung
  */
-class AccountDtoFactory {
+public class AccountDtoFactory {
 
-    static AccountDto createAccountDto(AuthenticatedUser user, Address address) {
+    public static AccountDto createAccountDto(UserIdentity user, Address address) {
         AccountDto accountDto = new AccountDto();
         accountDto.setEmail(user.username());
-        accountDto.setFirstName(user.firstname());
-        accountDto.setLastName(user.lastname());
+        accountDto.setFirstName(user.firstName());
+        accountDto.setLastName(user.lastName());
         accountDto.setAddressLine1(address.addressLine1());
         accountDto.setAddressLine2(address.addressLine2());
         accountDto.setTownOrCity(address.townOrCity());

@@ -1,6 +1,6 @@
 package com.natay.ecomm.bakery.testutils;
 
-import com.natay.ecomm.bakery.account.AccountDto;
+import com.natay.ecomm.bakery.account.dto.AccountDto;
 
 /**
  * @author natayeung

@@ -2,6 +2,9 @@ package com.natay.ecomm.bakery.registration;
 
 
 import com.natay.ecomm.bakery.account.*;
+import com.natay.ecomm.bakery.account.persistence.AccountDatabaseAdapter;
+import com.natay.ecomm.bakery.account.persistence.AddressDatabaseAdapter;
+import com.natay.ecomm.bakery.registration.dto.RegistrationDto;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;

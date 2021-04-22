@@ -1,6 +1,6 @@
 package com.natay.ecomm.bakery.testutils;
 
-import com.natay.ecomm.bakery.registration.RegistrationDto;
+import com.natay.ecomm.bakery.registration.dto.RegistrationDto;
 
 import static com.natay.ecomm.bakery.testutils.RandomUtil.randomEmail;
 

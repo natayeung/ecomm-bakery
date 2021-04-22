@@ -1,8 +1,11 @@
 package com.natay.ecomm.bakery.checkout.payment;
 
-import com.natay.ecomm.bakery.checkout.payment.paypal.PayPalCheckoutPort;
+import com.natay.ecomm.bakery.checkout.OrderDetails;
 import com.natay.ecomm.bakery.checkout.payment.paypal.PayPalCheckoutException;
+import com.natay.ecomm.bakery.checkout.payment.paypal.PayPalCheckoutPort;
 import org.springframework.stereotype.Service;
+
+import static com.natay.ecomm.bakery.checkout.payment.OrderDetailsFactory.createOrderDetails;
 
 
 /**
@@ -19,24 +22,23 @@ public class PayPalPaymentService implements PaymentService {
 
     @Override
     public InitiatePaymentResponse initiatePayment(InitiatePaymentRequest request) throws InitiatePaymentFailedException {
-        String requestId = request.requestId();
         try {
-            OrderCreated orderCreated = payPalCheckoutPort.createOrder(request.orderDetails());
-            return InitiatePaymentResponse.of(requestId, orderCreated.externalOrderId(), orderCreated.approvalLink());
+            OrderDetails orderDetails = createOrderDetails(request);
+            OrderCreated orderCreated = payPalCheckoutPort.createOrder(orderDetails);
+            return InitiatePaymentResponse.of(orderCreated.externalOrderId(), orderDetails, orderCreated.approvalLink());
         } catch (PayPalCheckoutException ex) {
-            String message = "Error initiating payment with PayPal: " + ex.getMessage() + " , requestId=" + requestId;
+            String message = "Error initiating payment with PayPal: " + ex.getMessage();
             throw new InitiatePaymentFailedException(message, ex);
         }
     }
 
     @Override
     public CapturePaymentResponse capturePayment(CapturePaymentRequest request) throws CapturePaymentFailedException {
-        String requestId = request.requestId();
         try {
             OrderCaptured orderCaptured = payPalCheckoutPort.captureOrder(request.externalOrderId());
-            return CapturePaymentResponse.of(requestId, orderCaptured.externalOrderId());
+            return CapturePaymentResponse.of(orderCaptured.externalOrderId());
         } catch (PayPalCheckoutException ex) {
-            String message = "Error capturing payment with PayPal: " + ex.getMessage() + " , requestId=" + requestId;
+            String message = "Error capturing payment with PayPal: " + ex.getMessage();
             throw new CapturePaymentFailedException(message, ex);
         }
     }

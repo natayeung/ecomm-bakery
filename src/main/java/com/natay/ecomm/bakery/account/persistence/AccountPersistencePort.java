@@ -1,4 +1,6 @@
-package com.natay.ecomm.bakery.account;
+package com.natay.ecomm.bakery.account.persistence;
+
+import com.natay.ecomm.bakery.account.Account;
 
 import java.util.Optional;
 

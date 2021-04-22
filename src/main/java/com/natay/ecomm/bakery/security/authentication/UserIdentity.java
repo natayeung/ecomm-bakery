@@ -5,14 +5,14 @@ import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
 /**
  * @author natayeung
  */
-public class AuthenticatedUser {
+public class UserIdentity {
 
-    private final String username;
+    private final String email;
     private final String firstName;
     private final String lastName;
 
-    private AuthenticatedUser(Builder builder) {
-        username = requireNonBlank(builder.username, "Username must be specified");
+    private UserIdentity(Builder builder) {
+        email = requireNonBlank(builder.email, "Email must be specified");
         firstName = builder.firstName;
         lastName = builder.lastName;
     }
@@ -22,19 +22,23 @@ public class AuthenticatedUser {
     }
 
     public String username() {
-        return username;
+        return email;
     }
 
-    public String firstname() {
+    public String email() {
+        return email;
+    }
+
+    public String firstName() {
         return firstName;
     }
 
-    public String lastname() {
+    public String lastName() {
         return lastName;
     }
 
     public static final class Builder {
-        private String username;
+        private String email;
         private String firstName;
         private String lastName;
 
@@ -42,7 +46,7 @@ public class AuthenticatedUser {
         }
 
         public Builder withUsername(String username) {
-            this.username = username;
+            this.email = username;
             return this;
         }
 
@@ -56,8 +60,8 @@ public class AuthenticatedUser {
             return this;
         }
 
-        public AuthenticatedUser build() {
-            return new AuthenticatedUser(this);
+        public UserIdentity build() {
+            return new UserIdentity(this);
         }
     }
 }

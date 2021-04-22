@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.checkout;
+package com.natay.ecomm.bakery.checkout.dto;
 
 import lombok.Data;
 

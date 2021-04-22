@@ -1,9 +1,11 @@
 package com.natay.ecomm.bakery.account;
 
-import com.natay.ecomm.bakery.basket.BasketDto;
+import com.natay.ecomm.bakery.account.dto.AccountDto;
+import com.natay.ecomm.bakery.account.dto.AccountUpdateFeedbackDto;
+import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
-import com.natay.ecomm.bakery.configuration.MessageProperties;
-import com.natay.ecomm.bakery.security.authentication.AuthenticatedUser;
+import com.natay.ecomm.bakery.common.MessageProperties;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.natay.ecomm.bakery.account.AccountDtoFactory.createAccountDto;
-import static com.natay.ecomm.bakery.account.AccountUpdateFeedbackDtoFactory.createAccountUpdateFeedbackDtoForValidationErrors;
+import static com.natay.ecomm.bakery.account.dto.AccountDtoFactory.createAccountDto;
+import static com.natay.ecomm.bakery.account.dto.AccountUpdateFeedbackDtoFactory.createAccountUpdateFeedbackDtoForValidationErrors;
 
 /**
  * @author natayeung
@@ -45,7 +47,7 @@ public class AccountController {
     @ModelAttribute("account")
     public String addAccountToModel() {
         return authenticatedUserLookup.getAuthenticatedUser()
-                .map(AuthenticatedUser::username).orElse(null);
+                .map(UserIdentity::username).orElse(null);
     }
 
     @ModelAttribute("basket")
@@ -56,7 +58,7 @@ public class AccountController {
     @GetMapping
     public String viewAccountDetails(@RequestParam(name = "update-success", required = false) boolean updatedSuccessfully,
                                      ModelMap model) {
-        AuthenticatedUser user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
+        UserIdentity user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
             throw new IllegalStateException("Authenticated user expected");
         });
         logger.info("Received request to view account details for {}", user.username());
@@ -74,7 +76,7 @@ public class AccountController {
     public String updateAccountDetails(@ModelAttribute("accountDetails") @Valid AccountDto accountDto,
                                        BindingResult bindingResult,
                                        Model model) {
-        AuthenticatedUser user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
+        UserIdentity user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
             throw new IllegalStateException("Authenticated user expected");
         });
         logger.info("Received request to update account details for {}: {}", user.username(), accountDto);
@@ -95,7 +97,7 @@ public class AccountController {
         model.addAttribute("feedback", feedbackDto);
     }
 
-    private void addAccountDetailsToModelIfPresent(ModelMap model, AuthenticatedUser user) {
+    private void addAccountDetailsToModelIfPresent(ModelMap model, UserIdentity user) {
         addressService.findAddressByEmail(user.username())
                 .ifPresentOrElse(
                         a -> {

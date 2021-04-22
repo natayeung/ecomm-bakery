@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.basket;
+package com.natay.ecomm.bakery.basket.dto;
 
 import lombok.Value;
 
