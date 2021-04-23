@@ -9,15 +9,13 @@ import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 public class AccountDtoFactory {
 
     public static AccountDto createAccountDto(UserIdentity user, Address address) {
-        AccountDto accountDto = new AccountDto();
-        accountDto.setEmail(user.username());
-        accountDto.setFirstName(user.firstName());
-        accountDto.setLastName(user.lastName());
-        accountDto.setAddressLine1(address.addressLine1());
-        accountDto.setAddressLine2(address.addressLine2());
-        accountDto.setTownOrCity(address.townOrCity());
-        accountDto.setPostcode(address.postcode());
-
-        return accountDto;
+        return new AccountDto()
+                .setEmail(user.username())
+                .setFirstName(user.firstName())
+                .setLastName(user.lastName())
+                .setAddressLine1(address.addressLine1())
+                .setAddressLine2(address.addressLine2())
+                .setTownOrCity(address.townOrCity())
+                .setPostcode(address.postcode());
     }
 }

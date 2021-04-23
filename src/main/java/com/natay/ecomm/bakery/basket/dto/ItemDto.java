@@ -1,5 +1,6 @@
 package com.natay.ecomm.bakery.basket.dto;
 
+import lombok.Builder;
 import lombok.Value;
 
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
  * @author natayeung
  */
 @Value
+@Builder
 public class ItemDto {
 
     String productId;

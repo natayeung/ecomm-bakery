@@ -59,11 +59,11 @@ public class AddressDatabaseAdapter implements AddressPersistencePort {
     private RowMapper<Address> userAddressRowMapper() {
         return (rs, row) ->
                 Address.builder()
-                        .withEmail(rs.getString("email"))
-                        .withAddressLine1(rs.getString("address_line_1"))
-                        .withAddressLine2(rs.getString("address_line_2"))
-                        .withTownOrCity(rs.getString("town_or_city"))
-                        .withPostcode(rs.getString("postcode"))
+                        .email(rs.getString("email"))
+                        .addressLine1(rs.getString("address_line_1"))
+                        .addressLine2(rs.getString("address_line_2"))
+                        .townOrCity(rs.getString("town_or_city"))
+                        .postcode(rs.getString("postcode"))
                         .build();
     }
 

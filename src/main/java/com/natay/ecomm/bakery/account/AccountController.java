@@ -2,13 +2,12 @@ package com.natay.ecomm.bakery.account;
 
 import com.natay.ecomm.bakery.account.dto.AccountDto;
 import com.natay.ecomm.bakery.account.dto.AccountUpdateFeedbackDto;
-import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
+import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.common.MessageProperties;
-import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -25,9 +24,8 @@ import static com.natay.ecomm.bakery.account.dto.AccountUpdateFeedbackDtoFactory
  */
 @Controller
 @RequestMapping("/account")
+@Slf4j
 public class AccountController {
-
-    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     private final AuthenticatedUserLookup authenticatedUserLookup;
     private final SessionBasket sessionBasket;
@@ -61,7 +59,7 @@ public class AccountController {
         UserIdentity user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
             throw new IllegalStateException("Authenticated user expected");
         });
-        logger.info("Received request to view account details for {}", user.username());
+        log.info("Received request to view account details for {}", user.username());
 
         addAccountDetailsToModelIfPresent(model, user);
 
@@ -79,10 +77,10 @@ public class AccountController {
         UserIdentity user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
             throw new IllegalStateException("Authenticated user expected");
         });
-        logger.info("Received request to update account details for {}: {}", user.username(), accountDto);
+        log.info("Received request to update account details for {}: {}", user.username(), accountDto);
 
         if (bindingResult.hasErrors()) {
-            logger.warn("Unable to update account details {}, validation failed: {}", accountDto, bindingResult.getFieldErrors());
+            log.warn("Unable to update account details {}, validation failed: {}", accountDto, bindingResult.getFieldErrors());
             addFeedbackToModel(accountDto, bindingResult, model);
             return "account";
         }
@@ -104,6 +102,6 @@ public class AccountController {
                             AccountDto accountDto = createAccountDto(user, a);
                             model.addAttribute("accountDetails", accountDto);
                         },
-                        () -> logger.info("No address found for user {}", user.username()));
+                        () -> log.info("No address found for user {}", user.username()));
     }
 }

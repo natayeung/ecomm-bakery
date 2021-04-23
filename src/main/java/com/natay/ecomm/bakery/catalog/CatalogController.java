@@ -1,11 +1,10 @@
 package com.natay.ecomm.bakery.catalog;
 
-import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
-import com.natay.ecomm.bakery.security.authentication.UserIdentity;
+import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +19,8 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/")
+@Slf4j
 public class CatalogController {
-
-    private static final Logger logger = LoggerFactory.getLogger(CatalogController.class);
 
     private final AuthenticatedUserLookup authenticatedUserLookup;
     private final SessionBasket sessionBasket;
@@ -60,7 +58,7 @@ public class CatalogController {
     public String viewCatalogByType(@PathVariable(name = "product-type") String productType,
                                     Model model)
             throws ProductAccessException {
-        logger.debug("Received request to display catalog for {}", productType);
+        log.debug("Received request to display catalog for {}", productType);
 
         List<Product> products = catalog.findProductByType(Product.Type.valueOf(productType));
         model.addAttribute("catalog", products);

@@ -14,5 +14,8 @@ public class BasketDto {
     List<ItemDto> items;
     int itemCount;
     BigDecimal totalPrice;
-    boolean isEmpty;
+
+    public boolean isEmpty() {
+        return items.isEmpty();
+    }
 }

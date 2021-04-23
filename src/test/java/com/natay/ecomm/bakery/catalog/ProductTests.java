@@ -28,14 +28,14 @@ public class ProductTests {
     @Test
     public void productCanBeConstructed() {
         Product constructed = Product.builder()
-                .withProductId(productId)
-                .withProductType(WHOLE_CAKE)
-                .withTitle(title)
-                .withDescription(description)
-                .withPrice(price)
+                .id(productId)
+                .productType(WHOLE_CAKE)
+                .title(title)
+                .description(description)
+                .price(price)
                 .build();
 
-        softly.assertThat(constructed.productId()).as("product ID").isEqualTo(productId);
+        softly.assertThat(constructed.id()).as("product ID").isEqualTo(productId);
         softly.assertThat(constructed.title()).as("title").isEqualTo(title);
         softly.assertThat(constructed.description()).as("description").isEqualTo(description);
         softly.assertThat(constructed.price()).as("price").isEqualTo(price);
@@ -43,72 +43,67 @@ public class ProductTests {
 
     @Test
     public void productIdIsMandatory() {
-        assertThatThrownBy(() -> {
-            Product.builder()
-                    .withProductType(WHOLE_CAKE)
-                    .withTitle(title)
-                    .withDescription(description)
-                    .withPrice(price)
-                    .build();
-        }).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> Product.builder()
+                .productType(WHOLE_CAKE)
+                .title(title)
+                .description(description)
+                .price(price)
+                .build())
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     public void productTypeIsMandatory() {
-        assertThatThrownBy(() -> {
-            Product.builder()
-                    .withProductId(productId)
-                    .withTitle(title)
-                    .withDescription(description)
-                    .withPrice(price)
-                    .build();
-        }).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> Product.builder()
+                .id(productId)
+                .title(title)
+                .description(description)
+                .price(price)
+                .build())
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     public void titleIsMandatory() {
-        assertThatThrownBy(() -> {
-            Product.builder()
-                    .withProductId(productId)
-                    .withProductType(WHOLE_CAKE)
-                    .withDescription(description)
-                    .withPrice(price)
-                    .build();
-        }).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> Product.builder()
+                .id(productId)
+                .productType(WHOLE_CAKE)
+                .description(description)
+                .price(price)
+                .build())
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     public void priceIsMandatory() {
-        assertThatThrownBy(() -> {
-            Product.builder()
-                    .withProductId(productId)
-                    .withProductType(WHOLE_CAKE)
-                    .withTitle(title)
-                    .withDescription(description)
-                    .build();
-        }).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> Product.builder()
+                .id(productId)
+                .productType(WHOLE_CAKE)
+                .title(title)
+                .description(description)
+                .build())
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     public void priceCannotBeNegative() {
         assertThatIllegalArgumentException()
-                .isThrownBy(() ->
-                        Product.builder()
-                                .withProductId(productId)
-                                .withProductType(WHOLE_CAKE)
-                                .withTitle(title)
-                                .withDescription(description)
-                                .withPrice(BigDecimal.valueOf(-1.5))
-                                .build());
+                .isThrownBy(() -> Product.builder()
+                        .id(productId)
+                        .productType(WHOLE_CAKE)
+                        .title(title)
+                        .description(description)
+                        .price(BigDecimal.valueOf(-1.5))
+                        .build());
     }
 
     @Test
     public void descriptionIsOptional() {
         Product constructed = Product.builder()
-                .withProductId(productId)
-                .withProductType(WHOLE_CAKE)
-                .withTitle(title)
-                .withPrice(price)
+                .id(productId)
+                .productType(WHOLE_CAKE)
+                .title(title)
+                .price(price)
                 .build();
 
         assertThat(constructed).isInstanceOf(Product.class);

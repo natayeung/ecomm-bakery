@@ -21,10 +21,10 @@ public class ProductFactory {
 
     public static Product createProductWithTitleAndPrice(String title, BigDecimal price) {
         return Product.builder()
-                .withProductId(nextProductId())
-                .withProductType(WHOLE_CAKE)
-                .withTitle(title)
-                .withPrice(price)
+                .id(nextProductId())
+                .productType(WHOLE_CAKE)
+                .title(title)
+                .price(price)
                 .build();
     }
 

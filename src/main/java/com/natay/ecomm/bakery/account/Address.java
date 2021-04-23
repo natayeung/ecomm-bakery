@@ -1,14 +1,17 @@
 package com.natay.ecomm.bakery.account;
 
-import lombok.ToString;
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import static com.natay.ecomm.bakery.utils.Arguments.requireNonBlank;
-import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
 
 /**
  * @author natayeung
  */
-@ToString
+@Data
+@Builder
+@Accessors(fluent = true)
 public class Address {
 
     private final String email;
@@ -17,86 +20,11 @@ public class Address {
     private final String townOrCity;
     private final String postcode;
 
-    private Address(Builder builder) {
-        email = builder.email;
-        addressLine1 = requireNonBlank(builder.addressLine1, "Address line 1 must be specified");
-        addressLine2 = builder.addressLine2;
-        townOrCity = builder.townOrCity;
-        postcode = requireNonBlank(builder.postcode, "Postcode must be specified");
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public String email() {
-        return email;
-    }
-
-    public String addressLine1() {
-        return addressLine1;
-    }
-
-    public String addressLine2() {
-        return addressLine2;
-    }
-
-    public String townOrCity() {
-        return townOrCity;
-    }
-
-    public String postcode() {
-        return postcode;
-    }
-
-    public static final class Builder {
-
-        private String email;
-        private String addressLine1;
-        private String addressLine2;
-        private String townOrCity;
-        private String postcode;
-
-        private Builder() {
-        }
-
-        public Builder from(Address address) {
-            requireNonNull(address, "An address expected");
-            this.email = address.email;
-            this.addressLine1 = address.addressLine1;
-            this.addressLine2 = address.addressLine2;
-            this.townOrCity = address.townOrCity;
-            this.postcode = address.postcode;
-            return this;
-        }
-
-        public Builder withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Builder withAddressLine1(String addressLine1) {
-            this.addressLine1 = addressLine1;
-            return this;
-        }
-
-        public Builder withAddressLine2(String addressLine2) {
-            this.addressLine2 = addressLine2;
-            return this;
-        }
-
-        public Builder withTownOrCity(String townOrCity) {
-            this.townOrCity = townOrCity;
-            return this;
-        }
-
-        public Builder withPostcode(String postcode) {
-            this.postcode = postcode;
-            return this;
-        }
-
-        public Address build() {
-            return new Address(this);
-        }
+    private Address(String email, String addressLine1, String addressLine2, String townOrCity, String postcode) {
+        this.email = requireNonBlank(email, "Email cannot be blank");
+        this.addressLine1 = requireNonBlank(addressLine1, "Address line 1 cannot be blank");
+        this.addressLine2 = addressLine2;
+        this.townOrCity = requireNonBlank(townOrCity, "Town or city cannot be blank");
+        this.postcode = requireNonBlank(postcode, "Postcode cannot be blank");
     }
 }

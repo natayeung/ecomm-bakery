@@ -6,9 +6,11 @@ import com.natay.ecomm.bakery.checkout.payment.OrderCreated;
 import com.paypal.core.PayPalEnvironment;
 import com.paypal.core.PayPalHttpClient;
 import com.paypal.http.HttpResponse;
-import com.paypal.orders.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.paypal.orders.LinkDescription;
+import com.paypal.orders.Order;
+import com.paypal.orders.OrdersCaptureRequest;
+import com.paypal.orders.OrdersCreateRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -20,9 +22,8 @@ import static com.natay.ecomm.bakery.checkout.payment.paypal.OrdersCreateRequest
  * @author natayeung
  */
 @Component
+@Slf4j
 public class PayPalCheckoutRestAdapter implements PayPalCheckoutPort {
-
-    private static final Logger logger = LoggerFactory.getLogger(PayPalCheckoutRestAdapter.class);
 
     private final PayPalHttpClient payPalHttpClient;
     private final PayPalProperties properties;
@@ -38,7 +39,7 @@ public class PayPalCheckoutRestAdapter implements PayPalCheckoutPort {
         HttpResponse<Order> response;
         try {
             response = payPalHttpClient.execute(request);
-            logger.debug("Received response from PayPal {}", response);
+            log.debug("Received response from PayPal {}", response);
         } catch (IOException ex) {
             throw new PayPalCheckoutException("Unable to create order: " + ex.getMessage(), ex);
         }
@@ -54,7 +55,7 @@ public class PayPalCheckoutRestAdapter implements PayPalCheckoutPort {
         HttpResponse<Order> response;
         try {
             response = payPalHttpClient.execute(request);
-            logger.debug("Received response from PayPal {}", response);
+            log.debug("Received response from PayPal {}", response);
         } catch (IOException ex) {
             throw new PayPalCheckoutException("Unable to capture order: " + ex.getMessage(), ex);
         }

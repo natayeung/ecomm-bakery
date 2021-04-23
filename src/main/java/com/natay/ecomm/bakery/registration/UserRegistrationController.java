@@ -1,11 +1,10 @@
 package com.natay.ecomm.bakery.registration;
 
-import com.natay.ecomm.bakery.common.MessageProperties;
 import com.natay.ecomm.bakery.account.EmailAlreadyUsedException;
+import com.natay.ecomm.bakery.common.MessageProperties;
 import com.natay.ecomm.bakery.registration.dto.RegistrationDto;
 import com.natay.ecomm.bakery.registration.dto.RegistrationFeedbackDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,9 +29,8 @@ import static com.natay.ecomm.bakery.registration.dto.RegistrationFeedbackDtoFac
  */
 @Controller
 @RequestMapping("/register")
+@Slf4j
 public class UserRegistrationController {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserRegistrationController.class);
 
     private final RegistrationService registrationService;
     private final AuthenticationManager authenticationManager;
@@ -56,10 +54,10 @@ public class UserRegistrationController {
                                BindingResult bindingResult,
                                HttpServletRequest request,
                                Model model) {
-        logger.info("Received request to register user {}", registrationDto);
+        log.info("Received request to register user {}", registrationDto);
 
         if (bindingResult.hasErrors()) {
-            logger.warn("Unable to register user, validation failed: {}", bindingResult.getFieldErrors());
+            log.warn("Unable to register user, validation failed: {}", bindingResult.getFieldErrors());
             RegistrationFeedbackDto feedbackDto = createRegistrationFeedbackDtoForValidationErrors(registrationDto, bindingResult, messageProperties);
             model.addAttribute("feedback", feedbackDto);
             return "register";

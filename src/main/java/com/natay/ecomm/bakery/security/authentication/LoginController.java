@@ -1,8 +1,7 @@
 package com.natay.ecomm.bakery.security.authentication;
 
 import com.natay.ecomm.bakery.common.MessageProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequestMapping("/login")
+@Slf4j
 public class LoginController {
-
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     private final MessageProperties messageProperties;
 
@@ -34,7 +32,7 @@ public class LoginController {
     public String showLoginFormWithError(@RequestParam(name = "cause") String exceptionName,
                                          ModelMap model) {
 
-        logger.info("Login failed with {}", exceptionName);
+        log.info("Login failed with {}", exceptionName);
 
         if (BadCredentialsException.class.getSimpleName().equals(exceptionName)) {
             model.put("feedbackMessage", messageProperties.getBadCredentials());

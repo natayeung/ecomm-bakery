@@ -1,17 +1,16 @@
 package com.natay.ecomm.bakery.checkout;
 
-import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.basket.SessionBasket;
+import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.checkout.cache.OrderCache;
 import com.natay.ecomm.bakery.checkout.dto.CheckoutFeedbackDto;
 import com.natay.ecomm.bakery.checkout.dto.ShippingDetailsDto;
+import com.natay.ecomm.bakery.checkout.events.OrderReceivedEvent;
 import com.natay.ecomm.bakery.checkout.payment.*;
 import com.natay.ecomm.bakery.common.MessageProperties;
-import com.natay.ecomm.bakery.checkout.events.OrderReceivedEvent;
-import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Controller;
@@ -30,9 +29,8 @@ import static com.natay.ecomm.bakery.checkout.dto.CheckoutFeedbackDtoFactory.cre
 @Controller
 @RequestMapping("/checkout")
 @SessionAttributes("scopedTarget.sessionBasket")
+@Slf4j
 public class CheckoutController implements ApplicationEventPublisherAware {
-
-    private static final Logger logger = LoggerFactory.getLogger(CheckoutController.class);
 
     private final AuthenticatedUserLookup authenticatedUserLookup;
     private final SessionBasket sessionBasket;
@@ -69,14 +67,14 @@ public class CheckoutController implements ApplicationEventPublisherAware {
                                    BindingResult bindingResult,
                                    Model model)
             throws InitiatePaymentFailedException {
-        logger.info("Received request to initiate checkout, delivery address: {}", shippingDetailsDto);
+        log.info("Received request to initiate checkout, delivery address: {}", shippingDetailsDto);
 
         UserIdentity user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
             throw new IllegalStateException("Authenticated user expected");
         });
 
         if (bindingResult.hasErrors()) {
-            logger.warn("Unable to proceed with checkout, validation failed: {}", bindingResult.getFieldErrors());
+            log.warn("Unable to proceed with checkout, validation failed: {}", bindingResult.getFieldErrors());
             addFeedbackToModel(shippingDetailsDto, bindingResult, model);
             return "basket";
         }
@@ -87,7 +85,7 @@ public class CheckoutController implements ApplicationEventPublisherAware {
         orderCache.put(initiatePaymentResponse.externalOrderId(), initiatePaymentResponse.orderDetails());
 
         String approvalLink = initiatePaymentResponse.approvalLink();
-        logger.debug("Redirecting to payment approval link {}", approvalLink);
+        log.debug("Redirecting to payment approval link {}", approvalLink);
         return "redirect:" + approvalLink;
     }
 
@@ -95,7 +93,7 @@ public class CheckoutController implements ApplicationEventPublisherAware {
     public String completeCheckout(@RequestParam(name = "token") String externalOrderId,
                                    SessionStatus sessionStatus)
             throws CapturePaymentFailedException {
-        logger.info("Received request to complete checkout, externalOrderId: {}", externalOrderId);
+        log.info("Received request to complete checkout, externalOrderId: {}", externalOrderId);
 
         CapturePaymentRequest capturePaymentRequest = CapturePaymentRequest.of(externalOrderId);
         CapturePaymentResponse capturePaymentResponse = paymentService.capturePayment(capturePaymentRequest);
@@ -108,7 +106,7 @@ public class CheckoutController implements ApplicationEventPublisherAware {
 
     @GetMapping("/cancel")
     public String cancelCheckout() {
-        logger.debug("Received request to cancel checkout");
+        log.debug("Received request to cancel checkout");
         return "redirect:/basket";
     }
 
@@ -128,6 +126,6 @@ public class CheckoutController implements ApplicationEventPublisherAware {
         OrderDetails orderDetails = orderCache.get(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found, orderId=" + orderId));
         OrderReceivedEvent orderReceivedEvent = new OrderReceivedEvent(this, orderDetails);
         eventPublisher.publishEvent(orderReceivedEvent);
-        logger.info("Published {}", orderReceivedEvent);
+        log.info("Published {}", orderReceivedEvent);
     }
 }

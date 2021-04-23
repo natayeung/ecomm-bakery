@@ -4,8 +4,8 @@ import com.natay.ecomm.bakery.catalog.Product;
 import com.natay.ecomm.bakery.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
 import com.natay.ecomm.bakery.catalog.persistence.ProductQueryPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 
 import java.io.Serial;
@@ -20,11 +20,12 @@ import static java.util.Objects.isNull;
 /**
  * @author natayeung
  */
+@ToString
+@Slf4j
 public class ShoppingBasket implements Basket, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = LoggerFactory.getLogger(ShoppingBasket.class);
 
     private final String basketRef = UUID.randomUUID().toString();
     private final Map<String, BasketItem> basketItems = new HashMap<>();
@@ -32,7 +33,7 @@ public class ShoppingBasket implements Basket, Serializable {
 
     public ShoppingBasket(ProductQueryPort productQueryPort) {
         this.productQueryPort = productQueryPort;
-        logger.info("Shopping basket instantiated, ref={}", basketRef);
+        log.info("Shopping basket instantiated, ref={}", basketRef);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ShoppingBasket implements Basket, Serializable {
         basketItem.addOne();
 
         basketItems.put(productId, basketItem);
-        logger.info("Item {} added to basket {}, totalPrice={}", productId, basketRef, totalPrice());
+        log.info("Item {} added to basket {}, totalPrice={}", productId, basketRef, totalPrice());
     }
 
     @Override
@@ -54,9 +55,9 @@ public class ShoppingBasket implements Basket, Serializable {
 
         BasketItem removed = basketItems.remove(productId);
         if (isNull(removed)) {
-            logger.warn("Unable to remove item {} from basket: unrecognised product ID", productId);
+            log.warn("Unable to remove item {} from basket: unrecognised product ID", productId);
         } else {
-            logger.info("Item {} removed from basket {}, totalPrice={}", productId, basketRef, totalPrice());
+            log.info("Item {} removed from basket {}, totalPrice={}", productId, basketRef, totalPrice());
         }
     }
 
@@ -84,14 +85,6 @@ public class ShoppingBasket implements Basket, Serializable {
         return basketRef;
     }
 
-    @Override
-    public String toString() {
-        return "ShoppingBasket{" +
-                "basketRef='" + basketRef + '\'' +
-                ", basketItems=" + basketItems +
-                '}';
-    }
-
     private Product findProductById(String productId)
             throws ProductNotFoundException, ProductAccessException {
 
@@ -109,7 +102,7 @@ public class ShoppingBasket implements Basket, Serializable {
     }
 
     private BasketItem getBasketItem(Product product) {
-        return Optional.ofNullable(basketItems.get(product.productId()))
+        return Optional.ofNullable(basketItems.get(product.id()))
                 .orElse(BasketItem.from(product));
     }
 }

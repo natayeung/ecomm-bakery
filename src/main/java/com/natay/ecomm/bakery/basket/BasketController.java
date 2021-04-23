@@ -5,10 +5,9 @@ import com.natay.ecomm.bakery.basket.dto.BasketDto;
 import com.natay.ecomm.bakery.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.catalog.ProductNotFoundException;
 import com.natay.ecomm.bakery.checkout.dto.ShippingDetailsDto;
-import com.natay.ecomm.bakery.security.authentication.UserIdentity;
 import com.natay.ecomm.bakery.security.authentication.AuthenticatedUserLookup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.natay.ecomm.bakery.security.authentication.UserIdentity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +21,8 @@ import static com.natay.ecomm.bakery.checkout.dto.ShippingDetailsDtoFactory.crea
  */
 @Controller
 @RequestMapping("/basket")
+@Slf4j
 public class BasketController {
-
-    private static final Logger logger = LoggerFactory.getLogger(BasketController.class);
 
     private final AuthenticatedUserLookup authenticatedUserLookup;
     private final SessionBasket sessionBasket;
@@ -53,10 +51,10 @@ public class BasketController {
     public String addItemToBasket(@RequestParam(name = "item-to-add") String productId,
                                   @RequestParam(name = "product-type", required = false) String productType)
             throws ProductAccessException, ProductNotFoundException {
-        logger.info("Received request to add item {} to basket {}", productId, sessionBasket.getBasketRef());
+        log.info("Received request to add item {} to basket {}", productId, sessionBasket.getBasketRef());
 
         sessionBasket.addItem(productId);
-        logger.info("Item count: {}", sessionBasket.getBasket().getItemCount());
+        log.info("Item count: {}", sessionBasket.getBasket().getItemCount());
 
         String redirectUri = Optional.ofNullable(productType).map(type -> "/catalog/" + type).orElse("/");
         return "redirect:" + redirectUri;
@@ -64,17 +62,17 @@ public class BasketController {
 
     @PostMapping("/delete")
     public String removeItemFromBasket(@RequestParam(name = "item-to-remove") String productId) {
-        logger.info("Received request to remove item {} from basket {}", productId, sessionBasket.getBasketRef());
+        log.info("Received request to remove item {} from basket {}", productId, sessionBasket.getBasketRef());
 
         sessionBasket.removeItem(productId);
-        logger.info("Item count: {}", sessionBasket.getBasket().getItemCount());
+        log.info("Item count: {}", sessionBasket.getBasket().getItemCount());
 
         return "redirect:/basket";
     }
 
     @GetMapping
     public String viewBasket(Model model) {
-        logger.info("Received request to view basket {}", sessionBasket.getBasketRef());
+        log.info("Received request to view basket {}", sessionBasket.getBasketRef());
 
         addShippingDetailsToModelIfPresent(model);
 

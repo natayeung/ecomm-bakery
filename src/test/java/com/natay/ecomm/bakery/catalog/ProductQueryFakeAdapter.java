@@ -29,6 +29,6 @@ public class ProductQueryFakeAdapter implements ProductQueryPort {
 
     @Override
     public Optional<Product> findById(String id) {
-        return products.stream().filter(p -> p.productId().equals(id)).findFirst();
+        return products.stream().filter(p -> p.id().equals(id)).findFirst();
     }
 }

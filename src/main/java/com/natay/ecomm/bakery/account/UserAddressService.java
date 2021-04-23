@@ -27,11 +27,11 @@ public class UserAddressService implements AddressService {
         requireNonNull(registrationDto, "Registration dto must be specified");
 
         Address address = Address.builder()
-                .withEmail(registrationDto.getEmail())
-                .withAddressLine1(registrationDto.getAddressLine1())
-                .withAddressLine2(registrationDto.getAddressLine2())
-                .withTownOrCity(registrationDto.getTownOrCity())
-                .withPostcode(registrationDto.getPostcode().toUpperCase())
+                .email(registrationDto.getEmail())
+                .addressLine1(registrationDto.getAddressLine1())
+                .addressLine2(registrationDto.getAddressLine2())
+                .townOrCity(registrationDto.getTownOrCity())
+                .postcode(registrationDto.getPostcode().toUpperCase())
                 .build();
 
         persistencePort.add(address);
@@ -42,11 +42,11 @@ public class UserAddressService implements AddressService {
         requireNonNull(accountDto, "Account dto must be specified");
 
         Address address = Address.builder()
-                .withEmail(accountDto.getEmail())
-                .withAddressLine1(accountDto.getAddressLine1())
-                .withAddressLine2(accountDto.getAddressLine2())
-                .withTownOrCity(accountDto.getTownOrCity())
-                .withPostcode(accountDto.getPostcode().toUpperCase())
+                .email(accountDto.getEmail())
+                .addressLine1(accountDto.getAddressLine1())
+                .addressLine2(accountDto.getAddressLine2())
+                .townOrCity(accountDto.getTownOrCity())
+                .postcode(accountDto.getPostcode().toUpperCase())
                 .build();
 
         persistencePort.findByEmail(address.email())

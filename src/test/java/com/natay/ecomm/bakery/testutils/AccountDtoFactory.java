@@ -8,13 +8,12 @@ import com.natay.ecomm.bakery.account.dto.AccountDto;
 public class AccountDtoFactory {
 
     public static AccountDto createAccountDtoWithAddress(String email, String addressLine1, String addressLine2, String townOrCity, String postcode) {
-        AccountDto accountDto = new AccountDto();
-        accountDto.setEmail(email);
-        accountDto.setAddressLine1(addressLine1);
-        accountDto.setAddressLine2(addressLine2);
-        accountDto.setTownOrCity(townOrCity);
-        accountDto.setPostcode(postcode);
-        return accountDto;
+        return new AccountDto()
+                .setEmail(email)
+                .setAddressLine1(addressLine1)
+                .setAddressLine2(addressLine2)
+                .setTownOrCity(townOrCity)
+                .setPostcode(postcode);
     }
 
     private AccountDtoFactory() {

@@ -1,5 +1,8 @@
 package com.natay.ecomm.bakery.utils;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 /**
  * @author natayeung
  */
@@ -27,6 +30,18 @@ public class Arguments {
         }
 
         return obj;
+    }
+
+    public static <T> List<T> requireNonEmpty(List<T> list, String reason) {
+        requireNonNull(list, reason);
+        requireArgument(list.size() > 0, reason);
+        return list;
+    }
+
+    public static BigDecimal requireNonNegative(BigDecimal number, String reason) {
+        requireNonNull(number, reason);
+        requireArgument(number.compareTo(BigDecimal.ZERO) >= 0, reason);
+        return number;
     }
 
     private Arguments() {

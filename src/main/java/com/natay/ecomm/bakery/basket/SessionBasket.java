@@ -37,7 +37,7 @@ public class SessionBasket implements Serializable {
 
     public BasketDto getBasket() {
         List<ItemDto> items = basket.items().stream().map(itemMapper()).collect(toList());
-        return new BasketDto(items, basket.itemCount(), basket.totalPrice(), items.isEmpty());
+        return new BasketDto(items, basket.itemCount(), basket.totalPrice());
     }
 
     public void addItem(String productId) throws ProductAccessException, ProductNotFoundException {
@@ -49,6 +49,12 @@ public class SessionBasket implements Serializable {
     }
 
     private Function<BasketItem, ItemDto> itemMapper() {
-        return i -> new ItemDto(i.productId(), i.title(), i.itemPrice(), i.itemTotal(), i.quantity());
+        return i -> ItemDto.builder()
+                .productId(i.productId())
+                .itemTitle(i.itemTitle())
+                .itemPrice(i.itemPrice())
+                .itemTotal(i.itemTotal())
+                .quantity(i.quantity())
+                .build();
     }
 }

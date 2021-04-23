@@ -27,7 +27,7 @@ public class AuthenticatedUserLookup {
     }
 
     private Optional<UserIdentity> getAuthenticatedUser(Object principal) {
-        UserIdentity.Builder userBuilder = UserIdentity.builder();
+        UserIdentity.UserIdentityBuilder userBuilder = UserIdentity.builder();
         String email = null;
         if (principal instanceof UserDetails userDetails) {
             email = userDetails.getUsername();
@@ -36,22 +36,22 @@ public class AuthenticatedUserLookup {
             email = oAuth2User.getAttribute("email");
             populateFirstNameAndLastNameIfPresent(userBuilder, oAuth2User);
         }
-        return Optional.ofNullable(email).map(e -> userBuilder.withUsername(e).build());
+        return Optional.ofNullable(email).map(e -> userBuilder.email(e).build());
     }
 
-    private void populateFirstNameAndLastNameIfPresent(UserIdentity.Builder userBuilder, String email) {
+    private void populateFirstNameAndLastNameIfPresent(UserIdentity.UserIdentityBuilder userBuilder, String email) {
         accountService.findAccountByEmail(email)
-                .ifPresent(a -> userBuilder.withFirstName(a.firstName()).withLastName(a.lastName()));
+                .ifPresent(a -> userBuilder.firstName(a.firstName()).lastName(a.lastName()));
     }
 
-    private void populateFirstNameAndLastNameIfPresent(UserIdentity.Builder userBuilder, OAuth2User oAuth2User) {
+    private void populateFirstNameAndLastNameIfPresent(UserIdentity.UserIdentityBuilder userBuilder, OAuth2User oAuth2User) {
         Optional.<String>ofNullable(oAuth2User.getAttribute("name"))
                 .ifPresent(n -> {
                     String[] nameParts = n.split(" ");
                     if (nameParts.length > 0)
-                        userBuilder.withFirstName(nameParts[0]);
+                        userBuilder.firstName(nameParts[0]);
                     if (nameParts.length > 1)
-                        userBuilder.withLastName(nameParts[nameParts.length - 1]);
+                        userBuilder.lastName(nameParts[nameParts.length - 1]);
                 });
     }
 }

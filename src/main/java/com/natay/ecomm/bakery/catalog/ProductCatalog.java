@@ -1,8 +1,7 @@
 package com.natay.ecomm.bakery.catalog;
 
 import com.natay.ecomm.bakery.catalog.persistence.ProductQueryPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +13,8 @@ import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
  * @author natayeung
  */
 @Service
+@Slf4j
 public class ProductCatalog implements Catalog {
-
-    private static final Logger logger = LoggerFactory.getLogger(ProductCatalog.class);
 
     private final ProductQueryPort productQueryPort;
 
@@ -29,7 +27,7 @@ public class ProductCatalog implements Catalog {
         List<Product> retrievedProducts;
         try {
             retrievedProducts = productQueryPort.findAll();
-            logger.info("Retrieved {} products.", retrievedProducts.size());
+            log.info("Retrieved {} products.", retrievedProducts.size());
         } catch (DataAccessException ex) {
             throw new ProductAccessException("Failed to retrieve products", ex);
         }
@@ -44,7 +42,7 @@ public class ProductCatalog implements Catalog {
         List<Product> retrievedProducts;
         try {
             retrievedProducts = productQueryPort.findByType(productType);
-            logger.info("Retrieved {} {} products.", retrievedProducts.size(), productType);
+            log.info("Retrieved {} {} products.", retrievedProducts.size(), productType);
         } catch (DataAccessException ex) {
             throw new ProductAccessException("Failed to retrieve products", ex);
         }

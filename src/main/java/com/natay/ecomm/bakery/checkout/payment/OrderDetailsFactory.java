@@ -25,20 +25,21 @@ public class OrderDetailsFactory {
 
         List<OrderDetails.Item> items = basket.getItems().stream().map(itemMapper()).collect(toList());
         return OrderDetails.builder()
-                .withCustomerDetails(CustomerDetails.from(customer))
-                .withShippingDetails(shippingDetailsMapper().apply(shippingDetails))
-                .withItems(items)
-                .withTotalPrice(basket.getTotalPrice())
+                .customerDetails(CustomerDetails.from(customer))
+                .shippingDetails(shippingDetailsMapper().apply(shippingDetails))
+                .items(items)
+                .totalPrice(basket.getTotalPrice())
                 .build();
     }
 
     private static Function<ShippingDetailsDto, ShippingDetails> shippingDetailsMapper() {
-        return d -> ShippingDetails.builder().withAddressLine1(d.getAddressLine1())
-                .withAddressLine2(d.getAddressLine2())
-                .withTownOrCity(d.getTownOrCity())
-                .withPostcode(d.getPostcode())
-                .withShippingFirstName(d.getShippingFirstName())
-                .withShippingLastName(d.getShippingLastName())
+        return d -> ShippingDetails.builder()
+                .addressLine1(d.getAddressLine1())
+                .addressLine2(d.getAddressLine2())
+                .townOrCity(d.getTownOrCity())
+                .postcode(d.getPostcode())
+                .shippingFirstName(d.getShippingFirstName())
+                .shippingLastName(d.getShippingLastName())
                 .build();
     }
 

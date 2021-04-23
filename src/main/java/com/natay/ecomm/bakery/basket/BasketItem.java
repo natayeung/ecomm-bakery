@@ -1,6 +1,9 @@
 package com.natay.ecomm.bakery.basket;
 
 import com.natay.ecomm.bakery.catalog.Product;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 
@@ -10,6 +13,9 @@ import static com.natay.ecomm.bakery.utils.Arguments.requireNonNull;
 /**
  * @author natayeung
  */
+@ToString
+@Getter
+@Accessors(fluent = true)
 public class BasketItem {
 
     private final String productId;
@@ -29,7 +35,7 @@ public class BasketItem {
     public static BasketItem from(Product product) {
         requireNonNull(product, "Product must be specified");
 
-        return new BasketItem(product.productId(), product.title(), product.price());
+        return new BasketItem(product.id(), product.title(), product.price());
     }
 
     public void addOne() {
@@ -39,36 +45,5 @@ public class BasketItem {
 
     public void addQuantity(int quantity) {
         this.quantity += quantity;
-    }
-
-    public String productId() {
-        return productId;
-    }
-
-    public String title() {
-        return itemTitle;
-    }
-
-    public BigDecimal itemPrice() {
-        return itemPrice;
-    }
-
-    public BigDecimal itemTotal() {
-        return itemTotal;
-    }
-
-    public int quantity() {
-        return quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "BasketItem{" +
-                "productId='" + productId + '\'' +
-                ", itemTitle='" + itemTitle + '\'' +
-                ", itemPrice=" + itemPrice +
-                ", itemTotal=" + itemTotal +
-                ", quantity=" + quantity +
-                '}';
     }
 }
