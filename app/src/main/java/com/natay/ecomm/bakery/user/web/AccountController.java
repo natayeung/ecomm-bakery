@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import static com.natay.ecomm.bakery.user.account.AccountDtoFactory.createAccountDto;
 import static com.natay.ecomm.bakery.user.account.AccountUpdateFeedbackDtoFactory.createAccountUpdateFeedbackDtoForValidationErrors;
 
-
 /**
  * @author natayeung
  */
@@ -104,6 +103,10 @@ public class AccountController {
                             AccountDto accountDto = createAccountDto(user, a);
                             model.addAttribute("accountDetails", accountDto);
                         },
-                        () -> log.info("No address found for user {}", user.username()));
+                        () -> {
+                            log.info("No address found for user {}", user.username());
+                            AccountDto accountDto = createAccountDto(user);
+                            model.addAttribute("accountDetails", accountDto);
+                        });
     }
 }

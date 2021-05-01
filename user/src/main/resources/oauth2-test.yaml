@@ -1,0 +1,12 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: ENC(6PB+nFOG8Bgz+GWNlvi1BZggVTAuabEa)
+            client-secret: ENC(TV/eXgCu3h0KCTsluF8QgzvPcwMx3328asz+KrzlwB6tgReKCRJfm5x4d8/QejGu)
+            scope:
+              - email
+              - public_profile
+            user-name-attribute: email

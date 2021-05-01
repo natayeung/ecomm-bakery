@@ -3,7 +3,6 @@ package com.natay.ecomm.bakery.user.account;
 import com.natay.ecomm.bakery.user.account.persistence.AddressDatabaseAdapter;
 import com.natay.ecomm.bakery.user.account.persistence.AddressPersistencePort;
 import com.natay.ecomm.bakery.user.registration.RegistrationDto;
-import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,7 +19,6 @@ import java.util.Optional;
 import static com.natay.ecomm.bakery.user.testutil.AccountDtoFactory.createAccountDtoWithAddress;
 import static com.natay.ecomm.bakery.user.testutil.RegistrationDtoFactory.createRegistrationDtoWithAddressDetails;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 /**
  * @author natayeung

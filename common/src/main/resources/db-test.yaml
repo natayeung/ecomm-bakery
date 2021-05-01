@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test?currentSchema=bakery
+    username: bakery_test
+    password: ENC(IZ1KzTqeM0GZcIYlneManlou1lOjE9FP)
+
+  flyway:
+    schemas: bakery
+    table: flyway_schema_history
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations:
+      - classpath:com/natay/ecomm/bakery/user/db/migration
+      - classpath:com/natay/ecomm/bakery/product/db/migration
