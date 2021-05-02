@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.testutil;
+package com.natay.ecomm.bakery.testutil.web;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -11,9 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.natay.ecomm.bakery.testutil.ControllerITests.LOCALHOST;
-import static com.natay.ecomm.bakery.testutil.HtmlFormHelper.fillInPassword;
-import static com.natay.ecomm.bakery.testutil.HtmlFormHelper.fillInText;
+import static com.natay.ecomm.bakery.testutil.web.ControllerITests.LOCALHOST;
+import static com.natay.ecomm.bakery.testutil.web.HtmlFormHelper.fillInPassword;
+import static com.natay.ecomm.bakery.testutil.web.HtmlFormHelper.fillInText;
 import static org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder.mockMvcSetup;
 
 /**

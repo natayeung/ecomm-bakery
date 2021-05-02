@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.testutil;
+package com.natay.ecomm.bakery.testutil.web;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;

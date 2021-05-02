@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.testutil;
+package com.natay.ecomm.bakery.testutil.web;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
@@ -7,7 +7,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.testutil.HtmlFormHelper.fillInText;
+import static com.natay.ecomm.bakery.testutil.web.HtmlFormHelper.fillInText;
 
 /**
  * @author natayeung

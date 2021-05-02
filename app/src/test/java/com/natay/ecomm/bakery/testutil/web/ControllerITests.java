@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.testutil;
+package com.natay.ecomm.bakery.testutil.web;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import org.junit.jupiter.api.AfterEach;

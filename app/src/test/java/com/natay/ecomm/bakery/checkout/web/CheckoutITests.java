@@ -3,18 +3,18 @@ package com.natay.ecomm.bakery.checkout.web;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.natay.ecomm.bakery.testutil.ControllerITests;
+import com.natay.ecomm.bakery.testutil.web.ControllerITests;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.testutil.BasketTestHelper.addItemToBasket;
-import static com.natay.ecomm.bakery.testutil.BasketTestHelper.goToBasketPageFrom;
-import static com.natay.ecomm.bakery.testutil.HtmlFormHelper.fillInText;
-import static com.natay.ecomm.bakery.testutil.LoginTestHelper.loginWithEmailAndPassword;
+import static com.natay.ecomm.bakery.testutil.web.BasketTestHelper.addItemToBasket;
+import static com.natay.ecomm.bakery.testutil.web.BasketTestHelper.goToBasketPageFrom;
+import static com.natay.ecomm.bakery.testutil.web.HtmlFormHelper.fillInText;
+import static com.natay.ecomm.bakery.testutil.web.LoginTestHelper.loginWithEmailAndPassword;
 import static com.natay.ecomm.bakery.testutil.RandomUtil.randomEmail;
 import static com.natay.ecomm.bakery.testutil.RandomUtil.randomPassword;
-import static com.natay.ecomm.bakery.testutil.RegisterTestHelper.registerWithEmailAndPassword;
+import static com.natay.ecomm.bakery.testutil.web.RegisterTestHelper.registerWithEmailAndPassword;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

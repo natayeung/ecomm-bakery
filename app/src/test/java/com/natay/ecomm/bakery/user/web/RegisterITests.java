@@ -2,15 +2,15 @@ package com.natay.ecomm.bakery.user.web;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.natay.ecomm.bakery.testutil.ControllerITests;
+import com.natay.ecomm.bakery.testutil.web.ControllerITests;
 import com.natay.ecomm.bakery.user.registration.RegistrationDto;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static com.natay.ecomm.bakery.testutil.RandomUtil.randomEmail;
-import static com.natay.ecomm.bakery.testutil.RegisterTestHelper.register;
-import static com.natay.ecomm.bakery.testutil.RegisterTestHelper.registerWithEmail;
+import static com.natay.ecomm.bakery.testutil.web.RegisterTestHelper.register;
+import static com.natay.ecomm.bakery.testutil.web.RegisterTestHelper.registerWithEmail;
 import static com.natay.ecomm.bakery.testutil.RegistrationDtoFactory.createRegistrationDto;
 import static org.assertj.core.api.Assertions.assertThat;
 

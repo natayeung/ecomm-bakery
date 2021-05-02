@@ -2,13 +2,13 @@ package com.natay.ecomm.bakery.product.web;
 
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.natay.ecomm.bakery.testutil.BasketTestHelper;
-import com.natay.ecomm.bakery.testutil.ControllerITests;
+import com.natay.ecomm.bakery.testutil.web.ControllerITests;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.testutil.BasketTestHelper.findAddButtonForProduct;
+import static com.natay.ecomm.bakery.testutil.web.BasketTestHelper.extractBasketItemCountFromPage;
+import static com.natay.ecomm.bakery.testutil.web.BasketTestHelper.findAddButtonForProduct;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -23,7 +23,7 @@ public class AddItemToBasketITests extends ControllerITests {
 
         HtmlPage resultPage = button.click();
 
-        String basketItemCount = BasketTestHelper.extractBasketItemCountFromPage(resultPage);
+        String basketItemCount = extractBasketItemCountFromPage(resultPage);
         assertThat(basketItemCount).isEqualTo("1");
     }
 
@@ -35,7 +35,7 @@ public class AddItemToBasketITests extends ControllerITests {
         button.click();
         HtmlPage resultPage = button.click();
 
-        String basketItemCount = BasketTestHelper.extractBasketItemCountFromPage(resultPage);
+        String basketItemCount = extractBasketItemCountFromPage(resultPage);
         assertThat(basketItemCount).isEqualTo("2");
     }
 
@@ -48,7 +48,7 @@ public class AddItemToBasketITests extends ControllerITests {
         firstButton.click();
         HtmlPage resultPage = secondButton.click();
 
-        String basketItemCount = BasketTestHelper.extractBasketItemCountFromPage(resultPage);
+        String basketItemCount = extractBasketItemCountFromPage(resultPage);
         assertThat(basketItemCount).isEqualTo("2");
     }
 }

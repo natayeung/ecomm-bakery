@@ -2,7 +2,7 @@ package com.natay.ecomm.bakery.user.testutil;
 
 import com.natay.ecomm.bakery.user.registration.RegistrationDto;
 
-import static com.natay.ecomm.bakery.testutil.RandomUtil.randomEmail;
+import static org.apache.commons.lang3.RandomStringUtils.random;
 
 /**
  * @author natayeung
@@ -47,6 +47,10 @@ public class RegistrationDtoFactory {
         dto.setTownOrCity(townOrCity);
         dto.setPostcode(postcode);
         return dto;
+    }
+
+    private static String randomEmail() {
+        return random(8, true, true) + "@gmail.com";
     }
 
     private RegistrationDtoFactory() {

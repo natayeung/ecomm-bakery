@@ -8,13 +8,18 @@ import com.natay.ecomm.bakery.user.authentication.UserIdentity;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.natay.ecomm.bakery.testutil.RandomUtil.randomEmail;
-import static com.natay.ecomm.bakery.testutil.TestConstants.*;
+import static org.apache.commons.lang3.RandomStringUtils.random;
 
 /**
  * @author natayeung
  */
 public class OrderDetailsFactory {
+
+    private static final String FIRST_NAME = "John";
+    private static final String LAST_NAME = "Doe";
+    private static final String ADDRESS_LINE_1 = "12 High Street";
+    private static final String TOWN_OR_CITY = "London";
+    private static final String POSTCODE = "E15 2GU";
 
     public static UserIdentity createCustomerDetails() {
         return UserIdentity.builder()
@@ -39,6 +44,10 @@ public class OrderDetailsFactory {
         shippingDetails.setTownOrCity(TOWN_OR_CITY);
         shippingDetails.setPostcode(POSTCODE);
         return shippingDetails;
+    }
+
+    private static String randomEmail() {
+        return random(8, true, true) + "@gmail.com";
     }
 
     private OrderDetailsFactory() {

@@ -1,4 +1,4 @@
-package com.natay.ecomm.bakery.testutil;
+package com.natay.ecomm.bakery.testutil.web;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -8,9 +8,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.testutil.ControllerITests.LOCALHOST;
-import static com.natay.ecomm.bakery.testutil.HtmlFormHelper.fillInPassword;
-import static com.natay.ecomm.bakery.testutil.HtmlFormHelper.fillInText;
+import static com.natay.ecomm.bakery.testutil.web.ControllerITests.LOCALHOST;
+import static com.natay.ecomm.bakery.testutil.web.HtmlFormHelper.fillInPassword;
+import static com.natay.ecomm.bakery.testutil.web.HtmlFormHelper.fillInText;
 
 /**
  * @author natayeung

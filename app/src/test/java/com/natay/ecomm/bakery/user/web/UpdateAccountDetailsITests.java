@@ -2,17 +2,17 @@ package com.natay.ecomm.bakery.user.web;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.natay.ecomm.bakery.testutil.AccountTestHelper;
-import com.natay.ecomm.bakery.testutil.ControllerITests;
+import com.natay.ecomm.bakery.testutil.web.ControllerITests;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.natay.ecomm.bakery.testutil.AccountTestHelper.goToAccountPageFrom;
-import static com.natay.ecomm.bakery.testutil.LoginTestHelper.loginWithEmailAndPassword;
 import static com.natay.ecomm.bakery.testutil.RandomUtil.randomEmail;
 import static com.natay.ecomm.bakery.testutil.RandomUtil.randomPassword;
-import static com.natay.ecomm.bakery.testutil.RegisterTestHelper.registerWithEmailPasswordAndPostcode;
+import static com.natay.ecomm.bakery.testutil.web.AccountTestHelper.goToAccountPageFrom;
+import static com.natay.ecomm.bakery.testutil.web.AccountTestHelper.updateField;
+import static com.natay.ecomm.bakery.testutil.web.LoginTestHelper.loginWithEmailAndPassword;
+import static com.natay.ecomm.bakery.testutil.web.RegisterTestHelper.registerWithEmailPasswordAndPostcode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -30,7 +30,7 @@ public class UpdateAccountDetailsITests extends ControllerITests {
         HtmlPage homePage = loginWithEmailAndPassword(webClient(), email, password);
 
         HtmlPage accountPage = goToAccountPageFrom(homePage);
-        AccountTestHelper.updateField(accountPage, "postcode", newPostcode);
+        updateField(accountPage, "postcode", newPostcode);
         webClient().waitForBackgroundJavaScript(5000);
         HtmlPage resultPage = (HtmlPage) webClient().getCurrentWindow().getEnclosedPage();
 
@@ -49,7 +49,7 @@ public class UpdateAccountDetailsITests extends ControllerITests {
         HtmlPage homePage = loginWithEmailAndPassword(webClient(), email, password);
 
         HtmlPage accountPage = goToAccountPageFrom(homePage);
-        AccountTestHelper.updateField(accountPage, "postcode", newPostcode);
+        updateField(accountPage, "postcode", newPostcode);
         webClient().waitForBackgroundJavaScript(5000);
 
         HtmlPage resultPage = (HtmlPage) webClient().getCurrentWindow().getEnclosedPage();

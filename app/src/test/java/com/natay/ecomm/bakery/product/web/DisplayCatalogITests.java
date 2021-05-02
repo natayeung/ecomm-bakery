@@ -2,7 +2,7 @@ package com.natay.ecomm.bakery.product.web;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.natay.ecomm.bakery.testutil.ControllerITests;
+import com.natay.ecomm.bakery.testutil.web.ControllerITests;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class DisplayCatalogITests extends ControllerITests {
 
     @Test
     public void shouldDisplayTitleOfProduct() throws IOException {
-        HtmlPage page = webClient().getPage(ControllerITests.LOCALHOST);
+        HtmlPage page = webClient().getPage(LOCALHOST);
 
         assertThatTitleOfProductTitleIsDisplayed(page, "title-bfc", "Black Forest Cake");
         assertThatTitleOfProductTitleIsDisplayed(page, "title-cc", "Carrot Cake");
@@ -25,7 +25,7 @@ public class DisplayCatalogITests extends ControllerITests {
 
     @Test
     public void shouldDisplayPriceOfProduct() throws IOException {
-        HtmlPage page = webClient().getPage(ControllerITests.LOCALHOST);
+        HtmlPage page = webClient().getPage(LOCALHOST);
 
         assertThatPriceOfProductIsDisplayed(page, "price-bfc", "£ 27.95");
         assertThatPriceOfProductIsDisplayed(page, "price-cc", "£ 21.95");

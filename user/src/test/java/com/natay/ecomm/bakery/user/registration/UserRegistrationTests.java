@@ -4,7 +4,6 @@ import com.natay.ecomm.bakery.user.account.*;
 import com.natay.ecomm.bakery.user.account.persistence.AccountDatabaseAdapter;
 import com.natay.ecomm.bakery.user.account.persistence.AddressDatabaseAdapter;
 import com.natay.ecomm.bakery.user.testutil.RegistrationDtoFactory;
-import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,11 +18,10 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Optional;
 
-import static com.natay.ecomm.bakery.testutil.RandomUtil.randomEmail;
 import static com.natay.ecomm.bakery.user.testutil.RegistrationDtoFactory.createRegistrationDtoWithEmailAndPassword;
+import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 /**
  * @author natayeung
@@ -104,5 +101,9 @@ public class UserRegistrationTests {
         assertThatThrownBy(() -> userRegistrationService.register(dto))
                 .isInstanceOf(EmailAlreadyUsedException.class)
                 .hasMessageContaining(email);
+    }
+
+    private static String randomEmail() {
+        return random(8, true, true) + "@gmail.com";
     }
 }
