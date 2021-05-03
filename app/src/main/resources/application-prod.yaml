@@ -1,0 +1,20 @@
+jasypt:
+  encryptor:
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    algorithm: PBEWithMD5AndDES
+
+spring:
+  config:
+    import:
+      - caching.yaml
+      - messages.yaml
+      - db-prod.yaml
+      - paypal-test.yaml  # Details for PayPal live environment is not available yet
+      - oauth2-test.yaml  # Details for Facebook live environment is not available yet
+
+  mustache:
+    expose-request-attributes: true
+
+logging:
+  level:
+    root: INFO

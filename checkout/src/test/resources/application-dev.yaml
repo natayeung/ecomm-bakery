@@ -1,0 +1,29 @@
+jasypt:
+  encryptor:
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    algorithm: PBEWithMD5AndDES
+
+spring:
+  cache:
+    cache-names:
+      - orders
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=30m
+
+paypal:
+  client-id: ENC(DW1kmSrHL7fjZ4ZvKUG/TSdJOeogzNMoZwHqnJN7b8m5GFeEvGqxbJcfuZwffUoXt2GB7gGUHmsFFVZJHpVhyu3X1nwsME7KfbsiD6VYJbBKtmRRuj+ogevx2yEZCSJ3)
+  client-secret: ENC(cIfLsJ1/aRtsDGPuOGrGqgKLWhnobwL81PZauVUNLLL1DRe7+S9/5K3ZLuuRrpVjFcxKA1Wn7Oblym3p5nCjmWxtHDA4JJX304gK7Bclg6O9Mrby2Unfvdl9YW5cQ1A6)
+  brand-name: N-2 Bakery
+  currency-code: GBP
+  country-code: GB
+  return-url: http://localhost:8080/checkout/complete
+  cancel-url: http://localhost:8080/checkout/cancel
+  landing-page: LOGIN
+  shipping-preference: SET_PROVIDED_ADDRESS
+  user-action: PAY_NOW
+  checkout-payment-intent: CAPTURE
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG

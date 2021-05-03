@@ -1,0 +1,6 @@
+spring:
+  cache:
+    cache-names:
+      - orders
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=30m

@@ -1,0 +1,21 @@
+jasypt:
+  encryptor:
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    algorithm: PBEWithMD5AndDES
+
+spring:
+  config:
+    import:
+      - caching.yaml
+      - messages.yaml
+      - db-test.yaml
+      - paypal-test.yaml
+      - oauth2-test.yaml
+
+  mustache:
+    expose-request-attributes: true
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
