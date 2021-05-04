@@ -10,7 +10,7 @@ COPY product product
 COPY checkout checkout
 COPY app app
 
-RUN chmod +x && ./mvnw install -DskipTests
+RUN chmod u+x && ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../../app/target/*.jar)
 
 FROM openjdk:16-jdk-alpine
