@@ -10,8 +10,14 @@ COPY product product
 COPY checkout checkout
 COPY app app
 
-RUN chmod u+x mvnw && ./mvnw install -DskipTests
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../../app/target/*.jar)
+RUN apt-get update && \
+    apt-get install dos2unix && \
+    apt-get clean
+RUN chmod u+x mvnw && \
+    dos2unix mvnw && \
+    ./mvnw install -DskipTests
+RUN mkdir -p target/dependency && \
+    (cd target/dependency; jar -xf ../../app/target/*.jar)
 
 FROM openjdk:16-jdk-alpine
 VOLUME /tmp
