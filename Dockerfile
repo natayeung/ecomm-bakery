@@ -1,5 +1,5 @@
 FROM openjdk:16-jdk-alpine
-WORKDIR /workspace/bakery-app
+WORKDIR /workspace/app
 
 COPY mvnw .
 COPY .mvn .mvn
@@ -15,7 +15,7 @@ RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../../app/targe
 
 FROM openjdk:16-jdk-alpine
 VOLUME /tmp
-ARG DEPENDENCY=/workspace/bakery-app/target/dependency
+ARG DEPENDENCY=/workspace/app/target/dependency
 COPY --from=0 ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=0 ${DEPENDENCY}/META-INF/ /app/META-INF
 COPY --from=0 ${DEPENDENCY}/BOOT-INF/classes /app

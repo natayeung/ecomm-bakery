@@ -9,7 +9,5 @@
       "ContainerPort": "8080"
     }
   ],
-  "Logging": "/var/log/bakery-app",
-  "Entrypoint": "com.natay.ecomm.bakery.BakeryApplication",
-  "Command": "-cp app:app/lib/*"
+  "Logging": "/var/log/bakery-app"
 }
