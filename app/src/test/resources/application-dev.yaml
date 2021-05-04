@@ -5,7 +5,7 @@ jasypt:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/dev?currentSchema=bakery
+    url: jdbc:postgresql://${DB_HOSTNAME:localhost}:${DB_PORT:5432}/dev?currentSchema=bakery
     username: bakery_dev
     password: ENC(YT38dgnsRs/GMo6bkOi7RJiJ0ByA9Qdm)
 

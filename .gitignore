@@ -7,6 +7,7 @@ target/
 *.iml
 *.ipr
 
-.mvn
-/mvnw.cmd
-/mvnw
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

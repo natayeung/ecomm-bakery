@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/prod?currentSchema=bakery
+    url: jdbc:postgresql://${DB_HOSTNAME:localhost}:${DB_PORT:5432}/prod?currentSchema=bakery
     username: bakery_prod
     password: ENC(1B95tKSYxomlH8SeQDgZY1BwrLpHMfj1)
 
