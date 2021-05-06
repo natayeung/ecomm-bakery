@@ -1,6 +1,7 @@
 package com.natay.ecomm.bakery.checkout.payment;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Pattern;
  * @author natayeung
  */
 @Data
+@Accessors(chain = true)
 public class ShippingDetailsDto {
 
     @NotBlank

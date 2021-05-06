@@ -56,9 +56,7 @@ public class UserRegistrationController implements ApplicationEventPublisherAwar
         log.info("Received request to register user {}", registrationDto);
 
         if (bindingResult.hasErrors()) {
-            log.warn("Unable to register user, validation failed: {}", bindingResult.getFieldErrors());
-            RegistrationFeedbackDto feedbackDto = createRegistrationFeedbackDtoForValidationErrors(registrationDto, bindingResult, messageProperties);
-            model.addAttribute("feedback", feedbackDto);
+            addFeedbackToModel(registrationDto, bindingResult, model);
             return "register";
         }
 
@@ -76,6 +74,12 @@ public class UserRegistrationController implements ApplicationEventPublisherAwar
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         eventPublisher = applicationEventPublisher;
+    }
+
+    private void addFeedbackToModel(RegistrationDto registrationDto, BindingResult bindingResult, Model model) {
+        log.warn("Unable to register user, validation failed: {}", bindingResult.getFieldErrors());
+        RegistrationFeedbackDto feedbackDto = createRegistrationFeedbackDtoForValidationErrors(registrationDto, bindingResult, messageProperties);
+        model.addAttribute("feedback", feedbackDto);
     }
 
     private void tryAutoLogin(HttpServletRequest request, String username, String password) {

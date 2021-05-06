@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import static com.natay.ecomm.bakery.checkout.payment.ShippingDetailsDtoFactory.createShippingDetailsDto;
 
@@ -82,10 +83,19 @@ public class BasketController {
 
     private void addShippingDetailsToModelIfPresent(Model model) {
         authenticatedUserLookup.getAuthenticatedUser()
-                .ifPresent(user -> addressService.findAddressByEmail(user.username())
-                        .ifPresent(address -> {
+                .ifPresent(addShippingDetails(model));
+    }
+
+    private Consumer<UserIdentity> addShippingDetails(Model model) {
+        return user -> addressService.findAddressByEmail(user.username())
+                .ifPresentOrElse(
+                        address -> {
                             ShippingDetailsDto dto = createShippingDetailsDto(user, address);
                             model.addAttribute("shippingDetails", dto);
-                        }));
+                        },
+                        () -> {
+                            ShippingDetailsDto dto = createShippingDetailsDto(user);
+                            model.addAttribute("shippingDetails", dto);
+                        });
     }
 }

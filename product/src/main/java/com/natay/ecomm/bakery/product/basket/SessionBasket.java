@@ -1,8 +1,8 @@
 package com.natay.ecomm.bakery.product.basket;
 
+import com.natay.ecomm.bakery.product.catalog.Catalog;
 import com.natay.ecomm.bakery.product.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.product.catalog.ProductNotFoundException;
-import com.natay.ecomm.bakery.product.catalog.persistence.ProductQueryPort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -25,8 +25,8 @@ public class SessionBasket implements Serializable {
 
     private final Basket basket;
 
-    public SessionBasket(ProductQueryPort productQueryPort) {
-        this.basket = new ShoppingBasket(productQueryPort);
+    public SessionBasket(Catalog catalog) {
+        this.basket = new ShoppingBasket(catalog);
     }
 
     public String getBasketRef() {

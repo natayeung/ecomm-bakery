@@ -21,7 +21,8 @@ public class UserAccountService implements AccountService {
     private final PasswordEncoder passwordEncoder;
     private final AccountPersistencePort persistencePort;
 
-    public UserAccountService(PasswordEncoder passwordEncoder, AccountPersistencePort persistencePort) {
+    public UserAccountService(PasswordEncoder passwordEncoder,
+                              AccountPersistencePort persistencePort) {
         this.passwordEncoder = passwordEncoder;
         this.persistencePort = persistencePort;
     }

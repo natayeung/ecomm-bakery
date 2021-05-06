@@ -8,15 +8,20 @@ import com.natay.ecomm.bakery.user.authentication.UserIdentity;
  */
 public class ShippingDetailsDtoFactory {
 
-    public static ShippingDetailsDto createShippingDetailsDto(UserIdentity userIdentity, Address address) {
-        ShippingDetailsDto shippingDetailsDto = new ShippingDetailsDto();
-        shippingDetailsDto.setShippingFirstName(userIdentity.firstName());
-        shippingDetailsDto.setShippingLastName(userIdentity.lastName());
-        shippingDetailsDto.setAddressLine1(address.addressLine1());
-        shippingDetailsDto.setAddressLine2(address.addressLine2());
-        shippingDetailsDto.setTownOrCity(address.townOrCity());
-        shippingDetailsDto.setPostcode(address.postcode());
-        return shippingDetailsDto;
+    public static ShippingDetailsDto createShippingDetailsDto(UserIdentity user, Address address) {
+        return new ShippingDetailsDto()
+                .setShippingFirstName(user.firstName())
+                .setShippingLastName(user.lastName())
+                .setAddressLine1(address.addressLine1())
+                .setAddressLine2(address.addressLine2())
+                .setTownOrCity(address.townOrCity())
+                .setPostcode(address.postcode());
+    }
+
+    public static ShippingDetailsDto createShippingDetailsDto(UserIdentity user) {
+        return new ShippingDetailsDto()
+                .setShippingFirstName(user.firstName())
+                .setShippingLastName(user.lastName());
     }
 
     private ShippingDetailsDtoFactory() {

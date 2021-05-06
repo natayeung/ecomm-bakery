@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class AutoLoginHandler implements ApplicationListener<AutoLoginRequestEvent> {
+class AutoLoginHandler implements ApplicationListener<AutoLoginRequestEvent> {
 
     private final AuthenticationManager authenticationManager;
 

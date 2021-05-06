@@ -22,31 +22,29 @@ public class RegistrationDtoFactory {
 
     public static RegistrationDto createRegistrationDtoWithEmailAndPassword(String email,
                                                                             String password) {
-        RegistrationDto dto = new RegistrationDto();
-        dto.setEmail(email);
-        dto.setPassword(password);
-        dto.setFirstName(firstName);
-        dto.setLastName(lastName);
-        dto.setAddressLine1(addressLine1);
-        dto.setTownOrCity(townOrCity);
-        dto.setPostcode(postcode);
-        return dto;
+        return new RegistrationDto()
+                .setEmail(email)
+                .setPassword(password)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setAddressLine1(addressLine1)
+                .setTownOrCity(townOrCity)
+                .setPostcode(postcode);
     }
 
     public static RegistrationDto createRegistrationDtoWithAddressDetails(String addressLine1,
                                                                           String addressLine2,
                                                                           String townOrCity,
                                                                           String postcode) {
-        RegistrationDto dto = new RegistrationDto();
-        dto.setEmail(randomEmail());
-        dto.setPassword(password);
-        dto.setFirstName(firstName);
-        dto.setLastName(lastName);
-        dto.setAddressLine1(addressLine1);
-        dto.setAddressLine2(addressLine2);
-        dto.setTownOrCity(townOrCity);
-        dto.setPostcode(postcode);
-        return dto;
+        return new RegistrationDto()
+                .setEmail(randomEmail())
+                .setPassword(password)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setAddressLine1(addressLine1)
+                .setAddressLine2(addressLine2)
+                .setTownOrCity(townOrCity)
+                .setPostcode(postcode);
     }
 
     private static String randomEmail() {

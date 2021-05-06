@@ -99,8 +99,8 @@ public class AccountController {
     private void addAccountDetailsToModelIfPresent(ModelMap model, UserIdentity user) {
         addressService.findAddressByEmail(user.username())
                 .ifPresentOrElse(
-                        a -> {
-                            AccountDto accountDto = createAccountDto(user, a);
+                        address -> {
+                            AccountDto accountDto = createAccountDto(user, address);
                             model.addAttribute("accountDetails", accountDto);
                         },
                         () -> {

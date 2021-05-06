@@ -19,13 +19,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ProductAccessException.class)
     public String handleProductAccessException(ProductAccessException ex) {
         log.warn("Failed to access products: {}", ex.getMessage(), ex);
-        return "error";
+        return "redirect:/error";
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
     public String handleProductNotFoundException(ProductNotFoundException ex) {
         log.warn("Failed to find product: {}", ex.getMessage(), ex);
-        return "error";
+        return "redirect:/error";
     }
 
     @ExceptionHandler(InitiatePaymentFailedException.class)
@@ -49,6 +49,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public String handleException(Exception ex) {
         log.error("Unexpected error", ex);
-        return "error";
+        return "redirect:/error";
     }
 }

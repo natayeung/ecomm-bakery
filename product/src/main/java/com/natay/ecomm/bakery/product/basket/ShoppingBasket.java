@@ -1,12 +1,11 @@
 package com.natay.ecomm.bakery.product.basket;
 
+import com.natay.ecomm.bakery.product.catalog.Catalog;
 import com.natay.ecomm.bakery.product.catalog.Product;
 import com.natay.ecomm.bakery.product.catalog.ProductAccessException;
 import com.natay.ecomm.bakery.product.catalog.ProductNotFoundException;
-import com.natay.ecomm.bakery.product.catalog.persistence.ProductQueryPort;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -29,10 +28,10 @@ public class ShoppingBasket implements Basket, Serializable {
 
     private final String basketRef = UUID.randomUUID().toString();
     private final Map<String, BasketItem> basketItems = new HashMap<>();
-    private final ProductQueryPort productQueryPort;
+    private final Catalog catalog;
 
-    public ShoppingBasket(ProductQueryPort productQueryPort) {
-        this.productQueryPort = productQueryPort;
+    public ShoppingBasket(Catalog catalog) {
+        this.catalog = catalog;
         log.info("Shopping basket instantiated, ref={}", basketRef);
     }
 
@@ -88,17 +87,10 @@ public class ShoppingBasket implements Basket, Serializable {
     private Product findProductById(String productId)
             throws ProductNotFoundException, ProductAccessException {
 
-        Product product;
-        try {
-            product = productQueryPort.findById(productId)
-                    .orElseThrow(() -> {
-                        throw new ProductNotFoundException("Product not found for ID " + productId);
-                    });
-        } catch (DataAccessException ex) {
-            throw new ProductAccessException("Unable to retrieve product with ID " + productId, ex);
-        }
-
-        return product;
+        return catalog.findProductById(productId)
+                .orElseThrow(() -> {
+                    throw new ProductNotFoundException("Product not found for ID " + productId);
+                });
     }
 
     private BasketItem getBasketItem(Product product) {

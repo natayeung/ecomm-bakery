@@ -21,4 +21,4 @@ spring:
 logging:
   level:
     root: INFO
-    org.springframework.security: DEBUG
+    com.natay.ecomm.bakery: DEBUG

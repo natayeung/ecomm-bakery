@@ -2,6 +2,7 @@ module natay.bakery.product {
     requires natay.bakery.common;
 
     requires java.sql;
+    requires java.annotation;
     requires spring.context;
     requires spring.web;
     requires spring.tx;
