@@ -2,14 +2,14 @@ package com.natay.ecomm.bakery.user.web;
 
 import com.natay.ecomm.bakery.common.MessageProperties;
 import com.natay.ecomm.bakery.user.account.EmailAlreadyUsedException;
+import com.natay.ecomm.bakery.user.authentication.AutoLoginRequestEvent;
 import com.natay.ecomm.bakery.user.registration.RegistrationDto;
 import com.natay.ecomm.bakery.user.registration.RegistrationFeedbackDto;
 import com.natay.ecomm.bakery.user.registration.RegistrationService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,17 +31,15 @@ import static com.natay.ecomm.bakery.user.registration.RegistrationFeedbackDtoFa
 @Controller
 @RequestMapping("/register")
 @Slf4j
-public class UserRegistrationController {
+public class UserRegistrationController implements ApplicationEventPublisherAware {
 
     private final RegistrationService registrationService;
-    private final AuthenticationManager authenticationManager;
     private final MessageProperties messageProperties;
+    private ApplicationEventPublisher eventPublisher;
 
     public UserRegistrationController(RegistrationService registrationService,
-                                      AuthenticationManager authenticationManager,
                                       MessageProperties messageProperties) {
         this.registrationService = registrationService;
-        this.authenticationManager = authenticationManager;
         this.messageProperties = messageProperties;
     }
 
@@ -66,7 +64,7 @@ public class UserRegistrationController {
 
         try {
             registrationService.register(registrationDto);
-            autoLogin(request, registrationDto.getEmail(), registrationDto.getPassword());
+            tryAutoLogin(request, registrationDto.getEmail(), registrationDto.getPassword());
         } catch (EmailAlreadyUsedException ex) {
             RegistrationFeedbackDto feedbackDto = createRegistrationFeedbackDtoForEmailAlreadyInUse(registrationDto, messageProperties);
             model.addAttribute("feedback", feedbackDto);
@@ -75,11 +73,16 @@ public class UserRegistrationController {
         return "redirect:/";
     }
 
-    private void autoLogin(HttpServletRequest request, String username, String password) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
-        authToken.setDetails(new WebAuthenticationDetails(request));
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        eventPublisher = applicationEventPublisher;
+    }
 
-        Authentication authentication = authenticationManager.authenticate(authToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    private void tryAutoLogin(HttpServletRequest request, String username, String password) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        authenticationToken.setDetails(new WebAuthenticationDetails(request));
+
+        AutoLoginRequestEvent autoLoginRequestEvent = new AutoLoginRequestEvent(this, authenticationToken);
+        eventPublisher.publishEvent(autoLoginRequestEvent);
     }
 }
