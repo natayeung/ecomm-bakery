@@ -67,6 +67,16 @@
                 <input type="hidden" name="_csrf" value="{{_csrf.token}}">
                 <div class="row g-2">
                     <div class="form-group">
+                        <label for="contact-email" class="form-label">Contact Email<small
+                                class="form-text text-muted">*</small></label>
+                        <input type="text"
+                               class="form-control {{#feedback}}{{#contactEmailErrorMessage}}is-invalid{{/contactEmailErrorMessage}}{{/feedback}}"
+                               id="contact-email" name="contactEmail" required
+                            {{#shippingDetails}}{{#contactEmail}}value="{{contactEmail}}"{{/contactEmail}}{{/shippingDetails}}{{#feedback}}{{#lastInputContactEmail}}value="{{lastInputContactEmail}}"{{/lastInputContactEmail}}{{/feedback}}>
+                        <div class="invalid-feedback">{{#feedback}}{{#contactEmailErrorMessage}}{{contactEmailErrorMessage}}{{/contactEmailErrorMessage}}{{/feedback}}
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="shipping-first-name" class="form-label">First Name<small
                                 class="form-text text-muted">*</small></label>
                         <input type="text"

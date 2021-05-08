@@ -21,13 +21,11 @@ public class OrderDetails implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final CustomerDetails customerDetails;
     private final ShippingDetails shippingDetails;
     private final List<Item> items;
     private final BigDecimal totalPrice;
 
-    private OrderDetails(CustomerDetails customerDetails, ShippingDetails shippingDetails, List<Item> items, BigDecimal totalPrice) {
-        this.customerDetails = requireNonNull(customerDetails, "Order details cannot be null");
+    private OrderDetails(ShippingDetails shippingDetails, List<Item> items, BigDecimal totalPrice) {
         this.shippingDetails = requireNonNull(shippingDetails, "Shipping details cannot be null");
         this.items = requireNonEmpty(items, "Items cannot be empty");
         this.totalPrice = requireNonNegative(totalPrice, "Total price cannot be null or negative");

@@ -64,6 +64,7 @@
                     <fork>true</fork>
                     <skip>false</skip>
                     <mainClass>${start-class}</mainClass>
+                    <profiles>test</profiles>
                 </configuration>
                 <executions>
                     <execution>

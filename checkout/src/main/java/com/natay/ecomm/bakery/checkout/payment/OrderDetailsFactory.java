@@ -1,11 +1,9 @@
 package com.natay.ecomm.bakery.checkout.payment;
 
-import com.natay.ecomm.bakery.checkout.order.CustomerDetails;
 import com.natay.ecomm.bakery.checkout.order.OrderDetails;
 import com.natay.ecomm.bakery.checkout.order.ShippingDetails;
 import com.natay.ecomm.bakery.product.basket.BasketDto;
 import com.natay.ecomm.bakery.product.basket.ItemDto;
-import com.natay.ecomm.bakery.user.authentication.UserIdentity;
 
 import java.util.List;
 import java.util.function.Function;
@@ -18,13 +16,11 @@ import static java.util.stream.Collectors.toList;
 public class OrderDetailsFactory {
 
     public static OrderDetails createOrderDetails(InitiatePaymentRequest initiatePaymentRequest) {
-        UserIdentity customer = initiatePaymentRequest.customer();
         BasketDto basket = initiatePaymentRequest.basket();
         ShippingDetailsDto shippingDetails = initiatePaymentRequest.shippingDetails();
 
         List<OrderDetails.Item> items = basket.getItems().stream().map(itemMapper()).collect(toList());
         return OrderDetails.builder()
-                .customerDetails(CustomerDetails.from(customer))
                 .shippingDetails(shippingDetailsMapper().apply(shippingDetails))
                 .items(items)
                 .totalPrice(basket.getTotalPrice())
@@ -33,6 +29,7 @@ public class OrderDetailsFactory {
 
     private static Function<ShippingDetailsDto, ShippingDetails> shippingDetailsMapper() {
         return d -> ShippingDetails.builder()
+                .contactEmail(d.getContactEmail())
                 .addressLine1(d.getAddressLine1())
                 .addressLine2(d.getAddressLine2())
                 .townOrCity(d.getTownOrCity())

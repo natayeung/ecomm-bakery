@@ -1,6 +1,7 @@
 package com.natay.ecomm.bakery.checkout.order;
 
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -22,5 +23,9 @@ public class OrderCache {
     @Cacheable(key = "#orderId")
     public Optional<OrderDetails> get(String orderId) {
         return Optional.empty();
+    }
+
+    @CacheEvict(key = "#orderId")
+    public void remove(String orderId) {
     }
 }

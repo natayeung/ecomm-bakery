@@ -1,6 +1,5 @@
 package com.natay.ecomm.bakery.user.registration;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -18,7 +17,6 @@ import javax.validation.constraints.Size;
 @Accessors(chain = true)
 public class RegistrationDto {
 
-    @NotBlank
     @Email
     private String email;
     @Size(min = 6, max = 10)

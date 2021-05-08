@@ -70,17 +70,13 @@ public class CheckoutController implements ApplicationEventPublisherAware {
             throws InitiatePaymentFailedException {
         log.info("Received request to initiate checkout, delivery address: {}", shippingDetailsDto);
 
-        UserIdentity user = authenticatedUserLookup.getAuthenticatedUser().orElseThrow(() -> {
-            throw new IllegalStateException("Authenticated user expected");
-        });
-
         if (bindingResult.hasErrors()) {
             log.warn("Unable to proceed with checkout, validation failed: {}", bindingResult.getFieldErrors());
             addFeedbackToModel(shippingDetailsDto, bindingResult, model);
             return "basket";
         }
 
-        InitiatePaymentRequest initiatePaymentRequest = InitiatePaymentRequest.of(user, sessionBasket.getBasket(), shippingDetailsDto);
+        InitiatePaymentRequest initiatePaymentRequest = InitiatePaymentRequest.of(sessionBasket.getBasket(), shippingDetailsDto);
         InitiatePaymentResponse initiatePaymentResponse = paymentService.initiatePayment(initiatePaymentRequest);
 
         orderCache.put(initiatePaymentResponse.externalOrderId(), initiatePaymentResponse.orderDetails());
@@ -125,8 +121,11 @@ public class CheckoutController implements ApplicationEventPublisherAware {
 
     private void publishOrderReceivedEvent(String orderId) {
         OrderDetails orderDetails = orderCache.get(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found, orderId=" + orderId));
+
         OrderReceivedEvent orderReceivedEvent = new OrderReceivedEvent(this, orderDetails);
         eventPublisher.publishEvent(orderReceivedEvent);
         log.info("Published {}", orderReceivedEvent);
+
+        orderCache.remove(orderId);
     }
 }

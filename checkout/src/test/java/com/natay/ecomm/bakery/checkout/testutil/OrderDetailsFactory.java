@@ -1,9 +1,10 @@
 package com.natay.ecomm.bakery.checkout.testutil;
 
+import com.natay.ecomm.bakery.checkout.order.OrderDetails;
+import com.natay.ecomm.bakery.checkout.order.ShippingDetails;
 import com.natay.ecomm.bakery.checkout.payment.ShippingDetailsDto;
 import com.natay.ecomm.bakery.product.basket.BasketDto;
 import com.natay.ecomm.bakery.product.basket.ItemDto;
-import com.natay.ecomm.bakery.user.authentication.UserIdentity;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,30 +21,49 @@ public class OrderDetailsFactory {
     private static final String ADDRESS_LINE_1 = "12 High Street";
     private static final String TOWN_OR_CITY = "London";
     private static final String POSTCODE = "E15 2GU";
-
-    public static UserIdentity createCustomerDetails() {
-        return UserIdentity.builder()
-                .email(randomEmail())
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .build();
-    }
+    private static final String PRODUCT_ID = "bfc";
+    private static final String PRODUCT_TITLE = "Black Forest Cake";
+    private static final int QUANTITY = 2;
+    private static final int ITEM_COUNT = 2;
+    private static final BigDecimal ITEM_PRICE = BigDecimal.valueOf(22.75);
+    private static final BigDecimal ITEM_TOTAL = BigDecimal.valueOf(45.50);
+    private static final BigDecimal TOTAL_PRICE = BigDecimal.valueOf(45.50);
 
     public static BasketDto createBasketDetails() {
         List<ItemDto> items = List.of(
-                ItemDto.builder().productId("bfc").itemTitle("Black Forest Cake")
-                        .itemPrice(BigDecimal.valueOf(22.75)).itemTotal(BigDecimal.valueOf(45.50)).quantity(2).build());
-        return new BasketDto(items, 2, BigDecimal.valueOf(45.50));
+                ItemDto.builder().productId(PRODUCT_ID).itemTitle(PRODUCT_TITLE)
+                        .itemPrice(ITEM_PRICE).itemTotal(ITEM_TOTAL).quantity(QUANTITY).build());
+        return new BasketDto(items, ITEM_COUNT, TOTAL_PRICE);
     }
 
     public static ShippingDetailsDto createShippingDetails() {
-        ShippingDetailsDto shippingDetails = new ShippingDetailsDto();
-        shippingDetails.setShippingFirstName(FIRST_NAME);
-        shippingDetails.setShippingLastName(LAST_NAME);
-        shippingDetails.setAddressLine1(ADDRESS_LINE_1);
-        shippingDetails.setTownOrCity(TOWN_OR_CITY);
-        shippingDetails.setPostcode(POSTCODE);
-        return shippingDetails;
+        return new ShippingDetailsDto()
+                .setContactEmail(randomEmail())
+                .setShippingFirstName(FIRST_NAME)
+                .setShippingLastName(LAST_NAME)
+                .setAddressLine1(ADDRESS_LINE_1)
+                .setTownOrCity(TOWN_OR_CITY)
+                .setPostcode(POSTCODE);
+    }
+
+    public static OrderDetails createOrderDetails() {
+        ShippingDetails shippingDetails = ShippingDetails.builder()
+                .contactEmail(randomEmail())
+                .shippingFirstName(FIRST_NAME)
+                .shippingLastName(LAST_NAME)
+                .addressLine1(ADDRESS_LINE_1)
+                .townOrCity(TOWN_OR_CITY)
+                .postcode(POSTCODE)
+                .build();
+        return OrderDetails.builder()
+                .shippingDetails(shippingDetails)
+                .items(List.of(OrderDetails.Item.of(PRODUCT_TITLE, QUANTITY, ITEM_PRICE)))
+                .totalPrice(TOTAL_PRICE)
+                .build();
+    }
+
+    public static String randomOrderId() {
+        return random(8, true, true);
     }
 
     private static String randomEmail() {

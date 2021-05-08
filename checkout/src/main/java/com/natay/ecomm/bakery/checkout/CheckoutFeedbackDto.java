@@ -8,11 +8,13 @@ import lombok.Data;
 @Data
 public class CheckoutFeedbackDto {
 
+    private String contactEmailErrorMessage;
     private String shippingFirstNameErrorMessage;
     private String shippingLastNameErrorMessage;
     private String addressLine1ErrorMessage;
     private String townOrCityErrorMessage;
     private String postcodeErrorMessage;
+    private String lastInputContactEmail;
     private String lastInputShippingFirstName;
     private String lastInputShippingLastName;
     private String lastInputAddressLine1;

@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
+import static java.util.Objects.isNull;
+
 /**
  * @author natayeung
  */
@@ -24,8 +28,8 @@ public class LoginController {
     }
 
     @GetMapping
-    public String showLoginForm() {
-        return "login";
+    public String showLoginForm(Principal principal) {
+        return isNull(principal) ? "login" : "redirect:/";
     }
 
     @GetMapping("/error")

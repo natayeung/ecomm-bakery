@@ -13,6 +13,11 @@ public class CheckoutFeedbackDtoFactory {
                                                                                    BindingResult bindingResult,
                                                                                    MessageProperties messageProperties) {
         CheckoutFeedbackDto feedbackDto = new CheckoutFeedbackDto();
+        if (bindingResult.hasFieldErrors("contactEmail")) {
+            feedbackDto.setContactEmailErrorMessage(messageProperties.getInvalidEmail());
+        } else {
+            feedbackDto.setLastInputContactEmail(shippingDetailsDto.getContactEmail());
+        }
         if (bindingResult.hasFieldErrors("shippingFirstName")) {
             feedbackDto.setShippingFirstNameErrorMessage(messageProperties.getInvalidFirstName());
         } else {

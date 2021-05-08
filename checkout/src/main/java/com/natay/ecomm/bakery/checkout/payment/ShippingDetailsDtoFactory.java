@@ -10,6 +10,7 @@ public class ShippingDetailsDtoFactory {
 
     public static ShippingDetailsDto createShippingDetailsDto(UserIdentity user, Address address) {
         return new ShippingDetailsDto()
+                .setContactEmail(user.email())
                 .setShippingFirstName(user.firstName())
                 .setShippingLastName(user.lastName())
                 .setAddressLine1(address.addressLine1())
@@ -20,6 +21,7 @@ public class ShippingDetailsDtoFactory {
 
     public static ShippingDetailsDto createShippingDetailsDto(UserIdentity user) {
         return new ShippingDetailsDto()
+                .setContactEmail(user.email())
                 .setShippingFirstName(user.firstName())
                 .setShippingLastName(user.lastName());
     }

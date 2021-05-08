@@ -3,6 +3,7 @@ package com.natay.ecomm.bakery.user.account;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -13,7 +14,7 @@ import javax.validation.constraints.Pattern;
 @Accessors(chain = true)
 public class AccountDto {
 
-    @NotBlank
+    @Email
     private String email;
     private String firstName;
     private String lastName;

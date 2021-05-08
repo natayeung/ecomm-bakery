@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,7 +31,9 @@ public class ProductCatalog implements Catalog {
 
     @Override
     public List<Product> findAllProducts() throws ProductAccessException {
-        return List.copyOf(cache.values());
+        return cache.values().stream()
+                .sorted(Comparator.comparing(Product::productType).thenComparing(Product::title))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -39,6 +42,7 @@ public class ProductCatalog implements Catalog {
 
         return cache.values().stream()
                 .filter(p -> p.productType() == productType)
+                .sorted(Comparator.comparing(Product::title))
                 .collect(Collectors.toList());
     }
 

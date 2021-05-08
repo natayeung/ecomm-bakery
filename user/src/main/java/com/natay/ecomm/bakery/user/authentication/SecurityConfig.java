@@ -28,7 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AccountService accountService;
     private final AuthenticationFailureHandler authenticationFailureHandler;
 
-    public SecurityConfig(PasswordEncoder passwordEncoder, AccountService accountService, AuthenticationFailureHandler authenticationFailureHandler) {
+    public SecurityConfig(PasswordEncoder passwordEncoder,
+                          AccountService accountService,
+                          AuthenticationFailureHandler authenticationFailureHandler) {
         this.passwordEncoder = passwordEncoder;
         this.accountService = accountService;
         this.authenticationFailureHandler = authenticationFailureHandler;
@@ -61,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/order/**", "/account/**")
+                .antMatchers("/account/**")
                 .hasRole("USER")
                 .antMatchers("/", "/**")
                 .permitAll()
@@ -69,10 +71,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/")
                 .loginProcessingUrl("/authenticate")
                 .usernameParameter("email")
                 .passwordParameter("password")
+                .defaultSuccessUrl("/")
                 .failureHandler(authenticationFailureHandler)
 
                 .and()

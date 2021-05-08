@@ -3,6 +3,7 @@ package com.natay.ecomm.bakery.checkout.payment;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -13,6 +14,8 @@ import javax.validation.constraints.Pattern;
 @Accessors(chain = true)
 public class ShippingDetailsDto {
 
+    @Email
+    private String contactEmail;
     @NotBlank
     private String shippingFirstName;
     @NotBlank

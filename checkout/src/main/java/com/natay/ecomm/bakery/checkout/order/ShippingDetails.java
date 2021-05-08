@@ -19,6 +19,7 @@ public class ShippingDetails implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    private final String contactEmail;
     private final String shippingFirstName;
     private final String shippingLastName;
     private final String addressLine1;
@@ -26,7 +27,14 @@ public class ShippingDetails implements Serializable {
     private final String townOrCity;
     private final String postcode;
 
-    private ShippingDetails(String shippingFirstName, String shippingLastName, String addressLine1, String addressLine2, String townOrCity, String postcode) {
+    private ShippingDetails(String contactEmail,
+                            String shippingFirstName,
+                            String shippingLastName,
+                            String addressLine1,
+                            String addressLine2,
+                            String townOrCity,
+                            String postcode) {
+        this.contactEmail = requireNonBlank(contactEmail, "Contact email cannot be blank");
         this.shippingFirstName = requireNonBlank(shippingFirstName, "Shipping first name cannot be blank");
         this.shippingLastName = requireNonBlank(shippingLastName, "Shipping last name cannot be blank");
         this.addressLine1 = requireNonBlank(addressLine1, "Address line 1 cannot be blank");
