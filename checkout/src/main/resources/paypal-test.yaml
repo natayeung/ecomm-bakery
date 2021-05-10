@@ -4,8 +4,8 @@ paypal:
   brand-name: N-2 Bakery
   currency-code: GBP
   country-code: GB
-  return-url: ${PAYPAL_CALLBACK_URL:http:localhost:8080}/checkout/complete
-  cancel-url: ${PAYPAL_CALLBACK_URL:http:localhost:8080}/checkout/cancel
+  return-url: ${PAYPAL_CALLBACK_URL:http:localhost:5000}/checkout/complete
+  cancel-url: ${PAYPAL_CALLBACK_URL:http:localhost:5000}/checkout/cancel
   landing-page: LOGIN
   shipping-preference: SET_PROVIDED_ADDRESS
   user-action: PAY_NOW

@@ -20,6 +20,6 @@ COPY --from=0 ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=0 ${DEPENDENCY}/META-INF/ /app/META-INF
 COPY --from=0 ${DEPENDENCY}/BOOT-INF/classes /app
 
-EXPOSE 8080
+EXPOSE 5000
 
 ENTRYPOINT ["java", "-cp", "app:app/lib/*", "com.natay.ecomm.bakery.BakeryApplication"]
