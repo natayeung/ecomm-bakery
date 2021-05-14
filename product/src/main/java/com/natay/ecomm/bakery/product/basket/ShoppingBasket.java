@@ -72,11 +72,9 @@ public class ShoppingBasket implements Basket, Serializable {
 
     @Override
     public BigDecimal totalPrice() {
-        BigDecimal totalPrice = ZERO;
-        for (BasketItem i : basketItems.values()) {
-            totalPrice = totalPrice.add(i.itemPrice().multiply(BigDecimal.valueOf(i.quantity())));
-        }
-        return totalPrice;
+        return basketItems.values().stream()
+                .map(i -> i.itemPrice().multiply(BigDecimal.valueOf(i.quantity())))
+                .reduce(ZERO, BigDecimal::add);
     }
 
     @Override
